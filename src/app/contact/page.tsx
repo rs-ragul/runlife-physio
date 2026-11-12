@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
-import { SITE_CONFIG } from "@/config/site";
-import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
+import { BookingForm } from "@/components/booking/BookingForm";
 import { ContactForm } from "./ContactForm";
+import { ContactDynamicCards } from "./ContactDynamicCards";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Contact Runlife Physio Bangalore — Helpline, WhatsApp & Home Visits",
+  title: "Contact & Book Appointment | Bangalore & Online",
   description:
-    "Call +91 91876 79723 or email runlifephysio@gmail.com to connect with Dr. Vishal & Runlife Physio's MPT Specialist team in Bangalore.",
+    "Book an MPT Specialist Physiotherapy appointment with Dr. Vishal's Runlife Physio team in Bangalore. Call or WhatsApp +91 91876 79723 or email runlifephysio@gmail.com.",
   alternates: { canonical: "/contact" },
 };
 
@@ -19,121 +18,52 @@ export default function ContactPage() {
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Contact Us", path: "/contact" },
+          { name: "Contact & Book", path: "/contact" },
         ])}
       />
 
-      <section className="bg-[#0F1D35] bg-navy-grid text-white py-14 lg:py-18">
+      <section className="bg-[#0F1D35] bg-navy-grid text-white py-12 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
-            Direct Clinical Support
+            Direct Clinical Desk
           </span>
           <h1 className="mt-2 font-display text-3xl sm:text-5xl font-extrabold">
-            Speak With Dr. Vishal&apos;s Specialist Desk
+            Book Your Specialist Assessment or Speak With Us
           </h1>
           <p className="mt-3 text-sm sm:text-lg text-slate-300 max-w-2xl">
-            Have a question about post-op home care in Bangalore, tele-rehab
-            pricing, or which MPT specialist matches your reports? Reach out
-            anytime.
+            Whether you need urgent post-surgery Home Care in Bangalore, a
+            Pediatric/Neuro specialist, or a virtual second opinion—our care
+            desk responds promptly.
           </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-5 space-y-4">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 space-y-5 shadow-2xs">
-            <div className="flex items-start gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-[#136EA8]">
-                <Phone className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-400">
-                  Phone &amp; Appointment Desk
-                </div>
-                <a
-                  href={`tel:${SITE_CONFIG.contact.phoneE164}`}
-                  className="text-lg font-extrabold text-[#0F1D35] hover:text-[#136EA8]"
-                >
-                  {SITE_CONFIG.contact.phoneDisplay}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                <MessageCircle className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-400">
-                  Instant WhatsApp Triage
-                </div>
-                <a
-                  href={buildPatientToClinicWhatsAppUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-bold text-emerald-700 hover:underline"
-                >
-                  Chat on WhatsApp (+91 91876 79723) →
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-[#136EA8]">
-                <Mail className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-400">
-                  Email Reports / Inquiries
-                </div>
-                <a
-                  href={`mailto:${SITE_CONFIG.contact.email}`}
-                  className="text-sm font-bold text-[#0F1D35] hover:text-[#136EA8]"
-                >
-                  {SITE_CONFIG.contact.email}
-                </a>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-lime-50 text-[#638E15]">
-                <MapPin className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-400">
-                  Service Coverage
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {SITE_CONFIG.location.flagshipHubNote}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                <Clock className="h-5 w-5" />
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-slate-400">
-                  Operating Hours
-                </div>
-                <p className="text-xs sm:text-sm font-semibold text-slate-700">
-                  {SITE_CONFIG.contact.hours}
-                </p>
-              </div>
-            </div>
-          </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="lg:col-span-5">
+          <ContactDynamicCards />
         </div>
 
-        <div className="lg:col-span-7 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-          <h2 className="font-display text-2xl font-extrabold text-[#0F1D35] mb-1">
-            Send Us a Message
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mb-6">
-            Logged directly into Dr. Vishal&apos;s clinic desk for prompt
-            follow-up.
-          </p>
-          <ContactForm />
+        <div className="lg:col-span-7 space-y-8">
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
+            <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#0F1D35] mb-1">
+              Book an MPT Specialist Appointment
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mb-5">
+              Fast 3-tap booking — instantly synced to our clinic desk &amp;
+              WhatsApp.
+            </p>
+            <BookingForm prefill={{ source: "Contact Page Booking Form" }} />
+          </div>
+
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
+            <h2 className="font-display text-xl font-extrabold text-[#0F1D35] mb-1">
+              Have a General Question?
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mb-5">
+              Drop us a quick note and we&apos;ll call or message you back.
+            </p>
+            <ContactForm />
+          </div>
         </div>
       </div>
     </div>

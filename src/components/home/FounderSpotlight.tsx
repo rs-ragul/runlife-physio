@@ -1,14 +1,28 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Users, CheckCircle2, ArrowRight } from "lucide-react";
-import { SITE_CONFIG } from "@/config/site";
+import {
+  ShieldCheck,
+  Users,
+  CheckCircle2,
+  ArrowRight,
+  Stethoscope,
+} from "lucide-react";
+import { useSiteCms } from "@/context/SiteSettingsContext";
+import { useBookingModal } from "@/context/BookingModalContext";
 
 export function FounderSpotlight() {
+  const { settings, teamMembers } = useSiteCms();
+  const { openBookingModal } = useBookingModal();
+
+  const publishedTeam = teamMembers.filter((m) => m.published);
+
   return (
-    <section className="py-16 lg:py-24 bg-white border-b border-slate-200/70">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <section className="py-14 lg:py-24 bg-white border-b border-slate-200/70">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Brand Emblem + Clinical Visual */}
           <div className="lg:col-span-5 space-y-4">
             <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 aspect-[4/3] shadow-lg">
@@ -19,27 +33,27 @@ export function FounderSpotlight() {
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0F1D35]/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F1D35]/85 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-5 right-5 text-white">
                 <div className="text-xs font-bold uppercase tracking-widest text-[#9AD634]">
-                  Founder &amp; Clinical Lead
+                  {settings.founderCredentials}
                 </div>
                 <div className="text-xl font-extrabold">
-                  {SITE_CONFIG.founder.name}
+                  {settings.founderName}
                 </div>
                 <div className="text-xs text-slate-200">
-                  Runlife — Specialist Physiotherapy Network, Bangalore
+                  {settings.founderRole}
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <div className="relative h-16 w-24 shrink-0 rounded-xl bg-white p-1.5 border border-slate-200">
+            <div className="flex items-center gap-3.5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="relative h-14 w-20 shrink-0 rounded-xl bg-white p-1.5 border border-slate-200">
                 <Image
                   src="/images/runlife-logo.png"
                   alt="Runlife Physio Official Emblem"
                   fill
-                  sizes="96px"
+                  sizes="80px"
                   className="object-contain p-1"
                 />
               </div>
@@ -47,9 +61,8 @@ export function FounderSpotlight() {
                 <strong className="text-slate-900 block">
                   Why &ldquo;Runlife Specialist Network&rdquo;?
                 </strong>
-                Just as you wouldn&apos;t visit a cardiologist for knee surgery,
-                we match Pediatric, Neuro, Ortho, Sports &amp; OBG cases strictly
-                to post-graduate MPT Specialists.
+                Pediatric, Neuro, Ortho, Sports &amp; Women&apos;s Health cases
+                are matched strictly to post-graduate MPT Specialists.
               </div>
             </div>
           </div>
@@ -61,16 +74,16 @@ export function FounderSpotlight() {
               Clinical Leadership &amp; Standards
             </span>
 
-            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1D35] leading-tight">
-              Built by {SITE_CONFIG.founder.shortName} to Raise the Standard of
-              Physiotherapy in Bangalore
+            <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-[#0F1D35] leading-tight">
+              Led by {settings.founderName} — Raising the Standard of
+              Physiotherapy in {settings.primaryCity}
             </h2>
 
             <p className="text-sm sm:text-base leading-relaxed text-slate-600">
-              {SITE_CONFIG.founder.bio}
+              {settings.founderBio}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
               {[
                 {
                   title: "Post-Graduate MPT Only",
@@ -86,7 +99,7 @@ export function FounderSpotlight() {
                 },
                 {
                   title: "Measurable Outcome Tracking",
-                  desc: "Goniometric ROM, pain scales, balance scores & Return-to-Sport symmetry tracked openly.",
+                  desc: "Range-of-motion, pain scales, balance scores & Return-to-Sport symmetry tracked openly.",
                 },
               ].map((pillar) => (
                 <div
@@ -104,21 +117,84 @@ export function FounderSpotlight() {
               ))}
             </div>
 
-            <div className="pt-3 flex flex-wrap items-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center gap-3">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#0F1D35] px-5 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#136EA8] transition"
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0F1D35] px-5 min-h-[46px] text-xs sm:text-sm font-bold text-white hover:bg-[#136EA8] transition"
               >
-                Read Our Clinical Story &amp; Network Standards
+                About Our Network &amp; Standards
                 <ArrowRight className="h-4 w-4 text-[#9AD634]" />
               </Link>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-                <ShieldCheck className="h-4 w-4 text-[#136EA8]" />
-                MPT Therapists: Apply to Join Network on About Page
-              </span>
+              {settings.showJoinNetworkForm && (
+                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+                  <ShieldCheck className="h-4 w-4 text-[#136EA8]" />
+                  MPT Specialists: Join Network on About Page
+                </span>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Dynamic Specialist Team Roster (Managed Live in /admin) */}
+        {settings.showTeamSection && publishedTeam.length > 0 && (
+          <div className="pt-8 border-t border-slate-100">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6">
+              <div>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#136EA8]">
+                  Clinical Roster
+                </span>
+                <h3 className="mt-1 font-display text-2xl font-extrabold text-[#0F1D35]">
+                  Meet Our Specialist Leadership
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {publishedTeam.map((member) => (
+                <div
+                  key={member.id}
+                  className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8]">
+                        <Stethoscope className="h-3 w-3" />
+                        {member.credential}
+                      </span>
+                      <span className="text-[11px] font-semibold text-slate-500">
+                        {member.experience}
+                      </span>
+                    </div>
+                    <h4 className="mt-3 font-display text-lg font-extrabold text-[#0F1D35]">
+                      {member.name}
+                    </h4>
+                    <div className="text-xs font-semibold text-slate-700">
+                      {member.role} • {member.department}
+                    </div>
+                    {member.bio && (
+                      <p className="mt-2 text-xs leading-relaxed text-slate-600">
+                        {member.bio}
+                      </p>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openBookingModal({
+                        conditionOrPain: `Consultation with ${member.name}`,
+                        source: `Team Card (${member.name})`,
+                      })
+                    }
+                    className="mt-4 inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 min-h-[42px] text-xs font-bold text-[#0F1D35] hover:border-[#0F1D35] hover:bg-[#0F1D35] hover:text-white transition cursor-pointer"
+                  >
+                    Book With {member.name.split("(")[0].trim()}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

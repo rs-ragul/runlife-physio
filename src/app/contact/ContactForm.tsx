@@ -55,15 +55,16 @@ export function ContactForm() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your Full Name *"
-          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
+          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
         <input
           type="tel"
+          inputMode="tel"
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="Mobile / WhatsApp Number *"
-          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
+          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -72,14 +73,14 @@ export function ContactForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email Address (Optional)"
-          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
+          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
         <input
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
           placeholder="Bangalore Area / City"
-          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
+          className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>
       <textarea
@@ -88,12 +89,12 @@ export function ContactForm() {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="How can Dr. Vishal & our MPT Specialist team help you?"
-        className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm"
+        className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-base sm:text-sm"
       />
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F1D35] px-6 py-3.5 text-sm font-extrabold text-white hover:bg-[#136EA8] transition cursor-pointer"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F1D35] px-6 min-h-[48px] text-sm font-extrabold text-white hover:bg-[#136EA8] transition cursor-pointer"
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" />

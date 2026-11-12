@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import "./globals.css";
 import { SITE_CONFIG } from "@/config/site";
+import { SiteCmsProvider } from "@/context/SiteSettingsContext";
 import { BookingModalProvider } from "@/context/BookingModalContext";
 import { TopUtilityBar } from "@/components/layout/TopUtilityBar";
 import { Navbar } from "@/components/layout/Navbar";
@@ -22,6 +23,12 @@ const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0F1D35",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_CONFIG.url),
@@ -97,16 +104,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en-IN" className={`${jakarta.variable} ${outfit.variable}`}>
-      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased">
+      <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased overflow-x-hidden">
         <JsonLd data={buildMedicalOrganizationSchema()} />
-        <BookingModalProvider>
-          <TopUtilityBar />
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingActionDock />
-          <BookingDrawerModal />
-        </BookingModalProvider>
+        <SiteCmsProvider>
+          <BookingModalProvider>
+            <TopUtilityBar />
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <FloatingActionDock />
+            <BookingDrawerModal />
+          </BookingModalProvider>
+        </SiteCmsProvider>
       </body>
     </html>
   );

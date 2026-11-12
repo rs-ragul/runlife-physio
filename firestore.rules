@@ -5,14 +5,38 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper: Only Dr. Vishal / authorized verified admin email can read, update, or delete records
+    // Helper: Authorized Admin check (Update email list here if adding co-admins)
     function isAdmin() {
       return request.auth != null && (
         request.auth.token.email == "runlifephysio@gmail.com"
       );
     }
 
-    // Patient Appointment Bookings: Anyone on website can submit (create), only Admin can view/manage
+    // 1. Dynamic Website Settings (Public Read, Admin Write)
+    match /site_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 2. Verified Patient Testimonials (Public Read, Admin Write)
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 3. Specialist Team Profiles (Public Read, Admin Write)
+    match /team_members/{memberId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 4. Dynamic Blog / Clinical Guides (Public Read, Admin Write)
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 5. Patient Appointment Bookings (Public Create with validation, Admin Read/Update/Delete)
     match /appointments/{appointmentId} {
       allow create: if request.resource.data.keys().hasAll(['patientName', 'phone', 'careMode', 'specialty', 'status', 'createdAt'])
                     && request.resource.data.patientName is string
@@ -20,11 +44,11 @@ service cloud.firestore {
                     && request.resource.data.patientName.size() <= 120
                     && request.resource.data.phone is string
                     && request.resource.data.phone.size() >= 7
-                    && request.resource.data.phone.size() <= 25;
+                    && request.resource.data.phone.size() <= 30;
       allow read, update, delete: if isAdmin();
     }
 
-    // Contact & MPT Network Applications: Anyone can submit, only Admin can view/manage
+    // 6. Contact & MPT Network Inquiries (Public Create, Admin Read/Update/Delete)
     match /inquiries/{inquiryId} {
       allow create: if request.resource.data.keys().hasAll(['name', 'phone', 'type', 'createdAt'])
                     && request.resource.data.name is string

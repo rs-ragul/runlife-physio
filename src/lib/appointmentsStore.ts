@@ -198,3 +198,15 @@ export async function fetchAllInquiriesClient(): Promise<InquiryRecord[]> {
   const data = await res.json();
   return data.inquiries || [];
 }
+
+export async function deleteInquiryClient(id: string): Promise<void> {
+  const { db } = getFirebaseClient();
+  if (isFirebaseConfigured && db) {
+    await deleteDoc(doc(db, "inquiries", id));
+    return;
+  }
+
+  await fetch(`/api/contact?id=${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+}

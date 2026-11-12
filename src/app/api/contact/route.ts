@@ -76,3 +76,17 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const id = req.nextUrl.searchParams.get("id");
+    if (id) {
+      const store = readDemoStore();
+      store.inquiries = store.inquiries.filter((i) => i.id !== id);
+      writeDemoStore(store);
+    }
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Delete failed" }, { status: 500 });
+  }
+}

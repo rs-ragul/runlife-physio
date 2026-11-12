@@ -14,12 +14,19 @@ export interface WhatsAppBookingPayload {
 }
 
 export function buildPatientToClinicWhatsAppUrl(
-  payload?: WhatsAppBookingPayload
+  payload?: WhatsAppBookingPayload,
+  overrideNumber?: string,
+  overrideGreeting?: string
 ): string {
-  const base = `https://wa.me/${SITE_CONFIG.contact.whatsappNumber}`;
+  const cleanNum = (
+    overrideNumber || SITE_CONFIG.contact.whatsappNumber
+  ).replace(/\D/g, "");
+  const base = `https://wa.me/${cleanNum || SITE_CONFIG.contact.whatsappNumber}`;
+
   if (!payload) {
     const greeting =
-      "Hello Dr. Vishal / Runlife Physio Team! I would like to book a specialist physiotherapy assessment.";
+      overrideGreeting ||
+      "Hello Dr. Vishal / Runlife Physio! I would like to book a specialist physiotherapy assessment.";
     return `${base}?text=${encodeURIComponent(greeting)}`;
   }
 
@@ -50,14 +57,21 @@ export function buildDoctorToPatientWhatsAppUrl(params: {
   careMode: string;
   preferredDate?: string;
   referenceId?: string;
+  clinicName?: string;
 }): string {
   const digits = params.phone.replace(/\D/g, "");
   const normalizedPhone =
-    digits.length === 10 ? `91${digits}` : digits.startsWith("0") ? `91${digits.slice(1)}` : digits;
+    digits.length === 10
+      ? `91${digits}`
+      : digits.startsWith("0")
+      ? `91${digits.slice(1)}`
+      : digits;
+
+  const brand = params.clinicName || "Runlife Physio";
 
   const message = [
     `Hello *${params.patientName}*,`,
-    `Greetings from *Dr. Vishal & Runlife Physio* (REHAB · RECOVER · RUN).`,
+    `Greetings from *Dr. Vishal & ${brand}* (REHAB · RECOVER · RUN).`,
     ``,
     `We received your *${params.careMode}* request${params.referenceId ? ` (${params.referenceId})` : ""} for *${params.specialty}*.`,
     params.preferredDate ? `Requested Date: *${params.preferredDate}*` : "",
