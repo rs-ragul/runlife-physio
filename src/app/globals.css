@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --brand-navy: #0f1d35;
+  --brand-navy-mid: #1d2a47;
+  --brand-blue: #136ea8;
+  --brand-blue-light: #e6f3fb;
+  --brand-lime: #85b925;
+  --brand-lime-dark: #638e15;
+  --brand-lime-light: #f2f9e6;
+  --surface-bg: #f8fafc;
+  --surface-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-outfit), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Subtle clinical biomechanical grid background utility */
+.bg-clinical-grid {
+  background-image:
+    linear-gradient(to right, rgba(19, 110, 168, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19, 110, 168, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.bg-navy-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Custom scrollbar for sleek clinical drawers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
