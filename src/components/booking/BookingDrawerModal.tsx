@@ -28,7 +28,7 @@ export function BookingDrawerModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-stretch justify-end bg-slate-950/60 backdrop-blur-xs"
+      className="fixed inset-0 z-[95] flex items-end sm:items-stretch justify-end bg-slate-950/60 backdrop-blur-xs animate-fade-in-fast"
       role="dialog"
       aria-modal="true"
       aria-label="Book Physiotherapy Assessment"
@@ -38,7 +38,7 @@ export function BookingDrawerModal() {
         onClick={closeBookingModal}
         aria-hidden="true"
       />
-      <div className="relative z-10 flex w-full max-h-[92dvh] sm:max-h-full sm:h-full sm:max-w-xl flex-col overflow-y-auto rounded-t-3xl sm:rounded-none bg-white shadow-2xl">
+      <div className="relative z-10 flex w-full max-h-[92dvh] sm:max-h-full sm:h-full sm:max-w-xl flex-col overflow-y-auto rounded-t-3xl sm:rounded-none bg-white shadow-2xl animate-sheet-up sm:animate-drawer-in">
         {/* Mobile grab handle */}
         <div className="sm:hidden flex justify-center bg-[#0F1D35] pt-2.5">
           <span className="h-1.5 w-12 rounded-full bg-white/25" />

@@ -8,6 +8,7 @@ import { TopUtilityBar } from "@/components/layout/TopUtilityBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingActionDock } from "@/components/layout/FloatingActionDock";
+import { TouchAndNetworkFeedback } from "@/components/layout/TouchAndNetworkFeedback";
 import { BookingDrawerModal } from "@/components/booking/BookingDrawerModal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMedicalOrganizationSchema } from "@/lib/schema";
@@ -108,6 +109,7 @@ export default function RootLayout({
         <JsonLd data={buildMedicalOrganizationSchema()} />
         <SiteCmsProvider>
           <BookingModalProvider>
+            <TouchAndNetworkFeedback />
             <TopUtilityBar />
             <Navbar />
             <main className="flex-1">{children}</main>
