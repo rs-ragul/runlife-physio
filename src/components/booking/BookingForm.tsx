@@ -18,6 +18,7 @@ import {
   Mail,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
+import { THERAPIES } from "@/data/therapies";
 import {
   createAppointmentClient,
   type AppointmentRecord,
@@ -401,18 +402,27 @@ export function BookingForm({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-semibold text-slate-700 mb-1">
-            Specialty Department
+            Department or Therapy
           </label>
           <select
             value={specialty}
             onChange={(e) => setSpecialty(e.target.value)}
             className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm text-slate-900 focus:border-[#136EA8] focus:outline-none focus:ring-2 focus:ring-sky-100"
           >
-            {SPECIALTIES.map((s) => (
-              <option key={s.slug} value={s.title}>
-                {s.shortName}
-              </option>
-            ))}
+            <optgroup label="Physiotherapy Departments">
+              {SPECIALTIES.map((s) => (
+                <option key={s.slug} value={s.title}>
+                  {s.shortName}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Hands-On Therapies & HYROX">
+              {THERAPIES.map((t) => (
+                <option key={t.slug} value={t.title}>
+                  {t.shortTitle}
+                </option>
+              ))}
+            </optgroup>
             <option value="Not Sure — Please Guide Me">
               Not Sure — Please Guide Me
             </option>

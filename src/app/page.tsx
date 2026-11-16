@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { CareModesStrip } from "@/components/home/CareModesStrip";
 import { InteractiveBodyTriage } from "@/components/home/InteractiveBodyTriage";
 import { SpecialtiesShowcase } from "@/components/home/SpecialtiesShowcase";
+import { HandsOnTherapiesSection } from "@/components/home/HandsOnTherapiesSection";
 import { RehabRecoverRunPathway } from "@/components/home/RehabRecoverRunPathway";
 import { RecoveryReadinessQuiz } from "@/components/home/RecoveryReadinessQuiz";
 import { FounderSpotlight } from "@/components/home/FounderSpotlight";
@@ -27,6 +28,7 @@ export default function HomePage() {
       <CareModesStrip />
       <InteractiveBodyTriage />
       <SpecialtiesShowcase />
+      <HandsOnTherapiesSection />
       <RehabRecoverRunPathway />
       <RecoveryReadinessQuiz />
       <FounderSpotlight />

@@ -20,8 +20,10 @@ import {
   MessageCircle,
   Sparkles,
   Mail,
+  Flame,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
+import { THERAPIES } from "@/data/therapies";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
@@ -32,7 +34,9 @@ export function Navbar() {
   const { openBookingModal } = useBookingModal();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSpecOpen, setMobileSpecOpen] = useState(false);
+  const [mobileTherapiesOpen, setMobileTherapiesOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [therapiesOpen, setTherapiesOpen] = useState(false);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -128,6 +132,7 @@ export function Navbar() {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+            {/* Specialties Dropdown */}
             <div
               className="relative"
               onMouseEnter={() => setServicesOpen(true)}
@@ -135,14 +140,14 @@ export function Navbar() {
             >
               <Link
                 href="/services"
-                className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
                 Specialties
                 <ChevronDown className="h-4 w-4 opacity-70" />
               </Link>
 
               {servicesOpen && (
-                <div className="absolute left-0 top-full pt-2 w-[540px]">
+                <div className="absolute left-0 top-full pt-2 w-[520px]">
                   <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl">
                     <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2.5">
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -182,6 +187,56 @@ export function Navbar() {
               )}
             </div>
 
+            {/* Therapies & HYROX Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setTherapiesOpen(true)}
+              onMouseLeave={() => setTherapiesOpen(false)}
+            >
+              <Link
+                href="/therapies"
+                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              >
+                Therapies &amp; HYROX
+                <ChevronDown className="h-4 w-4 opacity-70" />
+              </Link>
+
+              {therapiesOpen && (
+                <div className="absolute left-0 top-full pt-2 w-[500px]">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl">
+                    <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2.5">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        Hands-On Therapies &amp; Athletic Prep
+                      </span>
+                      <Link
+                        href="/therapies"
+                        className="text-xs font-bold text-[#136EA8] hover:underline"
+                      >
+                        View All 6 →
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {THERAPIES.map((t) => (
+                        <Link
+                          key={t.slug}
+                          href={`/therapies/${t.slug}`}
+                          onClick={() => setTherapiesOpen(false)}
+                          className="rounded-xl p-2.5 hover:bg-sky-50/70 transition group"
+                        >
+                          <div className="text-sm font-bold text-slate-900 group-hover:text-[#136EA8]">
+                            {t.shortTitle}
+                          </div>
+                          <p className="mt-0.5 text-[11px] text-slate-500 line-clamp-1">
+                            {t.categoryBadge}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link
               href="/conditions"
               className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
@@ -209,14 +264,14 @@ export function Navbar() {
             {settings.showBlogSection && (
               <Link
                 href="/blog"
-                className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+                className="rounded-lg px-2 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
                 Guides
               </Link>
             )}
             <Link
               href="/contact"
-              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               Contact
             </Link>
@@ -393,6 +448,55 @@ export function Navbar() {
                       className="flex items-center justify-center gap-1 rounded-xl py-2.5 text-xs font-extrabold text-[#136EA8] hover:underline"
                     >
                       View All Specialties →
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {/* Collapsible Therapies & HYROX Accordion */}
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setMobileTherapiesOpen((v) => !v)}
+                  className="flex w-full items-center justify-between px-4 min-h-[52px] text-left cursor-pointer"
+                >
+                  <span className="inline-flex items-center gap-2.5 text-sm font-extrabold text-[#0F1D35]">
+                    <Flame className="h-4 w-4 text-[#638E15]" />
+                    Therapies &amp; HYROX Training
+                  </span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-slate-500 transition-transform duration-200 ${
+                      mobileTherapiesOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {mobileTherapiesOpen && (
+                  <div className="border-t border-slate-200/80 p-2 space-y-1.5 bg-white">
+                    {THERAPIES.map((t) => {
+                      const active = pathname === `/therapies/${t.slug}`;
+                      return (
+                        <Link
+                          key={t.slug}
+                          href={`/therapies/${t.slug}`}
+                          onClick={() => setMobileOpen(false)}
+                          className={`flex items-center justify-between rounded-xl px-3.5 py-3 text-xs font-bold border transition ${
+                            active
+                              ? "border-[#136EA8] bg-sky-50 text-[#136EA8]"
+                              : "border-slate-100 bg-slate-50/70 text-slate-800 hover:bg-sky-50/50"
+                          }`}
+                        >
+                          <span>{t.shortTitle}</span>
+                          <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+                        </Link>
+                      );
+                    })}
+                    <Link
+                      href="/therapies"
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center justify-center gap-1 rounded-xl py-2.5 text-xs font-extrabold text-[#136EA8] hover:underline"
+                    >
+                      View All Therapies &amp; HYROX →
                     </Link>
                   </div>
                 )}

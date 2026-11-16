@@ -14,6 +14,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
+import { THERAPIES } from "@/data/therapies";
 import { CONDITIONS } from "@/data/conditions";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
@@ -185,12 +186,12 @@ export function Footer() {
             )}
           </div>
 
-          {/* Specialties */}
+          {/* Specialties & Therapies */}
           <div className="lg:col-span-3">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-3">
               Specialties
             </h3>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2 text-sm">
               {SPECIALTIES.map((s) => (
                 <li key={s.slug}>
                   <Link
@@ -201,14 +202,22 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
-              <li className="pt-1">
-                <Link
-                  href="/care-modes"
-                  className="text-sky-400 font-semibold hover:underline"
-                >
-                  Home Visits &amp; Online Care →
-                </Link>
-              </li>
+            </ul>
+
+            <h3 className="text-xs font-bold uppercase tracking-widest text-white mt-6 mb-3">
+              Therapies &amp; HYROX
+            </h3>
+            <ul className="space-y-2 text-sm">
+              {THERAPIES.map((t) => (
+                <li key={t.slug}>
+                  <Link
+                    href={`/therapies/${t.slug}`}
+                    className="text-slate-400 hover:text-lime-300 transition"
+                  >
+                    {t.shortTitle}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

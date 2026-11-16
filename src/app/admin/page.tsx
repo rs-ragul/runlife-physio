@@ -105,6 +105,30 @@ const CLINIC_GALLERY_IMAGES = [
     label: "Women's Health Prenatal Rehab",
     value: "/images/womens-health-prenatal-rehab.jpg",
   },
+  {
+    label: "Dry Needling Therapy",
+    value: "/images/therapy-dry-needling.jpg",
+  },
+  {
+    label: "Chiropractic Care",
+    value: "/images/therapy-chiropractic.jpg",
+  },
+  {
+    label: "Kinesiology & Athletic Taping",
+    value: "/images/therapy-taping.jpg",
+  },
+  {
+    label: "Cupping Therapy",
+    value: "/images/therapy-cupping.jpg",
+  },
+  {
+    label: "Sports Massage",
+    value: "/images/therapy-sports-massage.jpg",
+  },
+  {
+    label: "HYROX Training & Conditioning",
+    value: "/images/therapy-hyrox-training.jpg",
+  },
 ];
 
 export default function AdminDashboardPage() {
