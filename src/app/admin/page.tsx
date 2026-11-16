@@ -78,6 +78,10 @@ type AdminTab =
 
 const CLINIC_GALLERY_IMAGES = [
   {
+    label: "Dr. Vishal S, PT (Founder Portrait)",
+    value: "/images/dr-vishal.jpg",
+  },
+  {
     label: "Ortho / ACL Knee Assessment",
     value: "/images/ortho-acl-postop-rehab.jpg",
   },
@@ -1962,7 +1966,7 @@ export default function AdminDashboardPage() {
                       <span className="font-display text-base font-extrabold text-[#0F1D35]">
                         {m.name}
                       </span>
-                      <span className="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8]">
+                      <span className="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8] break-words">
                         {m.credential}
                       </span>
                     </div>

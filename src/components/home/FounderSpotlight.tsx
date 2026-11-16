@@ -9,6 +9,9 @@ import {
   CheckCircle2,
   ArrowRight,
   Stethoscope,
+  Award,
+  BadgeCheck,
+  CalendarCheck,
 } from "lucide-react";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
@@ -23,26 +26,36 @@ export function FounderSpotlight() {
     <section className="py-14 lg:py-24 bg-white border-b border-slate-200/70">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Brand Emblem + Clinical Visual */}
+          {/* Dr. Vishal Portrait + Credentials */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 aspect-[4/3] shadow-lg">
+            <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 aspect-[3/4] max-h-[560px] shadow-lg">
               <Image
-                src="/images/sports-onfield-assessment.jpg"
-                alt="Runlife Physio specialist clinical assessment"
+                src="/images/dr-vishal.jpg"
+                alt="Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915, Founder of Runlife Physio"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0F1D35]/85 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F1D35]/90 via-[#0F1D35]/10 to-transparent" />
+              <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-extrabold text-[#0F1D35] shadow">
+                  <Award className="h-3.5 w-3.5 text-[#136EA8]" />
+                  MPT (Neurology &amp; Neurosurgery)
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-[#85B925] px-2.5 py-1 text-[11px] font-extrabold text-slate-950 shadow">
+                  <BadgeCheck className="h-3.5 w-3.5" />
+                  MIAP Reg. No. L-60915
+                </span>
+              </div>
               <div className="absolute bottom-4 left-5 right-5 text-white">
-                <div className="text-xs font-bold uppercase tracking-widest text-[#9AD634]">
-                  {settings.founderCredentials}
+                <div className="text-[11px] font-bold uppercase tracking-widest text-[#9AD634]">
+                  {settings.founderRole}
                 </div>
-                <div className="text-xl font-extrabold">
+                <div className="text-2xl font-extrabold leading-tight">
                   {settings.founderName}
                 </div>
                 <div className="text-xs text-slate-200">
-                  {settings.founderRole}
+                  {settings.founderCredentials}
                 </div>
               </div>
             </div>
@@ -118,11 +131,24 @@ export function FounderSpotlight() {
             </div>
 
             <div className="pt-2 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  openBookingModal({
+                    conditionOrPain: "Consultation with Dr. Vishal S, PT",
+                    source: "Founder Spotlight (Homepage)",
+                  })
+                }
+                className="inline-flex items-center gap-2 rounded-xl bg-[#85B925] px-5 min-h-[46px] text-xs sm:text-sm font-extrabold text-slate-950 hover:bg-[#76a81f] transition cursor-pointer"
+              >
+                <CalendarCheck className="h-4 w-4" />
+                Book for Consultation
+              </button>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 rounded-xl bg-[#0F1D35] px-5 min-h-[46px] text-xs sm:text-sm font-bold text-white hover:bg-[#136EA8] transition"
               >
-                About Our Network &amp; Standards
+                About Dr. Vishal &amp; Standards
                 <ArrowRight className="h-4 w-4 text-[#9AD634]" />
               </Link>
               {settings.showJoinNetworkForm && (
@@ -156,14 +182,31 @@ export function FounderSpotlight() {
                   className="rounded-2xl border border-slate-200 bg-slate-50/60 p-5 flex flex-col justify-between"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8]">
-                        <Stethoscope className="h-3 w-3" />
-                        {member.credential}
-                      </span>
-                      <span className="text-[11px] font-semibold text-slate-500">
-                        {member.experience}
-                      </span>
+                    <div className="flex items-start gap-3">
+                      {member.image ? (
+                        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                          <Image
+                            src={member.image}
+                            alt={`${member.name} — ${member.credential}`}
+                            fill
+                            sizes="64px"
+                            className="object-cover object-top"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-[#0F1D35] text-[#9AD634]">
+                          <Stethoscope className="h-7 w-7" />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8]">
+                          <Stethoscope className="h-3 w-3 shrink-0" />
+                          <span className="break-words">{member.credential}</span>
+                        </span>
+                        <span className="mt-1 block text-[11px] font-semibold text-slate-500">
+                          {member.experience}
+                        </span>
+                      </div>
                     </div>
                     <h4 className="mt-3 font-display text-lg font-extrabold text-[#0F1D35]">
                       {member.name}

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | Runlife Physio Bangalore",
   },
   description:
-    "Runlife Physio (REHAB · RECOVER · RUN) is Bangalore's specialized MPT Physiotherapy Network led by Dr. Vishal (PT). Dedicated Ortho, Neuro, Sports & Running, Pediatric, and Women's Health MPT Specialists—at Home in Bangalore, Virtual Tele-Rehab, or By Appointment.",
+      "Runlife Physio (REHAB · RECOVER · RUN) is Bangalore & Salem's specialized MPT Physiotherapy Network led by Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915. Dedicated Ortho, Neuro, Sports & Running, Pediatric, and Women's Health MPT Specialists—at Home, Virtual Tele-Rehab, or By Appointment.",
   keywords: [
     "Runlife Physio",
     "Physiotherapy in Bangalore",

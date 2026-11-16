@@ -9,7 +9,7 @@ import { buildBreadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Book for Consultation — Bangalore, Salem & Online",
   description:
-    "Book a physiotherapy consultation with Runlife Physio in Bangalore, Salem, or Online. Home visits, video consultations, and scheduled care led by Dr. Vishal (PT).",
+    "Book a physiotherapy consultation with Runlife Physio in Bangalore, Salem, or Online. Home visits, video consultations, and scheduled care led by Dr. Vishal S, PT.",
   alternates: { canonical: "/book" },
 };
 

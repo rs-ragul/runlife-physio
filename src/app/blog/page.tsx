@@ -10,7 +10,7 @@ import { buildBreadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Clinical Recovery Guides & Physiotherapy Blog",
   description:
-    "Evidence-based physiotherapy articles by Dr. Vishal (PT) & Runlife's MPT Specialists on ACL surgery recovery, Stroke neuro rehab, Runner's Knee, Postpartum Pelvic Floor & Pediatric Milestones.",
+    "Evidence-based physiotherapy articles by Dr. Vishal S, PT & Runlife's MPT Specialists on ACL surgery recovery, Stroke neuro rehab, Runner's Knee, Postpartum Pelvic Floor & Pediatric Milestones.",
   alternates: { canonical: "/blog" },
 };
 

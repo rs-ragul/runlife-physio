@@ -4,10 +4,14 @@ export const SITE_CONFIG = {
   tagline: "REHAB · RECOVER · RUN",
   subtitle: "Specialized Physiotherapy Team Under One Platform",
   founder: {
-    name: "Dr. Vishal (PT)",
+    name: "Dr. Vishal S, PT",
     shortName: "Dr. Vishal",
     role: "Founder & Lead Physiotherapist — Runlife Physio",
-    bio: "Runlife Physio was founded by Dr. Vishal to bring dedicated specialist physiotherapists across Orthopedics, Neurology, Sports & Running Rehab, Pediatrics, and Women's Health together under one platform. Serving patients across Bangalore and Salem through home visits, scheduled consultations, and online tele-rehabilitation.",
+    credentials: "MPT (Neurology & Neurosurgery) • MIAP Reg. No. L-60915",
+    qualification: "MPT — Neurology & Neurosurgery",
+    registration: "MIAP Reg. No. L-60915",
+    photo: "/images/dr-vishal.jpg",
+    bio: "Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915 — founded Runlife Physio (REHAB · RECOVER · RUN) to bring dedicated specialist physiotherapists across Orthopedics, Neurology, Sports & Running Rehab, Pediatrics, and Women's Health together under one platform. Serving patients across Bangalore and Salem through home visits, scheduled consultations, and online tele-rehabilitation.",
   },
   contact: {
     phoneRaw: "9187679723",

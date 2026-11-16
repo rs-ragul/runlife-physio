@@ -78,6 +78,7 @@ export async function POST(req: NextRequest) {
         department: String(item.department || "Orthopedic & MSK Rehab").trim(),
         experience: String(item.experience || "Bangalore").trim(),
         bio: String(item.bio || "").trim(),
+        image: item.image ? String(item.image).trim() : undefined,
         published: item.published !== false,
         createdAt: item.createdAt || new Date().toISOString(),
       };
@@ -98,7 +99,7 @@ export async function POST(req: NextRequest) {
         excerpt: String(item.excerpt || "").trim(),
         category: String(item.category || "Clinical Guide").trim(),
         specialistTag: String(item.specialistTag || "MPT Specialist").trim(),
-        author: String(item.author || "Dr. Vishal (PT)").trim(),
+        author: String(item.author || "Dr. Vishal S, PT").trim(),
         publishedAt:
           item.publishedAt || new Date().toISOString().slice(0, 10),
         readTime: String(item.readTime || "4 min read").trim(),

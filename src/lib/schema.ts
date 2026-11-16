@@ -10,7 +10,7 @@ export function buildMedicalOrganizationSchema() {
     alternateName: SITE_CONFIG.legalName,
     slogan: SITE_CONFIG.tagline,
     description:
-      "Runlife Physio is a specialized MPT Physiotherapy Network in Bangalore led by Dr. Vishal (PT), providing Home Care Physiotherapy, Virtual Tele-Rehabilitation, Online Consultations, and By-Appointment sessions across Orthopedic, Neurological, Sports & Running, Pediatric, and Women's Health Rehabilitation.",
+      "Runlife Physio is a specialized MPT Physiotherapy Network in Bangalore & Salem led by Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915 — providing Home Care Physiotherapy, Virtual Tele-Rehabilitation, Online Consultations, and By-Appointment sessions across Orthopedic, Neurological, Sports & Running, Pediatric, and Women's Health Rehabilitation.",
     url: SITE_CONFIG.url,
     logo: `${SITE_CONFIG.url}/images/runlife-logo-card.jpg`,
     image: `${SITE_CONFIG.url}/images/og-image.png`,
@@ -21,6 +21,23 @@ export function buildMedicalOrganizationSchema() {
       "@type": "Person",
       name: SITE_CONFIG.founder.name,
       jobTitle: SITE_CONFIG.founder.role,
+      description:
+        "Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915. Founder & Clinical Lead, Runlife Physio (REHAB · RECOVER · RUN), Bangalore & Salem.",
+      image: `${SITE_CONFIG.url}/images/dr-vishal.jpg`,
+      url: `${SITE_CONFIG.url}/about`,
+      hasCredential: [
+        {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "degree",
+          name: "MPT (Neurology & Neurosurgery)",
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          credentialCategory: "license",
+          name: "MIAP Reg. No. L-60915",
+          identifier: "L-60915",
+        },
+      ],
     },
     address: {
       "@type": "PostalAddress",

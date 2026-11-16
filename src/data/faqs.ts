@@ -3,7 +3,7 @@ export const HOME_FAQS = [
     question:
       "How is Runlife Physio different from regular physiotherapy clinics in Bangalore?",
     answer:
-      "Most clinics assign whichever generalist physiotherapist is free. At Runlife Physio—founded by Dr. Vishal (PT)—every case is matched strictly to a post-graduate MPT Specialist in that exact field: MPT Orthopedics, MPT Neurology, MPT Sports, MPT Pediatrics, or MPT Women's Health (OBG).",
+      "Most clinics assign whichever generalist physiotherapist is free. At Runlife Physio—founded by Dr. Vishal S, PT—every case is matched strictly to a post-graduate MPT Specialist in that exact field: MPT Orthopedics, MPT Neurology, MPT Sports, MPT Pediatrics, or MPT Women's Health (OBG).",
   },
   {
     question:
