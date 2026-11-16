@@ -6,22 +6,30 @@ import Link from "next/link";
 import {
   CalendarCheck,
   Activity,
-  ShieldCheck,
-  CheckCircle2,
   MapPin,
   Video,
   Home,
   ArrowRight,
+  Phone,
+  MessageCircle,
+  Mail,
 } from "lucide-react";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 
 export function HeroSection() {
   const { settings } = useSiteCms();
   const { openBookingModal } = useBookingModal();
 
+  const waHref = buildPatientToClinicWhatsAppUrl(
+    undefined,
+    settings.whatsappNumber,
+    settings.whatsappGreeting
+  );
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white via-sky-50/35 to-slate-50 bg-clinical-grid pt-6 pb-12 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-22 border-b border-slate-200/70">
+    <section className="relative overflow-hidden bg-gradient-to-b from-white via-sky-50/35 to-slate-50 bg-clinical-grid pt-6 pb-12 sm:pt-10 sm:pb-18 lg:pt-12 lg:pb-20 border-b border-slate-200/70">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-24 right-0 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl"
@@ -44,7 +52,7 @@ export function HeroSection() {
               </span>
             </div>
 
-            <h1 className="font-display text-[1.95rem] sm:text-5xl xl:text-[3.3rem] font-extrabold tracking-tight text-[#0F1D35] leading-[1.13]">
+            <h1 className="font-display text-[1.95rem] sm:text-5xl xl:text-[3.25rem] font-extrabold tracking-tight text-[#0F1D35] leading-[1.14]">
               {settings.heroTitlePrimary}{" "}
               <span className="text-[#136EA8]">
                 {settings.heroTitleHighlight}
@@ -56,27 +64,27 @@ export function HeroSection() {
             </p>
 
             {/* Care Mode Quick Badges */}
-            <div className="flex flex-wrap gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-semibold text-slate-700">
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 shadow-2xs">
+            <div className="flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
                 <Home className="h-3.5 w-3.5 text-[#85B925]" />
-                Home Care ({settings.primaryCity})
+                Home Visits (Bangalore &amp; Salem)
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 shadow-2xs">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
                 <Video className="h-3.5 w-3.5 text-[#136EA8]" />
-                Virtual Tele-Rehab
+                Online Video Consultation
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 shadow-2xs">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
                 <MapPin className="h-3.5 w-3.5 text-[#136EA8]" />
-                Online &amp; By Appointment
+                By Prior Appointment
               </span>
             </div>
 
-            {/* Primary & Secondary CTAs (Thumb-Friendly 50px Height on Mobile) */}
+            {/* Primary & Secondary CTAs */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
               <button
                 type="button"
                 onClick={() => openBookingModal({ source: "Hero Primary CTA" })}
-                className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-[#0F1D35] px-6 min-h-[52px] text-sm sm:text-base font-extrabold text-white shadow-xl shadow-slate-900/15 hover:bg-[#136EA8] active:scale-[0.99] transition cursor-pointer"
+                className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-[#0F1D35] px-6 min-h-[52px] text-sm sm:text-base font-extrabold text-white shadow-xl shadow-slate-900/15 hover:bg-[#136EA8] transition cursor-pointer"
               >
                 <CalendarCheck className="h-5 w-5 text-[#9AD634]" />
                 {settings.primaryCtaText}
@@ -85,38 +93,51 @@ export function HeroSection() {
 
               <a
                 href="#pain-finder"
-                className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-300 bg-white px-5 min-h-[50px] text-sm sm:text-base font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] active:bg-slate-50 transition"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl border-2 border-slate-300 bg-white px-5 min-h-[50px] text-sm sm:text-base font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
               >
                 <Activity className="h-5 w-5 text-[#85B925]" />
                 Where Does It Hurt?
               </a>
             </div>
 
-            {/* Dynamic Trust Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-3 border-t border-slate-200/80">
-              {settings.heroStats.map((stat, idx) => (
-                <div
-                  key={`${stat.label}-${idx}`}
-                  className="rounded-xl border border-slate-200/80 bg-white/95 px-3 py-2.5 sm:px-3.5 sm:py-3"
-                >
-                  <div className="font-display text-lg sm:text-2xl font-extrabold text-[#0F1D35]">
-                    {stat.value}
-                  </div>
-                  <div className="text-[11px] sm:text-xs font-medium text-slate-500">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+            {/* Direct Call • WhatsApp • Email Quick-Reach Row */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-2 border-t border-slate-200/80">
+              <span className="text-xs font-semibold text-slate-500 mr-1">
+                Reach us directly:
+              </span>
+              <a
+                href={`tel:${settings.phoneE164}`}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 min-h-[40px] text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] shadow-2xs transition"
+              >
+                <Phone className="h-3.5 w-3.5 text-[#136EA8]" />
+                Call {settings.phoneDisplay}
+              </a>
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#25D366] px-3.5 min-h-[40px] text-xs font-bold text-white hover:bg-[#1ebe5d] shadow-2xs transition"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                WhatsApp
+              </a>
+              <a
+                href={`mailto:${settings.email}`}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 min-h-[40px] text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] shadow-2xs transition"
+              >
+                <Mail className="h-3.5 w-3.5 text-[#136EA8]" />
+                Email Us
+              </a>
             </div>
           </div>
 
-          {/* Right Column: Editorial Clinical Bento Visuals */}
+          {/* Right Column: Real Clinical Session Photography */}
           <div className="lg:col-span-5">
             <div className="relative mx-auto max-w-lg lg:max-w-none">
               <div className="relative overflow-hidden rounded-3xl border-4 border-white shadow-2xl aspect-[16/11] sm:aspect-[4/3]">
                 <Image
                   src="/images/ortho-acl-postop-rehab.jpg"
-                  alt="Runlife Physio MPT Orthopedic and ACL knee assessment"
+                  alt="Runlife Physio Orthopedic and Knee Physiotherapy Session"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 45vw"
@@ -128,7 +149,7 @@ export function HeroSection() {
                     Led by {settings.founderName}
                   </span>
                   <p className="mt-1 text-xs sm:text-sm font-bold">
-                    Root-Cause Biomechanical &amp; Post-Op Rehabilitation
+                    Personalized Physiotherapy &amp; Post-Surgery Recovery
                   </p>
                 </div>
               </div>
@@ -148,10 +169,10 @@ export function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent" />
                   <div className="absolute bottom-2.5 left-3 right-3 text-white">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-lime-300">
-                      MPT Sports
+                      Sports Rehab
                     </div>
                     <div className="text-xs font-bold leading-snug">
-                      Running &amp; Return-to-Sport
+                      Running &amp; Sports Injuries
                     </div>
                   </div>
                 </Link>
@@ -170,33 +191,13 @@ export function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent" />
                   <div className="absolute bottom-2.5 left-3 right-3 text-white">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-sky-300">
-                      MPT Neuro • Pediatric • OBG
+                      Neuro • Pediatric • Women&apos;s Care
                     </div>
                     <div className="text-xs font-bold leading-snug">
-                      Home Neuro &amp; Milestone Care
+                      Home &amp; Family Physiotherapy
                     </div>
                   </div>
                 </Link>
-              </div>
-
-              <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-sky-100 bg-white px-4 py-3 shadow-md">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-[#136EA8]">
-                    <ShieldCheck className="h-5 w-5" />
-                  </div>
-                  <div className="text-xs truncate">
-                    <div className="font-bold text-slate-900">
-                      Specialist-Matched Guarantee
-                    </div>
-                    <div className="text-slate-500 truncate">
-                      Ortho • Neuro • Sports • Pediatric • Women&apos;s Health
-                    </div>
-                  </div>
-                </div>
-                <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-lime-50 px-2.5 py-1 text-[11px] font-bold text-lime-800 border border-lime-200 shrink-0">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#85B925]" />
-                  Verified MPT
-                </span>
               </div>
             </div>
           </div>

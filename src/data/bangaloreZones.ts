@@ -1,5 +1,6 @@
-export interface BangaloreZoneGroup {
+export interface ServiceLocationZone {
   id: string;
+  city: "Bangalore" | "Salem" | "Online";
   zoneName: string;
   responseTime: string;
   description: string;
@@ -7,13 +8,38 @@ export interface BangaloreZoneGroup {
   popularServices: string[];
 }
 
-export const BANGALORE_ZONES: BangaloreZoneGroup[] = [
+export const BANGALORE_ZONES: ServiceLocationZone[] = [
   {
-    id: "south-central",
-    zoneName: "South & South-East Bangalore",
-    responseTime: "Same-Day / Next-Morning Home Visits",
+    id: "salem-city",
+    city: "Salem",
+    zoneName: "Salem — Home Visits & Consultations",
+    responseTime: "Home Visits & Scheduled Slots",
     description:
-      "Full doorstep MPT coverage across residential communities and running hubs around Agara Lake, Lalbagh & Bannerghatta.",
+      "Dedicated home physiotherapy visits and scheduled 1-on-1 consultations across major residential areas in Salem.",
+    neighborhoods: [
+      "Fairlands",
+      "Alagapuram",
+      "Hasthampatti",
+      "Suramangalam",
+      "Five Roads",
+      "Meyyanur",
+      "Seelanaickenpatti",
+      "Ammapet",
+      "Shevapet / Gugai",
+    ],
+    popularServices: [
+      "Post-Surgery Knee, Hip & Fracture Rehab",
+      "Stroke, Paralysis & Senior Mobility Care",
+      "Back Pain, Neck Pain & Sports Injuries",
+    ],
+  },
+  {
+    id: "bangalore-south",
+    city: "Bangalore",
+    zoneName: "South & Central Bangalore",
+    responseTime: "Morning & Evening Home Visits",
+    description:
+      "Doorstep physiotherapy and rehabilitation across residential neighborhoods in South and Central Bengaluru.",
     neighborhoods: [
       "HSR Layout",
       "Koramangala",
@@ -22,60 +48,54 @@ export const BANGALORE_ZONES: BangaloreZoneGroup[] = [
       "BTM Layout",
       "Bannerghatta Road",
       "Banashankari",
-      "Kanakapura Road",
+      "MG Road / Malleswaram",
     ],
-    popularServices: ["Post-Op TKR/ACL Home Rehab", "Running & Marathon Injury Rehab", "Stroke & Senior Neuro Care"],
+    popularServices: [
+      "Post-Op Knee Replacement & ACL Rehab",
+      "Running & Sports Injury Recovery",
+      "Stroke & Senior Home Physiotherapy",
+    ],
   },
   {
-    id: "east-tech",
-    zoneName: "East Bangalore & IT Corridors",
-    responseTime: "Flexible Morning & Evening Slots (7 AM – 9 PM)",
+    id: "bangalore-east-north",
+    city: "Bangalore",
+    zoneName: "East & North Bangalore",
+    responseTime: "Flexible Daily Appointments",
     description:
-      "Designed for active tech professionals, athletes, and young families across ORR, Whitefield & Sarjapur gated communities.",
+      "Home visits and consultations for families, athletes, and working professionals across East & North Bengaluru.",
     neighborhoods: [
       "Indiranagar",
       "Whitefield",
       "Bellandur",
       "Sarjapur Road",
       "Marathahalli",
-      "Domlur",
-      "CV Raman Nagar",
-      "KR Puram / Hoodi",
-    ],
-    popularServices: ["Spine, Ergonomic & Shoulder Rehab", "Antenatal & Postnatal Home Care", "Pediatric Milestone Therapy"],
-  },
-  {
-    id: "north-west",
-    zoneName: "North, Central & West Bangalore",
-    responseTime: "Scheduled Specialist Dispatch",
-    description:
-      "Coordinated MPT Specialist network visits across heritage neighborhoods, Cubbon Park runners' corridor & North Bangalore townships.",
-    neighborhoods: [
-      "Malleswaram",
       "Hebbal",
       "Yelahanka",
       "Kalyan Nagar",
-      "Sadashivanagar",
-      "Rajajinagar",
-      "Nagarbhavi",
-      "MG Road / Central",
     ],
-    popularServices: ["Geriatric & Parkinson's Home Rehab", "Total Joint Replacement Recovery", "Sports & S&C Coaching"],
+    popularServices: [
+      "Neck, Back & Shoulder Pain Relief",
+      "Pregnancy & Postnatal Physiotherapy",
+      "Pediatric Milestone Therapy",
+    ],
   },
   {
-    id: "electronic-south-corridor",
-    zoneName: "Electronic City & Pan-India Tele-Rehab",
-    responseTime: "Home Visits + Instant HD Video Sessions",
+    id: "electronic-online",
+    city: "Online",
+    zoneName: "Electronic City & Online Video Consultations",
+    responseTime: "Home Visits + Live Video Care",
     description:
-      "Hybrid care combining scheduled home visits in South corridors with live HD Virtual Tele-Rehabilitation across India & NRI timezones.",
+      "Home visits across Electronic City corridors plus live 1-on-1 video consultations and guided tele-rehabilitation anywhere in India.",
     neighborhoods: [
       "Electronic City Phase 1 & 2",
       "Haralur / Kudlu Gate",
-      "Begur",
-      "Mysore Road",
-      "Pan-India Online (Chennai, Mumbai, Delhi, Hyderabad)",
-      "Global NRI Tele-Rehab (UAE, UK, USA, Singapore)",
+      "Chennai, Coimbatore & Rest of Tamil Nadu (Online)",
+      "Across Karnataka & Pan-India (Online Video)",
     ],
-    popularServices: ["Live Virtual Tele-Rehabilitation", "Online MRI/Report Second Opinion", "Return-to-Run Remote Programming"],
+    popularServices: [
+      "Online Video Physiotherapy Consultation",
+      "Guided Live Tele-Rehabilitation",
+      "X-Ray / MRI Report Review & Recovery Plan",
+    ],
   },
 ];

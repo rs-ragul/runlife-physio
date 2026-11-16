@@ -144,7 +144,9 @@ export default function AdminDashboardPage() {
   const [newApptSpecialty, setNewApptSpecialty] = useState(
     SPECIALTIES[0].title
   );
-  const [newApptMode, setNewApptMode] = useState("Home Care (Bangalore)");
+  const [newApptMode, setNewApptMode] = useState(
+    "Home Visit (Bangalore & Salem)"
+  );
   const [newApptArea, setNewApptArea] = useState("");
   const [newApptCondition, setNewApptCondition] = useState("");
 
@@ -883,7 +885,7 @@ export default function AdminDashboardPage() {
                     onChange={(e) => setNewApptMode(e.target.value)}
                     className="rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                   >
-                    <option>Home Care (Bangalore)</option>
+                    <option>Home Visit (Bangalore &amp; Salem)</option>
                     <option>Online Consultation</option>
                     <option>Virtual Tele-Rehab</option>
                     <option>By-Appointment Visit</option>
@@ -1409,10 +1411,10 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* Hero Copy & 4 Trust Stat Cards */}
+            {/* Hero Copy */}
             <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 space-y-4">
               <h2 className="font-display text-lg font-extrabold text-[#0F1D35]">
-                3. Homepage Hero Copy &amp; Trust Metrics
+                3. Homepage Hero Copy &amp; CTA Text
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -1499,43 +1501,6 @@ export default function AdminDashboardPage() {
                   }
                   className="w-full rounded-xl border border-slate-300 p-3 text-base sm:text-sm"
                 />
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">
-                  4 Hero Trust Stat Cards (Value + Label)
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {settingsDraft.heroStats.map((st, idx) => (
-                    <div
-                      key={idx}
-                      className="rounded-xl border border-slate-200 bg-slate-50 p-3 space-y-2"
-                    >
-                      <input
-                        type="text"
-                        value={st.value}
-                        onChange={(e) => {
-                          const next = [...settingsDraft.heroStats];
-                          next[idx] = { ...next[idx], value: e.target.value };
-                          setSettingsDraft((p) => ({ ...p, heroStats: next }));
-                        }}
-                        placeholder="Stat Value (e.g. 5 MPT)"
-                        className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-bold"
-                      />
-                      <input
-                        type="text"
-                        value={st.label}
-                        onChange={(e) => {
-                          const next = [...settingsDraft.heroStats];
-                          next[idx] = { ...next[idx], label: e.target.value };
-                          setSettingsDraft((p) => ({ ...p, heroStats: next }));
-                        }}
-                        placeholder="Stat Label"
-                        className="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs"
-                      />
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
 
@@ -2168,28 +2133,58 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        {/* ==================== TAB 7: BACKEND & FIREBASE DIAGNOSTICS ==================== */}
+        {/* ==================== TAB 7: BACKEND, AUTO-EMAIL & FIREBASE ==================== */}
         {tab === "diagnostics" && (
           <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
               <div>
                 <h2 className="font-display text-xl font-extrabold text-[#0F1D35]">
-                  Backend Health &amp; Firebase Spark Free Tier Setup
+                  Backend Health, Auto-Email Alerts &amp; Firebase Setup
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                  Test live API routes and copy production Firestore Security
-                  Rules covering both CRM leads and Dynamic CMS collections.
+                  Test live API routes, verify automatic email alerts to{" "}
+                  <code>{liveSettings.email}</code>, and copy Firestore Rules.
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={runDiagnostics}
-                disabled={diagRunning}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F1D35] px-5 min-h-[44px] text-xs font-extrabold text-white hover:bg-[#136EA8] cursor-pointer shrink-0"
-              >
-                <ShieldCheck className="h-4 w-4 text-[#9AD634]" />
-                {diagRunning ? "Testing APIs..." : "Run Backend Health Check"}
-              </button>
+              <div className="flex flex-wrap gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setDiagRunning(true);
+                    try {
+                      const res = await fetch("/api/test-email", {
+                        method: "POST",
+                      });
+                      const data = await res.json();
+                      if (data.ok) {
+                        setDiagResult(
+                          `SUCCESS (${data.status}): Test auto-email sent to ${liveSettings.email}!`
+                        );
+                      } else {
+                        setDiagResult(
+                          `Auto-Email not configured yet (${data.status}). Add GMAIL_APP_PASSWORD or WEB3FORMS_ACCESS_KEY in Vercel Environment Variables (see guide below).`
+                        );
+                      }
+                    } finally {
+                      setDiagRunning(false);
+                    }
+                  }}
+                  disabled={diagRunning}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 min-h-[44px] text-xs font-extrabold text-[#0F1D35] hover:border-[#136EA8] cursor-pointer"
+                >
+                  <Mail className="h-4 w-4 text-[#136EA8]" />
+                  Send Test Auto-Email
+                </button>
+                <button
+                  type="button"
+                  onClick={runDiagnostics}
+                  disabled={diagRunning}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F1D35] px-5 min-h-[44px] text-xs font-extrabold text-white hover:bg-[#136EA8] cursor-pointer"
+                >
+                  <ShieldCheck className="h-4 w-4 text-[#9AD634]" />
+                  {diagRunning ? "Testing..." : "Run Backend Health Check"}
+                </button>
+              </div>
             </div>
 
             {diagResult && (
@@ -2197,6 +2192,48 @@ export default function AdminDashboardPage() {
                 {diagResult}
               </div>
             )}
+
+            {/* Automatic Email Alerts Guide */}
+            <div className="rounded-2xl border border-sky-200 bg-sky-50/70 p-5 space-y-3">
+              <div className="text-sm font-extrabold text-[#0F1D35]">
+                How Automatic Email Alerts Work (100% Free — ₹0/month)
+              </div>
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                Every new <strong>Consultation Booking</strong>,{" "}
+                <strong>Contact Enquiry</strong>, and{" "}
+                <strong>Specialist Application</strong> automatically triggers
+                an instant email to <code>{liveSettings.email}</code>. Pick{" "}
+                <strong>either</strong> free method in Vercel Environment
+                Variables:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div className="rounded-xl bg-white border border-sky-200 p-4 space-y-1.5">
+                  <strong className="text-[#0F1D35] block">
+                    Option A — Free Gmail SMTP (Sends Clinic Email + Patient Auto-Reply!)
+                  </strong>
+                  <p className="text-slate-600">
+                    1. Sign in to <code>runlifephysio@gmail.com</code> → enable
+                    2-Step Verification → open{" "}
+                    <code>myaccount.google.com/apppasswords</code>.<br />
+                    2. Generate a 16-character App Password.<br />
+                    3. Add <code>GMAIL_USER=runlifephysio@gmail.com</code> and{" "}
+                    <code>GMAIL_APP_PASSWORD=xxxx...</code> in Vercel.
+                  </p>
+                </div>
+                <div className="rounded-xl bg-white border border-sky-200 p-4 space-y-1.5">
+                  <strong className="text-[#0F1D35] block">
+                    Option B — 30-Second Setup (No Gmail Password Needed!)
+                  </strong>
+                  <p className="text-slate-600">
+                    1. Visit <code>web3forms.com</code> and enter{" "}
+                    <code>runlifephysio@gmail.com</code>.<br />
+                    2. Copy the free Access Key emailed to Dr. Vishal.<br />
+                    3. Add <code>WEB3FORMS_ACCESS_KEY=your_key</code> in Vercel
+                    Environment Variables.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <ol className="space-y-2.5 text-xs sm:text-sm text-slate-700 list-decimal pl-5">
               <li>

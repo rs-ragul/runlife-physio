@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MapPin, Clock, CheckCircle2, Phone } from "lucide-react";
+import { MapPin, Clock, CheckCircle2, Phone, Mail } from "lucide-react";
 import { BANGALORE_ZONES } from "@/data/bangaloreZones";
 import { SITE_CONFIG } from "@/config/site";
 import { OpenModalButton } from "@/components/booking/OpenModalButton";
@@ -9,19 +9,19 @@ import { buildBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title:
-    "Home Physiotherapy in Bangalore — HSR, Indiranagar, Whitefield, Koramangala & JP Nagar",
+    "Home Physiotherapy in Bangalore & Salem — Doorstep & Online Consultations",
   description:
-    "Book Master of Physiotherapy (MPT) Specialists at home across Bangalore—HSR Layout, Indiranagar, Whitefield, Koramangala, JP Nagar, Jayanagar, Sarjapur, Hebbal & Electronic City.",
+    "Book specialist home physiotherapy visits and consultations across Bangalore (HSR, Indiranagar, Whitefield, Koramangala, JP Nagar) and Salem (Fairlands, Alagapuram, Hasthampatti, Suramangalam).",
   alternates: { canonical: "/bangalore" },
 };
 
-export default function BangaloreHubPage() {
+export default function LocationsHubPage() {
   return (
     <div className="bg-slate-50 pb-20">
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Physiotherapy in Bangalore", path: "/bangalore" },
+          { name: "Bangalore & Salem Locations", path: "/bangalore" },
         ])}
       />
 
@@ -29,17 +29,16 @@ export default function BangaloreHubPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
             <MapPin className="h-4 w-4" />
-            Bangalore Specialist Physiotherapy Network
+            Bangalore &amp; Salem Coverage
           </span>
           <h1 className="mt-2 font-display text-3xl sm:text-5xl font-extrabold max-w-4xl">
-            MPT Specialist Physiotherapy at Home &amp; By Appointment Across
-            Bangalore
+            Physiotherapy at Home &amp; By Appointment in Bangalore &amp; Salem
           </h1>
           <p className="mt-4 text-sm sm:text-lg text-slate-300 max-w-3xl leading-relaxed">
-            Led by {SITE_CONFIG.founder.name}, Runlife Physio dispatches
-            domain-matched MPT Specialists across South, East, North, Central
-            &amp; West Bengaluru—bringing clinic-grade Ortho, Neuro, Sports,
-            Pediatric, and Women&apos;s Health rehab directly to your doorstep.
+            Led by {SITE_CONFIG.founder.name}, Runlife Physio provides dedicated
+            Orthopedic, Neurological, Sports, Pediatric, and Women&apos;s Health
+            physiotherapy at your home in <strong>Bangalore</strong> and{" "}
+            <strong>Salem</strong>, as well as online video consultations.
           </p>
         </div>
       </section>
@@ -90,43 +89,57 @@ export default function BangaloreHubPage() {
               <div className="mt-6">
                 <OpenModalButton
                   prefill={{
-                    careMode: "Home Care (Bangalore)",
-                    locality: zone.zoneName,
-                    source: `Bangalore Page (${zone.zoneName})`,
+                    careMode:
+                      zone.city === "Online"
+                        ? "Online Consultation"
+                        : "Home Visit (Bangalore & Salem)",
+                    locality:
+                      zone.city === "Online"
+                        ? "Online Consultation"
+                        : zone.city,
+                    source: `Locations Page (${zone.zoneName})`,
                   }}
                   className="w-full rounded-xl bg-[#0F1D35] px-5 py-3 text-xs sm:text-sm font-bold text-white hover:bg-[#136EA8] transition cursor-pointer"
                 >
-                  Book Specialist in {zone.zoneName}
+                  Book for Consultation in {zone.city}
                 </OpenModalButton>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bangalore Booking Section */}
+        {/* Bottom Booking Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center rounded-3xl border border-slate-200 bg-white p-6 sm:p-10 shadow-md">
           <div className="lg:col-span-5 space-y-4">
             <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-[#0F1D35]">
-              Check Same-Day Slot Availability in Your Bangalore Pin Code
+              Book a Home Visit or Consultation in Bangalore or Salem
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Enter your apartment/locality and condition—our coordinator will
-              confirm the nearest available MPT Specialist slot within 15–30
-              minutes.
+              Select your city and enter your area—our care coordinator will
+              call you back promptly to confirm a convenient appointment time.
             </p>
-            <a
-              href={`tel:${SITE_CONFIG.contact.phoneE164}`}
-              className="inline-flex items-center gap-2 text-base font-extrabold text-[#136EA8] hover:underline"
-            >
-              <Phone className="h-4 w-4 text-[#85B925]" />
-              Direct Bangalore Desk: {SITE_CONFIG.contact.phoneDisplay}
-            </a>
+            <div className="space-y-2 pt-1">
+              <a
+                href={`tel:${SITE_CONFIG.contact.phoneE164}`}
+                className="flex items-center gap-2 text-base font-extrabold text-[#136EA8] hover:underline"
+              >
+                <Phone className="h-4 w-4 text-[#85B925]" />
+                Call: {SITE_CONFIG.contact.phoneDisplay}
+              </a>
+              <a
+                href={`mailto:${SITE_CONFIG.contact.email}`}
+                className="flex items-center gap-2 text-sm font-bold text-slate-700 hover:text-[#136EA8]"
+              >
+                <Mail className="h-4 w-4 text-[#136EA8]" />
+                Email: {SITE_CONFIG.contact.email}
+              </a>
+            </div>
           </div>
           <div className="lg:col-span-7">
             <BookingForm
               prefill={{
-                careMode: "Home Care (Bangalore)",
-                source: "Bangalore Hub Bottom Form",
+                careMode: "Home Visit (Bangalore & Salem)",
+                source: "Locations Hub Bottom Form",
               }}
             />
           </div>

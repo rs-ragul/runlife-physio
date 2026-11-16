@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { X, ShieldCheck, Phone } from "lucide-react";
+import { X, ShieldCheck, Phone, Mail } from "lucide-react";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { BookingForm } from "@/components/booking/BookingForm";
@@ -31,7 +31,7 @@ export function BookingDrawerModal() {
       className="fixed inset-0 z-[95] flex items-end sm:items-stretch justify-end bg-slate-950/60 backdrop-blur-xs animate-fade-in-fast"
       role="dialog"
       aria-modal="true"
-      aria-label="Book Physiotherapy Assessment"
+      aria-label="Book for Consultation"
     >
       <div
         className="absolute inset-0"
@@ -50,11 +50,11 @@ export function BookingDrawerModal() {
             <div className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rounded-full bg-[#85B925]" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-lime-300">
-                {settings.clinicName} • {settings.primaryCity} &amp; Online
+                {settings.clinicName} • Bangalore, Salem &amp; Online
               </span>
             </div>
             <h2 className="mt-0.5 text-base sm:text-lg font-bold">
-              Book MPT Specialist Assessment
+              Book for Consultation
             </h2>
           </div>
           <button
@@ -73,13 +73,22 @@ export function BookingDrawerModal() {
             <ShieldCheck className="h-4 w-4 text-[#136EA8] shrink-0" />
             <span className="truncate">{settings.callbackPromise}</span>
           </span>
-          <a
-            href={`tel:${settings.phoneE164}`}
-            className="inline-flex items-center gap-1 font-bold text-[#136EA8] hover:underline shrink-0"
-          >
-            <Phone className="h-3.5 w-3.5" />
-            {settings.phoneDisplay}
-          </a>
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href={`mailto:${settings.email}`}
+              className="hidden sm:inline-flex items-center gap-1 font-bold text-[#136EA8] hover:underline"
+            >
+              <Mail className="h-3.5 w-3.5" />
+              Email
+            </a>
+            <a
+              href={`tel:${settings.phoneE164}`}
+              className="inline-flex items-center gap-1 font-bold text-[#136EA8] hover:underline"
+            >
+              <Phone className="h-3.5 w-3.5" />
+              {settings.phoneDisplay}
+            </a>
+          </div>
         </div>
 
         {/* Form Body */}

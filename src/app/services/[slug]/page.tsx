@@ -98,7 +98,7 @@ export default async function SpecialtyDetailPage({
                 className="inline-flex items-center gap-2 rounded-xl bg-[#85B925] px-6 py-3.5 text-sm font-extrabold text-slate-950 hover:bg-[#9AD634] transition cursor-pointer"
               >
                 <CalendarCheck className="h-4 w-4" />
-                Book {spec.specialistCredential}
+                Book for Consultation
               </OpenModalButton>
               <a
                 href="#book-specialty"
@@ -272,7 +272,7 @@ export default async function SpecialtyDetailPage({
 
           <div className="lg:col-span-7 rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-lg">
             <h2 className="font-display text-2xl font-extrabold text-[#0F1D35] mb-1">
-              Book Your {spec.shortName} Assessment
+              Book for Consultation — {spec.shortName}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mb-5">
               Pre-selected for {spec.specialistCredential}

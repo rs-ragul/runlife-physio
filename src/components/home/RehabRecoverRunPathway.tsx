@@ -34,7 +34,7 @@ const PHASES = [
     deliverables: [
       "Week-by-week graded resistance, eccentric tendon & balance programming",
       "Gait, stair-climbing, posture & functional movement retraining",
-      "Seamless hybrid flexibility: combine Bangalore Home Visits with Virtual Tele-Rehab",
+      "Flexible care: combine Home Visits (Bangalore & Salem) with Online Tele-Rehab",
       "Bi-weekly objective range-of-motion and strength progress tracking",
     ],
     benchmark: "Exit Gate: >85–90% bilateral strength symmetry, zero compensatory limping & full work/home stamina.",
@@ -161,7 +161,7 @@ export function RehabRecoverRunPathway() {
                 }
                 className="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-[#85B925] px-5 py-3 text-xs sm:text-sm font-extrabold text-slate-950 hover:bg-[#9AD634] transition cursor-pointer"
               >
-                Start Phase 01 Assessment
+                Book for Consultation
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

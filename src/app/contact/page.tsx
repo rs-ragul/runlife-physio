@@ -28,12 +28,12 @@ export default function ContactPage() {
             Direct Clinical Desk
           </span>
           <h1 className="mt-2 font-display text-3xl sm:text-5xl font-extrabold">
-            Book Your Specialist Assessment or Speak With Us
+            Book for Consultation or Speak With Us
           </h1>
           <p className="mt-3 text-sm sm:text-lg text-slate-300 max-w-2xl">
-            Whether you need urgent post-surgery Home Care in Bangalore, a
-            Pediatric/Neuro specialist, or a virtual second opinion—our care
-            desk responds promptly.
+            Whether you need a Home Visit in Bangalore or Salem, a Pediatric or
+            Neuro physiotherapist, or an online video consultation—our care desk
+            responds promptly.
           </p>
         </div>
       </section>
@@ -46,11 +46,11 @@ export default function ContactPage() {
         <div className="lg:col-span-7 space-y-8">
           <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-sm">
             <h2 className="font-display text-xl sm:text-2xl font-extrabold text-[#0F1D35] mb-1">
-              Book an MPT Specialist Appointment
+              Book for Consultation
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mb-5">
-              Fast 3-tap booking — instantly synced to our clinic desk &amp;
-              WhatsApp.
+              Home Visits in Bangalore &amp; Salem, Online Consultations &amp;
+              Scheduled Visits.
             </p>
             <BookingForm prefill={{ source: "Contact Page Booking Form" }} />
           </div>

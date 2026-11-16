@@ -1,38 +1,41 @@
 import type { Metadata } from "next";
-import { Phone, ShieldCheck, Clock, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, MessageCircle, ShieldCheck, Clock, CheckCircle2 } from "lucide-react";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { SITE_CONFIG } from "@/config/site";
+import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Book an MPT Physiotherapy Appointment — Home Care & Tele-Rehab",
+  title: "Book for Consultation — Bangalore, Salem & Online",
   description:
-    "Plan your consultation with Runlife Physio in Bangalore or Online. Share your symptoms and Dr. Vishal's MPT Specialist team will call back within 15–30 minutes.",
+    "Book a physiotherapy consultation with Runlife Physio in Bangalore, Salem, or Online. Home visits, video consultations, and scheduled care led by Dr. Vishal (PT).",
   alternates: { canonical: "/book" },
 };
 
 export default function BookAppointmentPage() {
+  const waHref = buildPatientToClinicWhatsAppUrl();
+
   return (
     <div className="bg-slate-50 pb-20">
       <JsonLd
         data={buildBreadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Book Appointment", path: "/book" },
+          { name: "Book for Consultation", path: "/book" },
         ])}
       />
 
       <section className="bg-[#0F1D35] bg-navy-grid text-white py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
-            Plan Your Consultation
+            Runlife Physio
           </span>
           <h1 className="mt-2 font-display text-3xl sm:text-5xl font-extrabold">
-            Book Your Specialist Physiotherapy Assessment
+            Book for Consultation
           </h1>
           <p className="mt-3 text-sm sm:text-lg text-slate-300 max-w-2xl">
-            Home Visits across Bangalore • Live Virtual Tele-Rehabilitation •
-            Online Video Consultations • Scheduled Clinic Visits
+            Home Visits in Bangalore &amp; Salem • Online Video Consultations •
+            Live Tele-Rehab • Scheduled Appointments
           </p>
         </div>
       </section>
@@ -45,20 +48,20 @@ export default function BookAppointmentPage() {
         <div className="lg:col-span-5 space-y-5">
           <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 space-y-4">
             <h2 className="font-display text-xl font-extrabold text-[#0F1D35]">
-              How Your Booking Works
+              How Your Consultation Works
             </h2>
             {[
               {
-                step: "1. Share Brief Details",
-                desc: "Select Home Care, Tele-Rehab, Online, or Appointment visit and tell us what is troubling you.",
+                step: "1. Share Your Details",
+                desc: "Choose Home Visit (Bangalore or Salem), Online Consultation, Tele-Rehab, or By-Appointment Visit.",
               },
               {
-                step: "2. 15-Min Clinical Triage Call",
-                desc: "Dr. Vishal's desk calls to understand your history and assign the exact Ortho, Neuro, Sports, Pediatric, or Women's Health MPT Specialist.",
+                step: "2. Quick Confirmation Call",
+                desc: "Our team calls you shortly to understand your symptoms and match the right physiotherapist.",
               },
               {
-                step: "3. Root-Cause Assessment & Plan",
-                desc: "Your MPT Specialist evaluates your movement, provides hands-on/guided relief, and sets clear REHAB • RECOVER • RUN milestones.",
+                step: "3. Personalized Care & Recovery Plan",
+                desc: "Your physiotherapist evaluates your condition, starts treatment, and guides your step-by-step recovery.",
               },
             ].map((s) => (
               <div key={s.step} className="flex items-start gap-3">
@@ -78,22 +81,40 @@ export default function BookAppointmentPage() {
           <div className="rounded-3xl bg-[#0F1D35] p-6 text-white space-y-3">
             <div className="flex items-center gap-2 text-xs font-bold text-[#9AD634]">
               <Clock className="h-4 w-4" />
-              Urgent Post-Op or Acute Pain Slot?
+              Prefer to Reach Out Directly?
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              Call our direct specialist helpline for immediate Bangalore
-              dispatch or same-day video triage:
+              Call, WhatsApp, or Email our desk for slots in Bangalore, Salem,
+              or Online:
             </p>
-            <a
-              href={`tel:${SITE_CONFIG.contact.phoneE164}`}
-              className="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-extrabold text-[#0F1D35]"
-            >
-              <Phone className="h-4 w-4 text-[#136EA8]" />
-              {SITE_CONFIG.contact.phoneDisplay}
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={`tel:${SITE_CONFIG.contact.phoneE164}`}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-2.5 text-xs font-extrabold text-[#0F1D35]"
+              >
+                <Phone className="h-3.5 w-3.5 text-[#136EA8]" />
+                Call
+              </a>
+              <a
+                href={waHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-[#25D366] px-3.5 py-2.5 text-xs font-extrabold text-white"
+              >
+                <MessageCircle className="h-3.5 w-3.5" />
+                WhatsApp
+              </a>
+              <a
+                href={`mailto:${SITE_CONFIG.contact.email}`}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-white/25 bg-white/10 px-3.5 py-2.5 text-xs font-extrabold text-white"
+              >
+                <Mail className="h-3.5 w-3.5 text-sky-300" />
+                Email
+              </a>
+            </div>
             <div className="flex items-center gap-1.5 text-[11px] text-slate-400 pt-1">
               <ShieldCheck className="h-3.5 w-3.5 text-[#85B925]" />
-              Private &amp; confidential patient health records
+              Private &amp; confidential patient details
             </div>
           </div>
         </div>

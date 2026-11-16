@@ -116,7 +116,7 @@ export default async function ConditionDetailPage({
                 className="inline-flex items-center gap-2 rounded-xl bg-[#85B925] px-6 py-3.5 text-sm font-extrabold text-slate-950 hover:bg-[#9AD634] transition cursor-pointer"
               >
                 <CalendarCheck className="h-4 w-4" />
-                Book Assessment for {cond.shortTitle}
+                Book for Consultation
               </OpenModalButton>
             </div>
           </div>
@@ -234,10 +234,10 @@ export default async function ConditionDetailPage({
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-24 rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-lg">
               <h2 className="font-display text-xl font-extrabold text-[#0F1D35]">
-                Book {cond.shortTitle} Assessment
+                Book for Consultation
               </h2>
               <p className="mt-1 text-xs text-slate-500 mb-4">
-                Home Care in Bangalore • Live Tele-Rehab • Scheduled Visits
+                Home Visits in Bangalore &amp; Salem • Online Consultations
               </p>
               <BookingForm
                 compact

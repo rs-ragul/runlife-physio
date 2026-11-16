@@ -19,6 +19,7 @@ import {
   BookOpen,
   MessageCircle,
   Sparkles,
+  Mail,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
 import { useSiteCms } from "@/context/SiteSettingsContext";
@@ -33,12 +34,10 @@ export function Navbar() {
   const [mobileSpecOpen, setMobileSpecOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
 
-  // Close mobile menu automatically when route changes
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Lock background page scroll & allow Escape key when mobile drawer is open
   useEffect(() => {
     if (!mobileOpen) return;
     const prevOverflow = document.body.style.overflow;
@@ -64,17 +63,17 @@ export function Navbar() {
   const mobilePrimaryLinks = [
     { label: "Home", href: "/", icon: Home },
     {
-      label: "Conditions Library (A–Z)",
+      label: "Conditions We Treat",
       href: "/conditions",
       icon: Activity,
     },
     {
-      label: "Home Care & Tele-Rehab",
+      label: "Home Visit & Online Care",
       href: "/care-modes",
       icon: Sparkles,
     },
     {
-      label: `${settings.primaryCity} Coverage Areas`,
+      label: "Bangalore & Salem Locations",
       href: "/bangalore",
       icon: MapPin,
     },
@@ -86,13 +85,13 @@ export function Navbar() {
     ...(settings.showBlogSection
       ? [
           {
-            label: "Clinical Recovery Guides",
+            label: "Recovery Guides",
             href: "/blog",
             icon: BookOpen,
           },
         ]
       : []),
-    { label: "Contact & Helpline", href: "/contact", icon: PhoneCall },
+    { label: "Contact Us", href: "/contact", icon: PhoneCall },
   ];
 
   return (
@@ -128,7 +127,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             <div
               className="relative"
               onMouseEnter={() => setServicesOpen(true)}
@@ -138,16 +137,16 @@ export function Navbar() {
                 href="/services"
                 className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
-                MPT Specialties
+                Specialties
                 <ChevronDown className="h-4 w-4 opacity-70" />
               </Link>
 
               {servicesOpen && (
-                <div className="absolute left-0 top-full pt-2 w-[560px]">
+                <div className="absolute left-0 top-full pt-2 w-[540px]">
                   <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-xl">
                     <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2.5">
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                        5 Specialist MPT Departments Under One Platform
+                        Our Physiotherapy Departments
                       </span>
                       <Link
                         href="/services"
@@ -173,10 +172,7 @@ export function Navbar() {
                             </p>
                           </div>
                           <span className="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
-                            {spec.specialistCredential.replace(
-                              " Specialist",
-                              ""
-                            )}
+                            {spec.shortName}
                           </span>
                         </Link>
                       ))}
@@ -188,52 +184,59 @@ export function Navbar() {
 
             <Link
               href="/conditions"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               Conditions
             </Link>
             <Link
               href="/care-modes"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
-              Home &amp; Tele-Rehab
+              Home &amp; Online
             </Link>
             <Link
               href="/bangalore"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
-              {settings.primaryCity} Hub
+              Bangalore &amp; Salem
             </Link>
             <Link
               href="/about"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               About
             </Link>
             {settings.showBlogSection && (
               <Link
                 href="/blog"
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+                className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
                 Guides
               </Link>
             )}
             <Link
               href="/contact"
-              className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               Contact
             </Link>
           </nav>
 
-          {/* Desktop CTAs */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          {/* Desktop CTAs (Call + Email + Book for Consultation) */}
+          <div className="hidden lg:flex items-center gap-2">
             <a
               href={`tel:${settings.phoneE164}`}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
             >
               <PhoneCall className="h-3.5 w-3.5 text-[#136EA8]" />
-              Call Desk
+              Call
+            </a>
+            <a
+              href={`mailto:${settings.email}`}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
+            >
+              <Mail className="h-3.5 w-3.5 text-[#136EA8]" />
+              Email
             </a>
             <button
               type="button"
@@ -245,7 +248,7 @@ export function Navbar() {
             </button>
           </div>
 
-          {/* Mobile Actions (44px+ touch targets) */}
+          {/* Mobile Actions */}
           <div className="flex items-center gap-2 lg:hidden">
             <button
               type="button"
@@ -268,10 +271,7 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* ========================================================================
-          FULL-VIEWPORT MOBILE SLIDE-OVER MENU
-          Rendered OUTSIDE <header> so backdrop-filter never clips fixed height!
-         ======================================================================== */}
+      {/* Full-Viewport Mobile Slide-Over Menu */}
       {mobileOpen && (
         <div
           className="lg:hidden fixed inset-0 z-[95] flex justify-end"
@@ -279,14 +279,12 @@ export function Navbar() {
           aria-modal="true"
           aria-label="Mobile Navigation Menu"
         >
-          {/* Dimmed Backdrop */}
           <div
             className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs animate-fade-in-fast"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
 
-          {/* Slide-Over Panel */}
           <div className="relative z-10 flex h-[100dvh] w-full max-w-[380px] flex-col bg-white shadow-2xl animate-drawer-in">
             {/* Drawer Header */}
             <div className="flex items-center justify-between border-b border-slate-200 bg-[#0F1D35] px-4 py-3.5 text-white shrink-0">
@@ -309,7 +307,7 @@ export function Navbar() {
                     RUN<span className="text-[#9AD634]">LIFE</span> PHYSIO
                   </div>
                   <div className="text-[10px] font-semibold text-sky-200">
-                    {settings.primaryCity} MPT Specialist Network
+                    Bangalore &amp; Salem • Home &amp; Online
                   </div>
                 </div>
               </Link>
@@ -326,7 +324,7 @@ export function Navbar() {
 
             {/* Scrollable Menu Body */}
             <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4 space-y-3">
-              {/* Highlighted Primary Booking Banner */}
+              {/* Primary Consultation CTA Card */}
               <button
                 type="button"
                 onClick={() => {
@@ -337,13 +335,13 @@ export function Navbar() {
               >
                 <div>
                   <span className="inline-block rounded-full bg-[#85B925] px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
-                    Express 3-Tap Booking
+                    Bangalore • Salem • Online
                   </span>
                   <div className="mt-1 font-display text-sm font-extrabold">
                     {settings.primaryCtaText}
                   </div>
                   <div className="text-[11px] text-sky-100">
-                    Home Care • Online • Tele-Rehab
+                    Home Visits, Online &amp; Scheduled Care
                   </div>
                 </div>
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
@@ -351,7 +349,7 @@ export function Navbar() {
                 </div>
               </button>
 
-              {/* Collapsible MPT Specialties Accordion */}
+              {/* Collapsible Specialties Accordion */}
               <div className="rounded-2xl border border-slate-200 bg-slate-50/80 overflow-hidden">
                 <button
                   type="button"
@@ -360,18 +358,13 @@ export function Navbar() {
                 >
                   <span className="inline-flex items-center gap-2.5 text-sm font-extrabold text-[#0F1D35]">
                     <Stethoscope className="h-4 w-4 text-[#136EA8]" />
-                    MPT Specialist Departments
+                    Physiotherapy Specialties
                   </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-extrabold text-[#136EA8]">
-                      5 Depts
-                    </span>
-                    <ChevronDown
-                      className={`h-4 w-4 text-slate-500 transition-transform duration-200 ${
-                        mobileSpecOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-slate-500 transition-transform duration-200 ${
+                      mobileSpecOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
 
                 {mobileSpecOpen && (
@@ -390,12 +383,7 @@ export function Navbar() {
                           }`}
                         >
                           <span>{spec.shortName}</span>
-                          <span className="rounded-md bg-white border border-slate-200 px-2 py-0.5 text-[10px] font-bold text-[#136EA8]">
-                            {spec.specialistCredential.replace(
-                              " Specialist",
-                              ""
-                            )}
-                          </span>
+                          <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
                         </Link>
                       );
                     })}
@@ -404,13 +392,13 @@ export function Navbar() {
                       onClick={() => setMobileOpen(false)}
                       className="flex items-center justify-center gap-1 rounded-xl py-2.5 text-xs font-extrabold text-[#136EA8] hover:underline"
                     >
-                      View All 5 MPT Departments →
+                      View All Specialties →
                     </Link>
                   </div>
                 )}
               </div>
 
-              {/* Clean Single-Tap Primary Pages */}
+              {/* Primary Links */}
               <nav className="space-y-1.5" aria-label="Mobile Primary Links">
                 {mobilePrimaryLinks.map((item) => {
                   const Icon = item.icon;
@@ -445,15 +433,15 @@ export function Navbar() {
               </nav>
             </div>
 
-            {/* Pinned Safe-Area Drawer Footer */}
+            {/* Pinned Safe-Area Drawer Footer: Call + WhatsApp + Email */}
             <div className="shrink-0 border-t border-slate-200 bg-slate-50 px-4 pt-3 pb-[max(0.9rem,env(safe-area-inset-bottom))]">
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-3 gap-2">
                 <a
                   href={`tel:${settings.phoneE164}`}
                   className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white min-h-[46px] text-xs font-extrabold text-slate-900 shadow-2xs"
                 >
-                  <PhoneCall className="h-4 w-4 text-[#136EA8]" />
-                  Call Desk
+                  <PhoneCall className="h-3.5 w-3.5 text-[#136EA8]" />
+                  Call
                 </a>
                 <a
                   href={waHref}
@@ -461,8 +449,15 @@ export function Navbar() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#25D366] min-h-[46px] text-xs font-extrabold text-white shadow-2xs"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-3.5 w-3.5" />
                   WhatsApp
+                </a>
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 bg-white min-h-[46px] text-xs font-extrabold text-slate-900 shadow-2xs"
+                >
+                  <Mail className="h-3.5 w-3.5 text-[#136EA8]" />
+                  Email
                 </a>
               </div>
             </div>

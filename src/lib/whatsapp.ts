@@ -26,25 +26,25 @@ export function buildPatientToClinicWhatsAppUrl(
   if (!payload) {
     const greeting =
       overrideGreeting ||
-      "Hello Dr. Vishal / Runlife Physio! I would like to book a specialist physiotherapy assessment.";
+      "Hello Runlife Physio! I would like to book for a physiotherapy consultation.";
     return `${base}?text=${encodeURIComponent(greeting)}`;
   }
 
   const lines = [
-    `*New Assessment Request — Runlife Physio*`,
+    `*New Consultation Request — Runlife Physio*`,
     payload.referenceId ? `Ref ID: *${payload.referenceId}*` : "",
     `Patient: *${payload.patientName}*`,
     `Phone: ${payload.phone}`,
     `Care Mode: *${payload.careMode}*`,
     `Department: *${payload.specialty}*`,
     payload.conditionOrPain ? `Condition / Area: ${payload.conditionOrPain}` : "",
-    payload.locality ? `Location / Area: ${payload.locality}` : "",
+    payload.locality ? `City / Area: ${payload.locality}` : "",
     payload.preferredDate
       ? `Preferred Date: ${payload.preferredDate}${payload.preferredSlot ? ` (${payload.preferredSlot})` : ""}`
       : "",
     payload.notes ? `Notes: ${payload.notes}` : "",
     `---`,
-    `Please confirm available MPT Specialist slot.`,
+    `Please confirm available consultation slot.`,
   ].filter(Boolean);
 
   return `${base}?text=${encodeURIComponent(lines.join("\n"))}`;
@@ -71,12 +71,12 @@ export function buildDoctorToPatientWhatsAppUrl(params: {
 
   const message = [
     `Hello *${params.patientName}*,`,
-    `Greetings from *Dr. Vishal & ${brand}* (REHAB · RECOVER · RUN).`,
+    `Greetings from *Dr. Vishal & ${brand}*.`,
     ``,
-    `We received your *${params.careMode}* request${params.referenceId ? ` (${params.referenceId})` : ""} for *${params.specialty}*.`,
+    `We received your consultation request${params.referenceId ? ` (${params.referenceId})` : ""} for *${params.specialty}* (*${params.careMode}*).`,
     params.preferredDate ? `Requested Date: *${params.preferredDate}*` : "",
     ``,
-    `Our MPT Specialist is ready to assist you. Please reply here to confirm your convenient time slot or share any X-ray/MRI reports if available.`,
+    `Our team is ready to assist you. Please reply here to confirm a convenient time or share any X-ray/MRI reports if available.`,
   ]
     .filter(Boolean)
     .join("\n");

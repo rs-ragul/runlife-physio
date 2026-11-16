@@ -114,7 +114,7 @@ export function JoinNetworkForm() {
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Bangalore Zone / City"
+          placeholder="City / Area (Bangalore or Salem)"
           className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>

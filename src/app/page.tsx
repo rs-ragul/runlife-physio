@@ -13,9 +13,12 @@ import { BookingForm } from "@/components/booking/BookingForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildFaqSchema } from "@/lib/schema";
 import { SITE_CONFIG } from "@/config/site";
-import { Phone, Mail, CheckCircle2 } from "lucide-react";
+import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
+import { Phone, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
+  const waHref = buildPatientToClinicWhatsAppUrl();
+
   return (
     <>
       <JsonLd data={buildFaqSchema(HOME_FAQS)} />
@@ -29,35 +32,34 @@ export default function HomePage() {
       <FounderSpotlight />
       <BangaloreNetworkSection />
 
-      {/* Inline Full Assessment Section (Mirrors and upgrades reference conversion flow) */}
+      {/* Inline Consultation Booking Section */}
       <section className="py-16 lg:py-24 bg-gradient-to-b from-slate-50 to-white border-b border-slate-200/70">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-5 space-y-5">
               <span className="text-xs font-extrabold uppercase tracking-widest text-[#136EA8]">
-                Start With an MPT Evaluation
+                Book for Consultation
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1D35]">
-                We Measure What&apos;s Restricted, Find the Root Cause &amp; Map
-                Your Timeline.
+              <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-[#0F1D35]">
+                Speak With Our Physiotherapy Team &amp; Start Your Recovery
               </h2>
               <p className="text-sm sm:text-base leading-relaxed text-slate-600">
-                Leave your details and{" "}
+                Share your details and{" "}
                 <strong className="text-slate-900">
                   {SITE_CONFIG.founder.name}&apos;s
                 </strong>{" "}
-                clinical triage desk will call you within 15–30 minutes to
-                assign the right MPT Specialist for your Bangalore home visit,
-                tele-rehab session, or scheduled appointment.
+                care desk will call you shortly to arrange a Home Visit in{" "}
+                <strong>Bangalore or Salem</strong>, an Online Video
+                Consultation, or a Scheduled Appointment.
               </p>
 
               <div className="space-y-3 pt-2">
                 {[
-                  "Orthopedic & Post-Surgical Rehab — MPT (Ortho)",
-                  "Stroke, Parkinson's, GBS & SCI — MPT (Neuro)",
-                  "ACL, Running Gait & Return-to-Sport S&C — MPT (Sports)",
-                  "CP, Autism Motor & GDD Milestones — MPT (Pediatrics)",
-                  "Antenatal, Postnatal & Pelvic Floor — MPT (Women's Health)",
+                  "Orthopedic, Joint & Post-Surgery Rehabilitation",
+                  "Stroke, Parkinson's & Neurological Rehab",
+                  "Sports Injuries, ACL & Running Recovery",
+                  "Pediatric Motor Milestones & Child Rehab",
+                  "Pregnancy, Postnatal & Women's Health Care",
                 ].map((line) => (
                   <div
                     key={line}
@@ -69,24 +71,35 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2.5 shadow-2xs">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 shadow-2xs">
                 <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Direct Clinical Helpline
+                  Reach Us Directly
                 </div>
-                <a
-                  href={`tel:${SITE_CONFIG.contact.phoneE164}`}
-                  className="flex items-center gap-2.5 text-base font-extrabold text-[#0F1D35] hover:text-[#136EA8]"
-                >
-                  <Phone className="h-4 w-4 text-[#85B925]" />
-                  {SITE_CONFIG.contact.phoneDisplay}
-                </a>
-                <a
-                  href={`mailto:${SITE_CONFIG.contact.email}`}
-                  className="flex items-center gap-2.5 text-sm font-medium text-slate-600 hover:text-[#136EA8]"
-                >
-                  <Mail className="h-4 w-4 text-[#136EA8]" />
-                  {SITE_CONFIG.contact.email}
-                </a>
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href={`tel:${SITE_CONFIG.contact.phoneE164}`}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-extrabold text-[#0F1D35] hover:border-[#136EA8]"
+                  >
+                    <Phone className="h-3.5 w-3.5 text-[#136EA8]" />
+                    Call {SITE_CONFIG.contact.phoneDisplay}
+                  </a>
+                  <a
+                    href={waHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#25D366] px-3.5 py-2.5 text-xs font-extrabold text-white hover:bg-[#1ebe5d]"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5" />
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`mailto:${SITE_CONFIG.contact.email}`}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs font-extrabold text-[#0F1D35] hover:border-[#136EA8]"
+                  >
+                    <Mail className="h-3.5 w-3.5 text-[#136EA8]" />
+                    Email Us
+                  </a>
+                </div>
               </div>
             </div>
 

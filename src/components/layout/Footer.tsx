@@ -11,10 +11,12 @@ import {
   ShieldCheck,
   Lock,
   ExternalLink,
+  MessageCircle,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
 import { CONDITIONS } from "@/data/conditions";
 import { useSiteCms } from "@/context/SiteSettingsContext";
+import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 
 export function Footer() {
   const pathname = usePathname();
@@ -30,9 +32,15 @@ export function Footer() {
     { label: "Google Reviews", url: settings.googleReviewUrl },
   ].filter((s) => Boolean(s.url));
 
+  const waHref = buildPatientToClinicWhatsAppUrl(
+    undefined,
+    settings.whatsappNumber,
+    settings.whatsappGreeting
+  );
+
   return (
     <footer className="bg-[#0B1629] text-slate-300 border-t border-slate-800 pb-24 lg:pb-0">
-      {/* Top Clinical CTA Strip */}
+      {/* Top CTA Strip */}
       <div className="border-b border-white/10 bg-gradient-to-r from-[#0F1D35] via-[#153459] to-[#0F1D35]">
         <div className="mx-auto flex max-w-7xl flex-col md:flex-row items-start md:items-center justify-between gap-5 px-4 sm:px-6 lg:px-8 py-9 sm:py-11">
           <div>
@@ -41,27 +49,42 @@ export function Footer() {
               {settings.tagline}
             </span>
             <h2 className="mt-1.5 text-xl sm:text-3xl font-extrabold text-white">
-              Start Recovery With the Right MPT Specialist Today
+              Ready to Start Your Recovery?
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-slate-300 max-w-2xl">
-              Home Care across {settings.primaryCity}, live Virtual
-              Tele-Rehabilitation, Online Consultations &amp; Scheduled Visits—led
-              by {settings.founderName}.
+              Home Visits across {settings.primaryCity}, Online Video
+              Consultations &amp; Scheduled Visits—led by {settings.founderName}.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row w-full md:w-auto gap-3 shrink-0">
+          <div className="flex flex-wrap w-full md:w-auto gap-2.5 shrink-0">
             <Link
               href="/book"
-              className="inline-flex items-center justify-center rounded-xl bg-[#85B925] px-6 py-3.5 text-sm font-extrabold text-slate-950 shadow-lg hover:bg-[#96cf2d] transition"
+              className="inline-flex items-center justify-center rounded-xl bg-[#85B925] px-5 py-3 text-sm font-extrabold text-slate-950 shadow-lg hover:bg-[#96cf2d] transition"
             >
               {settings.primaryCtaText}
             </Link>
             <a
               href={`tel:${settings.phoneE164}`}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-sm font-bold text-white hover:bg-white/10 transition"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm font-bold text-white hover:bg-white/10 transition"
             >
               <Phone className="h-4 w-4 text-[#9AD634]" />
-              {settings.phoneDisplay}
+              Call
+            </a>
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#25D366] px-4 py-3 text-sm font-bold text-white hover:bg-[#1ebe5d] transition"
+            >
+              <MessageCircle className="h-4 w-4" />
+              WhatsApp
+            </a>
+            <a
+              href={`mailto:${settings.email}`}
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/5 px-4 py-3 text-sm font-bold text-white hover:bg-white/10 transition"
+            >
+              <Mail className="h-4 w-4 text-sky-300" />
+              Email
             </a>
           </div>
         </div>
@@ -89,7 +112,7 @@ export function Footer() {
                   <span className="text-[#0F1D35]">PHYSIO</span>
                 </div>
                 <div className="mt-1 text-[10px] font-bold tracking-widest text-slate-500 uppercase">
-                  Specialist Physio Network
+                  {settings.tagline}
                 </div>
               </div>
             </div>
@@ -97,10 +120,9 @@ export function Footer() {
             <p className="text-xs sm:text-sm leading-relaxed text-slate-400">
               Founded by{" "}
               <strong className="text-white">{settings.founderName}</strong>,{" "}
-              {settings.clinicName} brings dedicated Master of Physiotherapy
-              (MPT) Specialists in Orthopedics, Neurology, Sports, Pediatrics,
-              and Women&apos;s Health under one platform in{" "}
-              {settings.primaryCity}.
+              {settings.clinicName} brings dedicated physiotherapy specialists
+              in Orthopedics, Neurology, Sports, Pediatrics, and Women&apos;s
+              Health under one platform across {settings.primaryCity}.
             </p>
 
             <div className="space-y-2 text-sm pt-1">
@@ -163,10 +185,10 @@ export function Footer() {
             )}
           </div>
 
-          {/* 5 MPT Specialties */}
+          {/* Specialties */}
           <div className="lg:col-span-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
-              MPT Departments
+              Specialties
             </h3>
             <ul className="space-y-2.5 text-sm">
               {SPECIALTIES.map((s) => (
@@ -184,16 +206,16 @@ export function Footer() {
                   href="/care-modes"
                   className="text-sky-400 font-semibold hover:underline"
                 >
-                  Home Care &amp; Virtual Tele-Rehab →
+                  Home Visits &amp; Online Care →
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* High-Search Conditions */}
+          {/* Conditions */}
           <div className="lg:col-span-3">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
-              Key Conditions Treated
+              Conditions Treated
             </h3>
             <ul className="space-y-2 text-sm">
               {CONDITIONS.slice(0, 8).map((c) => (
@@ -220,7 +242,7 @@ export function Footer() {
           {/* Quick Links */}
           <div className="lg:col-span-2">
             <h3 className="text-xs font-bold uppercase tracking-widest text-white mb-4">
-              Platform &amp; Care
+              Quick Links
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -233,7 +255,7 @@ export function Footer() {
                   href="/bangalore"
                   className="text-slate-400 hover:text-white"
                 >
-                  {settings.primaryCity} Zones
+                  Bangalore &amp; Salem
                 </Link>
               </li>
               {settings.showBlogSection && (
@@ -245,12 +267,12 @@ export function Footer() {
               )}
               <li>
                 <Link href="/book" className="text-slate-400 hover:text-white">
-                  Book Appointment
+                  Book for Consultation
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="text-slate-400 hover:text-white">
-                  Contact Desk
+                  Contact Us
                 </Link>
               </li>
               <li>
@@ -286,8 +308,8 @@ export function Footer() {
           </p>
           <p className="max-w-xl text-slate-500">
             Clinical Notice: Educational content on this website does not replace
-            an individualized physical examination. For acute emergencies, visit
-            your nearest hospital immediately.
+            an in-person medical examination. For acute emergencies, visit your
+            nearest hospital immediately.
           </p>
         </div>
       </div>

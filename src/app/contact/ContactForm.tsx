@@ -79,7 +79,7 @@ export function ContactForm() {
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="Bangalore Area / City"
+          placeholder="City & Area (Bangalore / Salem)"
           className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>

@@ -94,7 +94,7 @@ export function SpecialtiesShowcase() {
                     className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#0F1D35] px-4 py-2.5 text-xs font-bold text-white hover:bg-[#136EA8] transition cursor-pointer"
                   >
                     <CalendarPlus className="h-3.5 w-3.5 text-[#9AD634]" />
-                    Book Specialist
+                    Book for Consultation
                   </button>
                   <Link
                     href={`/services/${spec.slug}`}
@@ -127,21 +127,21 @@ export function SpecialtiesShowcase() {
 
             <div className="mt-6 space-y-3">
               <div className="rounded-2xl bg-white/10 p-3.5 text-xs text-slate-200">
-                ✓ Available for Home Care in Bangalore
-                <br />✓ Live Virtual Tele-Rehab &amp; Video Consults
-                <br />✓ Scheduled 1-on-1 Clinic Appointments
+                ✓ Home Visits in Bangalore &amp; Salem
+                <br />✓ Online Video Consultations &amp; Tele-Rehab
+                <br />✓ Scheduled 1-on-1 Appointments
               </div>
               <button
                 type="button"
                 onClick={() =>
                   openBookingModal({
-                    conditionOrPain: "Help me choose the right MPT Specialist",
+                    conditionOrPain: "Please help me choose the right specialist",
                     source: "Unsure Triage Card",
                   })
                 }
                 className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-[#85B925] px-5 py-3.5 text-sm font-extrabold text-slate-950 hover:bg-[#9AD634] transition cursor-pointer"
               >
-                Request Free Triage Callback
+                Book for Consultation
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

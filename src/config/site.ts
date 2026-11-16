@@ -1,13 +1,13 @@
 export const SITE_CONFIG = {
   name: "Runlife Physio",
-  legalName: "Runlife Specialist Physiotherapy Network",
+  legalName: "Runlife Physiotherapy",
   tagline: "REHAB · RECOVER · RUN",
   subtitle: "Specialized Physiotherapy Team Under One Platform",
   founder: {
     name: "Dr. Vishal (PT)",
     shortName: "Dr. Vishal",
-    role: "Founder & Clinical Director — Runlife Specialist Physiotherapy Network",
-    bio: "Runlife Physio was founded by Dr. Vishal with a clear clinical conviction: every body system deserves a Master-trained specialist, not a one-size-fits-all routine. By uniting dedicated MPT Specialists across Orthopedics, Neurology, Sports & Running Biomechanics, Pediatrics, and Women's Health under one coordinated platform in Bangalore, Runlife delivers hospital-grade specialist rehabilitation at your home, online via tele-rehab, or by scheduled clinic appointment.",
+    role: "Founder & Lead Physiotherapist — Runlife Physio",
+    bio: "Runlife Physio was founded by Dr. Vishal to bring dedicated specialist physiotherapists across Orthopedics, Neurology, Sports & Running Rehab, Pediatrics, and Women's Health together under one platform. Serving patients across Bangalore and Salem through home visits, scheduled consultations, and online tele-rehabilitation.",
   },
   contact: {
     phoneRaw: "9187679723",
@@ -15,23 +15,23 @@ export const SITE_CONFIG = {
     phoneDisplay: "+91 91876 79723",
     whatsappNumber: "919187679723",
     email: "runlifephysio@gmail.com",
-    hours: "Mon – Sun: 7:00 AM – 9:00 PM IST (Prior Appointment & Home Visits)",
-    responsePromise: "MPT Specialist callback within 15–30 minutes during care hours",
+    hours: "Mon – Sun: Appointment & Home Visit Slots Available",
+    responsePromise: "Our care coordinator will call you back shortly to confirm your slot",
   },
   location: {
-    primaryCity: "Bangalore",
-    state: "Karnataka",
+    primaryCity: "Bangalore & Salem",
+    cities: ["Bangalore", "Salem"],
+    state: "Karnataka & Tamil Nadu",
     country: "India",
     countryCode: "IN",
     serviceModelLabel:
-      "Bangalore-Wide Home Care & Partner Clinics (By Appointment) + Pan-India Virtual Tele-Rehab",
+      "Home Visits in Bangalore & Salem + Online Video Consultations & Tele-Rehab",
     coordinates: {
       latitude: 12.9716,
       longitude: 77.5946,
     },
-    // Easily editable when Dr. Vishal adds a flagship street clinic address
     flagshipHubNote:
-      "Serving all major Bangalore residential & tech corridors (Indiranagar, HSR Layout, Koramangala, Whitefield, JP Nagar, Jayanagar, Bellandur, Sarjapur Road, Hebbal, Malleswaram, Electronic City & Yelahanka) via Specialist Home Visits & By-Appointment Partner Studios.",
+      "Serving patients at home and by appointment across Bangalore (Indiranagar, HSR Layout, Koramangala, Whitefield, JP Nagar, Jayanagar, Hebbal, Electronic City) and Salem (Fairlands, Alagapuram, Hasthampatti, Suramangalam, Five Roads, Seelanaickenpatti), plus Online Tele-Rehab across India.",
   },
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://www.runlifephysio.com").replace(
     /\/$/,
@@ -40,42 +40,42 @@ export const SITE_CONFIG = {
   careModes: [
     {
       id: "home-care",
-      title: "Home Care Physiotherapy",
-      shortTitle: "Home Care (Bangalore)",
-      badge: "Most Popular in Bangalore",
+      title: "Home Visit Physiotherapy",
+      shortTitle: "Home Visit (Bangalore & Salem)",
+      badge: "Bangalore & Salem",
       summary:
-        "Dedicated MPT Specialist visits your home anywhere in Bangalore with portable assessment, manual therapy & progressive loading equipment.",
-      bestFor: "Post-op TKR/THR/ACL, Stroke & Neuro recovery, Seniors, Acute back pain, Postpartum & Pediatric care",
+        "Our physiotherapist visits your home in Bangalore or Salem for 1-on-1 hands-on treatment, post-surgery rehab, and guided recovery exercises.",
+      bestFor: "Post-op knee/hip/ACL rehab, Stroke & Neuro care, Seniors, Back pain, Postnatal & Pediatric care",
       duration: "45 – 60 mins 1-on-1",
     },
     {
       id: "tele-rehab",
       title: "Virtual / Tele-Rehabilitation",
       shortTitle: "Virtual Tele-Rehab",
-      badge: "Live Guided Exercise",
+      badge: "Live Guided Sessions",
       summary:
-        "Supervised real-time video rehabilitation sessions with live movement correction, progressive exercise programming & milestone tracking.",
-      bestFor: "Running rehab, Return-to-sport S&C, Spine & shoulder rehab, Busy Bangalore tech professionals & NRIs",
-      duration: "40 – 50 mins Live HD",
+        "Supervised live video exercise sessions with real-time posture correction, progressive strengthening, and regular recovery tracking.",
+      bestFor: "Running injuries, Spine & shoulder rehab, Busy working professionals & outstation patients",
+      duration: "40 – 50 mins Live Video",
     },
     {
       id: "online-consultation",
-      title: "Online Specialist Consultation",
+      title: "Online Video Consultation",
       shortTitle: "Online Consultation",
-      badge: "Pan-India & Global",
+      badge: "Anywhere in India",
       summary:
-        "1-on-1 diagnostic video assessment with the right MPT Specialist—including MRI/X-ray report review, root-cause diagnosis & structured recovery plan.",
-      bestFor: "First evaluation, Second opinion before surgery, Ergonomic pain, Outstation patients",
+        "1-on-1 video consultation with the right specialist—including X-ray/MRI report review, clear explanation of your condition, and home exercise plan.",
+      bestFor: "First consultation, Second opinion before surgery, Neck/back pain & outstation patients",
       duration: "30 – 45 mins Video",
     },
     {
       id: "clinic-appointment",
-      title: "Appointment-Based In-Person Session",
+      title: "By-Appointment In-Person Visit",
       shortTitle: "By-Appointment Visit",
-      badge: "Zero Waiting Room",
+      badge: "Prior Appointment",
       summary:
-        "Pre-scheduled 1-on-1 clinical & biomechanical sessions by prior appointment—focused entirely on hands-on therapy and return-to-sport testing.",
-      bestFor: "Running gait & agility testing, Return-to-sport clearance, Manual orthopedic mobilization",
+        "Scheduled 1-on-1 in-person physiotherapy consultation focused on manual therapy, movement testing, and return-to-sport recovery.",
+      bestFor: "Sports & running gait evaluation, Return-to-sport testing, Joint mobilization",
       duration: "45 – 60 mins Scheduled",
     },
   ],

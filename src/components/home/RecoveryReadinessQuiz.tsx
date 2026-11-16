@@ -38,7 +38,7 @@ const STEP_2_OPTIONS = [
   {
     id: "immobile",
     label: "Difficult to travel / Post-op / Senior / Child comfort needed",
-    recommendedMode: "Home Care (Bangalore)",
+    recommendedMode: "Home Visit (Bangalore & Salem)",
   },
   {
     id: "busy-remote",
@@ -177,7 +177,7 @@ export function RecoveryReadinessQuiz() {
                   }
                   className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-[#0F1D35] px-6 min-h-[48px] text-sm font-extrabold text-white hover:bg-[#136EA8] transition cursor-pointer"
                 >
-                  Book This Plan
+                  Book for Consultation
                   <ArrowRight className="h-4 w-4 text-[#9AD634]" />
                 </button>
               </div>
