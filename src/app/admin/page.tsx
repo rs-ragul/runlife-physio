@@ -27,6 +27,11 @@ import {
   ShieldCheck,
   Sparkles,
   Mail,
+  Pencil,
+  X,
+  Check,
+  Loader2,
+  MapPin,
 } from "lucide-react";
 import {
   signInWithEmailAndPassword,
@@ -63,7 +68,7 @@ import { buildDoctorToPatientWhatsAppUrl } from "@/lib/whatsapp";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { SPECIALTIES } from "@/data/specialties";
-import type { DynamicSiteSettings } from "@/types/cms";
+import type { DynamicSiteSettings, TeamMemberItem } from "@/types/cms";
 
 const DEMO_PIN = process.env.NEXT_PUBLIC_ADMIN_DEMO_PIN || "runlife2026";
 
@@ -98,16 +103,20 @@ const CLINIC_GALLERY_IMAGES = [
     value: "/images/neuro-gait-balance-rehab.jpg",
   },
   {
-    label: "Senior Balance & Home Rehab",
-    value: "/images/senior-balance-neuro-rehab.jpg",
+    label: "Senior Home Rehab & Manual Knee Therapy",
+    value: "/images/ortho-manual-knee-therapy.jpg",
+  },
+  {
+    label: "Tele-Rehab Online Consultation",
+    value: "/images/tele-rehab-online-consultation.jpg",
   },
   {
     label: "Pediatric Milestone Rehab",
-    value: "/images/pediatric-milestone-rehab.jpg",
+    value: "/images/pediatric-balance-milestone-rehab.jpg",
   },
   {
     label: "Women's Health Prenatal Rehab",
-    value: "/images/womens-health-prenatal-rehab.jpg",
+    value: "/images/womens-health-antenatal-rehab.jpg",
   },
   {
     label: "Dry Needling Therapy",
@@ -190,13 +199,19 @@ export default function AdminDashboardPage() {
   const [revRating, setRevRating] = useState(5);
   const [revQuote, setRevQuote] = useState("");
 
-  // New Team Member Form
+  // New / Edit Team Member Form
   const [docName, setDocName] = useState("");
-  const [docCred, setDocCred] = useState("MPT (Orthopedics)");
-  const [docRole, setDocRole] = useState("Consultant Specialist");
-  const [docDept, setDocDept] = useState("Orthopedic & Spine Rehabilitation");
-  const [docExp, setDocExp] = useState("Bangalore Specialist Network");
+  const [docCred, setDocCred] = useState("MPT (Musculoskeletal)");
+  const [docRole, setDocRole] = useState("Senior Consultant Physiotherapist");
+  const [docDept, setDocDept] = useState("Musculoskeletal & Orthopedic Rehab");
+  const [docExp, setDocExp] = useState("Bangalore & Salem");
   const [docBio, setDocBio] = useState("");
+  const [docReg, setDocReg] = useState("");
+  const [docImage, setDocImage] = useState("");
+  const [docExtraCerts, setDocExtraCerts] = useState("");
+  const [editingMemberId, setEditingMemberId] = useState<string | null>(null);
+  const [savingMember, setSavingMember] = useState(false);
+  const [memberError, setMemberError] = useState("");
 
   // New Custom Blog Form
   const [blogTitle, setBlogTitle] = useState("");
@@ -397,22 +412,76 @@ export default function AdminDashboardPage() {
     showToast("Verified patient testimonial published!");
   }
 
+  function resetTeamForm() {
+    setEditingMemberId(null);
+    setDocName("");
+    setDocCred("MPT (Musculoskeletal)");
+    setDocRole("Senior Consultant Physiotherapist");
+    setDocDept("Musculoskeletal & Orthopedic Rehab");
+    setDocExp("Bangalore & Salem");
+    setDocBio("");
+    setDocReg("");
+    setDocImage("");
+    setDocExtraCerts("");
+    setMemberError("");
+  }
+
+  function startEditMember(m: TeamMemberItem) {
+    setEditingMemberId(m.id);
+    setDocName(m.name);
+    setDocCred(m.credential);
+    setDocRole(m.role);
+    setDocDept(m.department);
+    setDocExp(m.experience);
+    setDocBio(m.bio || "");
+    setDocReg(m.registration || "");
+    setDocImage(m.image || "");
+    setDocExtraCerts(m.extraCertifications || "");
+    setMemberError("");
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 220, behavior: "smooth" });
+    }
+  }
+
   async function handleAddTeamMember(e: React.FormEvent) {
     e.preventDefault();
-    if (!docName.trim()) return;
-    await createTeamMemberClient({
-      name: docName.trim(),
-      credential: docCred.trim(),
-      role: docRole.trim(),
-      department: docDept.trim(),
-      experience: docExp.trim(),
-      bio: docBio.trim(),
-      published: true,
-    });
-    setDocName("");
-    setDocBio("");
-    await refreshCms();
-    showToast("Specialist added to clinical roster!");
+    setMemberError("");
+    if (!docName.trim()) {
+      setMemberError("Doctor name is required.");
+      return;
+    }
+    setSavingMember(true);
+    try {
+      const payload = {
+        name: docName.trim(),
+        credential: docCred.trim() || "MPT Specialist",
+        role: docRole.trim() || "Consultant Physiotherapist",
+        department: docDept.trim() || "Multi-Specialty Rehab",
+        experience: docExp.trim() || "Bangalore & Salem",
+        bio: docBio.trim(),
+        registration: docReg.trim(),
+        extraCertifications: docExtraCerts.trim(),
+        image: docImage.trim() || undefined,
+      };
+
+      if (editingMemberId) {
+        await updateTeamMemberClient(editingMemberId, payload);
+        await refreshCms();
+        showToast(`${payload.name} updated successfully.`);
+      } else {
+        await createTeamMemberClient({ ...payload, published: true });
+        await refreshCms();
+        showToast(`${payload.name} added to clinical roster.`);
+      }
+      resetTeamForm();
+    } catch (err) {
+      console.error("Team member save failed:", err);
+      setMemberError(
+        "Could not save. Please check your connection and try again."
+      );
+    } finally {
+      setSavingMember(false);
+    }
   }
 
   async function handleAddBlog(e: React.FormEvent) {
@@ -1893,101 +1962,320 @@ export default function AdminDashboardPage() {
             >
               <div>
                 <h2 className="font-display text-lg font-extrabold text-[#0F1D35]">
-                  Add MPT Specialist to Roster
+                  {editingMemberId
+                    ? "Edit Specialist Details"
+                    : "Add MPT Specialist to Roster"}
                 </h2>
                 <p className="text-xs text-slate-500">
-                  Showcase verified MPT doctors on the Homepage Clinical Roster.
+                  {editingMemberId
+                    ? "Update this doctor's details — changes go live instantly."
+                    : "Showcase verified MPT doctors on the Homepage Clinical Roster."}
                 </p>
               </div>
-              <input
-                type="text"
-                required
-                value={docName}
-                onChange={(e) => setDocName(e.target.value)}
-                placeholder="Doctor Name — e.g. Dr. Ananya Rao (PT) *"
-                className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
-              />
-              <div className="grid grid-cols-2 gap-3">
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Doctor Name *
+                </label>
                 <input
                   type="text"
-                  value={docCred}
-                  onChange={(e) => setDocCred(e.target.value)}
-                  placeholder="MPT Credential"
-                  className="rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  required
+                  value={docName}
+                  onChange={(e) => setDocName(e.target.value)}
+                  placeholder="e.g. Dr. Gokul M B (PT)"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    MPT Credential
+                  </label>
+                  <input
+                    type="text"
+                    value={docCred}
+                    onChange={(e) => setDocCred(e.target.value)}
+                    placeholder="MPT (Musculoskeletal)"
+                    className="w-full rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    MIAP Registration No.
+                  </label>
+                  <input
+                    type="text"
+                    value={docReg}
+                    onChange={(e) => setDocReg(e.target.value)}
+                    placeholder="MIAP Reg. No. 67647"
+                    className="w-full rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Role / Designation
+                </label>
                 <input
                   type="text"
                   value={docRole}
                   onChange={(e) => setDocRole(e.target.value)}
-                  placeholder="Role Title"
-                  className="rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  placeholder="Senior Consultant Physiotherapist"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-3">
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Department / Sub-Specialty
+                </label>
                 <input
                   type="text"
                   value={docDept}
                   onChange={(e) => setDocDept(e.target.value)}
-                  placeholder="Department"
-                  className="rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  placeholder="Musculoskeletal & Orthopedic Rehab"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  City / Service Zone
+                </label>
                 <input
                   type="text"
                   value={docExp}
                   onChange={(e) => setDocExp(e.target.value)}
-                  placeholder="Experience / Zone"
-                  className="rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
+                  placeholder="Bangalore & Salem / Chennai"
+                  className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
-              <textarea
-                rows={3}
-                value={docBio}
-                onChange={(e) => setDocBio(e.target.value)}
-                placeholder="Short clinical focus & sub-specialty bio..."
-                className="w-full rounded-xl border border-slate-300 p-3 text-base sm:text-sm"
-              />
-              <button
-                type="submit"
-                className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#0F1D35] min-h-[46px] text-xs font-extrabold text-white hover:bg-[#136EA8] cursor-pointer"
-              >
-                <Plus className="h-4 w-4 text-[#9AD634]" />
-                Add Specialist Doctor
-              </button>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Additional Certifications
+                </label>
+                <input
+                  type="text"
+                  value={docExtraCerts}
+                  onChange={(e) => setDocExtraCerts(e.target.value)}
+                  placeholder="CMP, CIASTMT, CDNT, CMET, CAfRT..."
+                  className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Doctor Photo{" "}
+                  <span className="font-normal text-slate-400">
+                    (optional — tap to select)
+                  </span>
+                </label>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-2.5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white">
+                      {docImage ? (
+                        <Image
+                          src={docImage}
+                          alt="Selected doctor"
+                          fill
+                          sizes="56px"
+                          className="object-cover object-top"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-slate-300">
+                          <Stethoscope className="h-5 w-5" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold text-slate-600">
+                        {docImage ? "Photo selected" : "No photo selected"}
+                      </div>
+                      {docImage && (
+                        <button
+                          type="button"
+                          onClick={() => setDocImage("")}
+                          className="mt-0.5 text-[11px] font-bold text-red-500 hover:underline cursor-pointer"
+                        >
+                          Remove photo
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-2 grid grid-cols-5 gap-1.5">
+                    {CLINIC_GALLERY_IMAGES.slice(0, 10).map((img) => (
+                      <button
+                        key={img.value}
+                        type="button"
+                        onClick={() => setDocImage(img.value)}
+                        title={img.label}
+                        aria-label={img.label}
+                        className={`relative aspect-square overflow-hidden rounded-md border-2 cursor-pointer transition ${
+                          docImage === img.value
+                            ? "border-[#136EA8] ring-2 ring-sky-200"
+                            : "border-transparent hover:border-slate-300"
+                        }`}
+                      >
+                        <Image
+                          src={img.value}
+                          alt={img.label}
+                          fill
+                          sizes="48px"
+                          className="object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Short Clinical Bio
+                </label>
+                <textarea
+                  rows={3}
+                  value={docBio}
+                  onChange={(e) => setDocBio(e.target.value)}
+                  placeholder="Clinical focus, sub-specialty strengths, conditions treated..."
+                  className="w-full rounded-xl border border-slate-300 p-3 text-base sm:text-sm"
+                />
+              </div>
+
+              {memberError && (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-bold text-red-700">
+                  {memberError}
+                </div>
+              )}
+
+              <div className="flex gap-2.5">
+                <button
+                  type="submit"
+                  disabled={savingMember}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#0F1D35] min-h-[46px] text-xs font-extrabold text-white hover:bg-[#136EA8] disabled:opacity-60 cursor-pointer"
+                >
+                  {savingMember ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Saving...
+                    </>
+                  ) : editingMemberId ? (
+                    <>
+                      <Check className="h-4 w-4 text-[#9AD634]" />
+                      Save Changes
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="h-4 w-4 text-[#9AD634]" />
+                      Add Specialist Doctor
+                    </>
+                  )}
+                </button>
+                {editingMemberId && (
+                  <button
+                    type="button"
+                    onClick={resetTeamForm}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-300 px-4 min-h-[46px] text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  >
+                    <X className="h-4 w-4" />
+                    Cancel
+                  </button>
+                )}
+              </div>
             </form>
 
             <div className="lg:col-span-7 space-y-3">
+              {teamMembers.length === 0 && (
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
+                  No specialists on the roster yet. Add your first doctor using
+                  the form.
+                </div>
+              )}
               {teamMembers.map((m) => (
                 <div
                   key={m.id}
-                  className="rounded-2xl border border-slate-200 bg-white p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                  className={`rounded-2xl border bg-white p-5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 ${
+                    editingMemberId === m.id
+                      ? "border-[#136EA8] ring-2 ring-sky-100"
+                      : "border-slate-200"
+                  }`}
                 >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-display text-base font-extrabold text-[#0F1D35]">
-                        {m.name}
-                      </span>
-                      <span className="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8] break-words">
-                        {m.credential}
-                      </span>
-                    </div>
-                    <div className="text-xs font-semibold text-slate-600 mt-0.5">
-                      {m.role} • {m.department} ({m.experience})
-                    </div>
-                    {m.bio && (
-                      <p className="text-xs text-slate-500 mt-1">{m.bio}</p>
+                  <div className="flex gap-3 min-w-0">
+                    {m.image ? (
+                      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                        <Image
+                          src={m.image}
+                          alt={m.name}
+                          fill
+                          sizes="56px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-400">
+                        <Stethoscope className="h-6 w-6" />
+                      </div>
                     )}
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-display text-base font-extrabold text-[#0F1D35]">
+                          {m.name}
+                        </span>
+                        <span className="rounded-full bg-sky-50 border border-sky-200 px-2.5 py-0.5 text-[11px] font-bold text-[#136EA8] break-words">
+                          {m.credential}
+                        </span>
+                      </div>
+                      <div className="text-xs font-semibold text-slate-600 mt-0.5">
+                        {m.role} • {m.department}
+                      </div>
+                      <div className="text-[11px] font-semibold text-slate-500 mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-0.5">
+                        <span className="inline-flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                          {m.experience}
+                        </span>
+                        {m.registration && (
+                          <>
+                            <span className="text-slate-300">•</span>
+                            <span>{m.registration}</span>
+                          </>
+                        )}
+                      </div>
+                      {m.extraCertifications && (
+                        <div className="text-[11px] text-slate-500 mt-1">
+                          {m.extraCertifications}
+                        </div>
+                      )}
+                      {m.bio && (
+                        <p className="text-xs text-slate-500 mt-1">{m.bio}</p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       type="button"
+                      onClick={() => startEditMember(m)}
+                      className="inline-flex items-center gap-1 rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                      Edit
+                    </button>
+                    <button
+                      type="button"
                       onClick={async () => {
-                        await updateTeamMemberClient(m.id, {
-                          published: !m.published,
-                        });
-                        await refreshCms();
-                        showToast(
-                          !m.published ? "Doctor live!" : "Doctor hidden."
-                        );
+                        try {
+                          await updateTeamMemberClient(m.id, {
+                            published: !m.published,
+                          });
+                          await refreshCms();
+                          showToast(
+                            !m.published ? "Doctor is now live." : "Doctor hidden."
+                          );
+                        } catch {
+                          showToast("Could not update visibility. Try again.");
+                        }
                       }}
                       className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold cursor-pointer ${
                         m.published
@@ -2000,11 +2288,23 @@ export default function AdminDashboardPage() {
                     <button
                       type="button"
                       onClick={async () => {
-                        await deleteTeamMemberClient(m.id);
-                        await refreshCms();
-                        showToast("Doctor removed.");
+                        if (
+                          !window.confirm(
+                            `Remove ${m.name} from the clinical roster?`
+                          )
+                        )
+                          return;
+                        try {
+                          await deleteTeamMemberClient(m.id);
+                          if (editingMemberId === m.id) resetTeamForm();
+                          await refreshCms();
+                          showToast("Doctor removed.");
+                        } catch {
+                          showToast("Could not remove doctor. Try again.");
+                        }
                       }}
                       className="rounded-lg border border-red-200 p-1.5 text-red-500 hover:bg-red-50 cursor-pointer"
+                      aria-label={`Delete ${m.name}`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>

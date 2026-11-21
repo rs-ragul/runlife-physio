@@ -76,6 +76,8 @@ export interface TeamMemberItem {
   experience: string;
   bio: string;
   image?: string;
+  registration?: string;
+  extraCertifications?: string;
   published: boolean;
   createdAt: string;
 }

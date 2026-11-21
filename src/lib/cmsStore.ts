@@ -22,6 +22,25 @@ import type {
   CustomBlogItem,
 } from "@/types/cms";
 
+
+async function cmsFetch(
+  input: string,
+  init?: RequestInit
+): Promise<Record<string, unknown>> {
+  const res = await fetch(input, init);
+  if (!res.ok) {
+    let detail = "";
+    try {
+      const body = await res.json();
+      detail = String(body?.error || "");
+    } catch {
+      detail = "";
+    }
+    throw new Error(detail || `Server responded ${res.status}`);
+  }
+  return res.json();
+}
+
 export interface FullCmsPayload {
   siteSettings: DynamicSiteSettings;
   testimonials: TestimonialItem[];
@@ -176,13 +195,15 @@ export async function createTeamMemberClient(
     const ref = await addDoc(collection(db, "team_members"), payload);
     return { ...payload, id: ref.id };
   }
-  const res = await fetch("/api/cms", {
+  const data = await cmsFetch("/api/cms", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ entity: "teamMember", item: payload }),
   });
-  const data = await res.json();
-  return data.item;
+  if (!data.item) {
+    throw new Error("Server did not confirm the new specialist.");
+  }
+  return data.item as unknown as TeamMemberItem;
 }
 
 export async function updateTeamMemberClient(
@@ -194,7 +215,7 @@ export async function updateTeamMemberClient(
     await setDoc(doc(db, "team_members", id), updates, { merge: true });
     return;
   }
-  await fetch("/api/cms", {
+  await cmsFetch("/api/cms", {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ entity: "teamMember", id, updates }),
@@ -207,9 +228,10 @@ export async function deleteTeamMemberClient(id: string): Promise<void> {
     await deleteDoc(doc(db, "team_members", id));
     return;
   }
-  await fetch(`/api/cms?entity=teamMember&id=${encodeURIComponent(id)}`, {
-    method: "DELETE",
-  });
+  await cmsFetch(
+    `/api/cms?entity=teamMember&id=${encodeURIComponent(id)}`,
+    { method: "DELETE" }
+  );
 }
 
 // --- Custom Blog Posts CRUD ---

@@ -79,6 +79,12 @@ export async function POST(req: NextRequest) {
         experience: String(item.experience || "Bangalore").trim(),
         bio: String(item.bio || "").trim(),
         image: item.image ? String(item.image).trim() : undefined,
+        registration: item.registration
+          ? String(item.registration).trim()
+          : undefined,
+        extraCertifications: item.extraCertifications
+          ? String(item.extraCertifications).trim()
+          : undefined,
         published: item.published !== false,
         createdAt: item.createdAt || new Date().toISOString(),
       };
@@ -141,7 +147,10 @@ export async function PATCH(req: NextRequest) {
     } else if (entity === "teamMember") {
       const idx = store.teamMembers.findIndex((t) => t.id === id);
       if (idx !== -1) {
-        store.teamMembers[idx] = { ...store.teamMembers[idx], ...updates };
+        const cleaned: Partial<TeamMemberItem> = { ...updates };
+        // Never persist `undefined` over an existing stored image
+        if (cleaned.image === undefined) delete cleaned.image;
+        store.teamMembers[idx] = { ...store.teamMembers[idx], ...cleaned };
         writeDemoStore(store);
       }
     } else if (entity === "customBlog") {

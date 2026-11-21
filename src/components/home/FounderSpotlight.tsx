@@ -12,6 +12,7 @@ import {
   Award,
   BadgeCheck,
   CalendarCheck,
+  MapPin,
 } from "lucide-react";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
@@ -212,8 +213,33 @@ export function FounderSpotlight() {
                       {member.name}
                     </h4>
                     <div className="text-xs font-semibold text-slate-700">
-                      {member.role} • {member.department}
+                      {member.role}
                     </div>
+                    <div className="text-[11px] text-slate-500">
+                      {member.department}
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600">
+                        <MapPin className="h-3 w-3" />
+                        {member.experience}
+                      </span>
+                      {member.registration && (
+                        <span className="inline-flex items-center gap-1 rounded-md bg-lime-50 border border-lime-200 px-2 py-0.5 text-[10px] font-bold text-lime-900">
+                          <BadgeCheck className="h-3 w-3" />
+                          {member.registration}
+                        </span>
+                      )}
+                    </div>
+                    {member.extraCertifications && (
+                      <div className="mt-2 rounded-lg bg-sky-50/70 border border-sky-100 px-2.5 py-1.5">
+                        <div className="text-[10px] font-extrabold uppercase tracking-wider text-[#136EA8]">
+                          Certifications
+                        </div>
+                        <div className="text-[11px] font-semibold text-slate-600 leading-snug">
+                          {member.extraCertifications}
+                        </div>
+                      </div>
+                    )}
                     {member.bio && (
                       <p className="mt-2 text-xs leading-relaxed text-slate-600">
                         {member.bio}
