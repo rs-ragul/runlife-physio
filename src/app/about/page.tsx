@@ -73,7 +73,7 @@ export default function AboutPage() {
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative overflow-hidden rounded-3xl shadow-2xl max-w-sm w-full aspect-[3/4] max-h-[520px] border-4 border-white/10">
               <Image
-                src="/images/dr-vishal.jpg"
+                src="/images/profiles/dr-vishal.jpg"
                 alt="Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915, Founder of Runlife Physio"
                 fill
                 priority
@@ -105,7 +105,7 @@ export default function AboutPage() {
             <div className="lg:col-span-4 relative bg-slate-100 min-h-[320px]">
               <div className="relative aspect-[3/4] lg:aspect-auto lg:absolute lg:inset-0">
                 <Image
-                  src="/images/dr-vishal.jpg"
+                  src="/images/profiles/dr-vishal.jpg"
                   alt="Dr. Vishal S, PT — Founder, Runlife Physio"
                   fill
                   sizes="(max-width: 1024px) 100vw, 33vw"

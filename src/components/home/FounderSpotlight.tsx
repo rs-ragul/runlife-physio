@@ -31,7 +31,7 @@ export function FounderSpotlight() {
           <div className="lg:col-span-5 space-y-4">
             <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 aspect-[3/4] max-h-[560px] shadow-lg">
               <Image
-                src="/images/dr-vishal.jpg"
+                src="/images/profiles/dr-vishal.jpg"
                 alt="Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915, Founder of Runlife Physio"
                 fill
                 sizes="(max-width: 1024px) 100vw, 42vw"

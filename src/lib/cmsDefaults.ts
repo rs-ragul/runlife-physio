@@ -60,7 +60,7 @@ export const DEFAULT_TEAM_MEMBERS: TeamMemberItem[] = [
     department: "Neurology, Neurosurgery & Multi-Specialty Rehab",
     experience: "Bangalore & Salem",
     bio: "Founded Runlife Physio (REHAB · RECOVER · RUN) to connect every patient with the right specialist physiotherapist across Orthopedics, Neurology, Sports, Pediatrics and Women's Health.",
-    image: "/images/dr-vishal.jpg",
+    image: "/images/profiles/dr-vishal.jpg",
     published: true,
     createdAt: "2026-11-09T08:00:00.000Z",
   },

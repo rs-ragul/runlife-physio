@@ -33,6 +33,28 @@ const CLEAN_INITIAL_STORE: ServerStoreShape = {
   customBlogs: [],
 };
 
+
+/**
+ * Keeps the seeded default doctors (founder + core team) present even if the
+ * saved store predates them, without ever duplicating or resurrecting a
+ * doctor that was deliberately deleted.
+ */
+function mergeTeamMembers(
+  stored: TeamMemberItem[] | undefined
+): TeamMemberItem[] {
+  if (!stored || stored.length === 0) return DEFAULT_TEAM_MEMBERS;
+  const storedIds = new Set(stored.map((m) => m.id));
+  const storedNames = new Set(
+    stored.map((m) => m.name.trim().toLowerCase())
+  );
+  const missing = DEFAULT_TEAM_MEMBERS.filter(
+    (d) => !storedIds.has(d.id) && !storedNames.has(d.name.trim().toLowerCase())
+  );
+  return [...missing, ...stored].sort((a, b) =>
+    (a.createdAt || "").localeCompare(b.createdAt || "")
+  );
+}
+
 export function readDemoStore(): ServerStoreShape {
   try {
     if (!fs.existsSync(DB_FILE)) {
@@ -53,7 +75,7 @@ export function readDemoStore(): ServerStoreShape {
         ...(parsed.siteSettings || {}),
       },
       testimonials: parsed.testimonials || [],
-      teamMembers: parsed.teamMembers || DEFAULT_TEAM_MEMBERS,
+      teamMembers: mergeTeamMembers(parsed.teamMembers),
       customBlogs: parsed.customBlogs || [],
     };
   } catch {

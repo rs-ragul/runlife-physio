@@ -23,7 +23,7 @@ export function buildMedicalOrganizationSchema() {
       jobTitle: SITE_CONFIG.founder.role,
       description:
         "Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915. Founder & Clinical Lead, Runlife Physio (REHAB · RECOVER · RUN), Bangalore & Salem.",
-      image: `${SITE_CONFIG.url}/images/dr-vishal.jpg`,
+      image: `${SITE_CONFIG.url}/images/profiles/dr-vishal.jpg`,
       url: `${SITE_CONFIG.url}/about`,
       hasCredential: [
         {

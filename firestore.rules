@@ -1,44 +1,53 @@
 rules_version = '2';
-
-// Paste these rules into Firebase Console -> Firestore Database -> Rules
-// 100% compatible with Firebase Spark (Free) Plan!
+// Runlife Physio — Firestore Security Rules
+// Paste into: Firebase Console -> Firestore Database -> Rules -> Publish
+// 100% compatible with the Firebase Spark (Free) Plan.
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper: Authorized Admin check (Update email list here if adding co-admins)
+    // Helper: authorized admin (add more emails inside the list)
     function isAdmin() {
-      return request.auth != null && (
-        request.auth.token.email == "runlifephysio@gmail.com"
-      );
+      return request.auth != null &&
+             request.auth.token.email in [
+               "runlifephysio@gmail.com"
+             ];
     }
 
-    // 1. Dynamic Website Settings (Public Read, Admin Write)
+    // 1. Website settings — public read, admin write
     match /site_settings/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 2. Verified Patient Testimonials (Public Read, Admin Write)
-    match /testimonials/{testimonialId} {
+    // 2. Patient testimonials — public read, admin write
+    match /testimonials/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 3. Specialist Team Profiles (Public Read, Admin Write)
-    match /team_members/{memberId} {
+    // 3. Specialist team profiles — public read, admin write
+    match /team_members/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 4. Dynamic Blog / Clinical Guides (Public Read, Admin Write)
-    match /blog_posts/{postId} {
+    // 4. Blog posts / clinical guides — public read, admin write
+    match /blog_posts/{docId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // 5. Patient Appointment Bookings (Public Create with validation, Admin Read/Update/Delete)
+    // 5. CMS bookkeeping (remembers deleted default doctors)
+    //    Public read so the roster merge works, admin-only write.
+    match /cms_meta/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 6. Appointment bookings — public create, admin managed
     match /appointments/{appointmentId} {
-      allow create: if request.resource.data.keys().hasAll(['patientName', 'phone', 'careMode', 'specialty', 'status', 'createdAt'])
+      allow create: if request.resource.data.keys().hasAll(
+                         ['patientName', 'phone', 'careMode', 'specialty', 'status', 'createdAt'])
                     && request.resource.data.patientName is string
                     && request.resource.data.patientName.size() >= 2
                     && request.resource.data.patientName.size() <= 120
@@ -48,9 +57,10 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
-    // 6. Contact & MPT Network Inquiries (Public Create, Admin Read/Update/Delete)
+    // 7. Contact & MPT network inquiries — public create, admin managed
     match /inquiries/{inquiryId} {
-      allow create: if request.resource.data.keys().hasAll(['name', 'phone', 'type', 'createdAt'])
+      allow create: if request.resource.data.keys().hasAll(
+                         ['name', 'phone', 'type', 'createdAt'])
                     && request.resource.data.name is string
                     && request.resource.data.name.size() >= 2
                     && request.resource.data.name.size() <= 120;

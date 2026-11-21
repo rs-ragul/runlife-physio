@@ -81,11 +81,16 @@ type AdminTab =
   | "blogs"
   | "diagnostics";
 
-const CLINIC_GALLERY_IMAGES = [
+// Doctor portraits — dedicated folder. Add new doctor photos here.
+const PROFILE_GALLERY_IMAGES = [
   {
-    label: "Dr. Vishal S, PT (Founder Portrait)",
-    value: "/images/dr-vishal.jpg",
+    label: "Dr. Vishal S, PT (Founder)",
+    value: "/images/profiles/dr-vishal.jpg",
   },
+];
+
+// Clinic / treatment photography — used for blog & guide cover images.
+const CLINIC_GALLERY_IMAGES = [
   {
     label: "Ortho / ACL Knee Assessment",
     value: "/images/ortho-acl-postop-rehab.jpg",
@@ -377,6 +382,14 @@ export default function AdminDashboardPage() {
       await saveSiteSettingsClient(settingsDraft);
       await refreshCms();
       showToast("Website settings updated live across all pages!");
+    } catch (err) {
+      console.error("Settings save failed:", err);
+      const detail = err instanceof Error ? err.message : "";
+      showToast(
+        detail && detail !== "Server responded 500"
+          ? `Save failed: ${detail}`
+          : "Could not save settings. Please try again."
+      );
     } finally {
       setSavingSettings(false);
     }
@@ -447,37 +460,46 @@ export default function AdminDashboardPage() {
     e.preventDefault();
     setMemberError("");
     if (!docName.trim()) {
-      setMemberError("Doctor name is required.");
+      setMemberError("Please enter the doctor's name.");
       return;
     }
     setSavingMember(true);
     try {
-      const payload = {
+      // Optional fields are only included when actually filled in —
+      // Firestore rejects `undefined` values outright.
+      const payload: Partial<TeamMemberItem> = {
         name: docName.trim(),
         credential: docCred.trim() || "MPT Specialist",
         role: docRole.trim() || "Consultant Physiotherapist",
         department: docDept.trim() || "Multi-Specialty Rehab",
         experience: docExp.trim() || "Bangalore & Salem",
         bio: docBio.trim(),
-        registration: docReg.trim(),
-        extraCertifications: docExtraCerts.trim(),
-        image: docImage.trim() || undefined,
       };
+      if (docReg.trim()) payload.registration = docReg.trim();
+      if (docExtraCerts.trim())
+        payload.extraCertifications = docExtraCerts.trim();
+      if (docImage.trim()) payload.image = docImage.trim();
 
       if (editingMemberId) {
         await updateTeamMemberClient(editingMemberId, payload);
         await refreshCms();
         showToast(`${payload.name} updated successfully.`);
       } else {
-        await createTeamMemberClient({ ...payload, published: true });
+        await createTeamMemberClient({
+          ...(payload as Omit<TeamMemberItem, "id" | "createdAt">),
+          published: true,
+        });
         await refreshCms();
         showToast(`${payload.name} added to clinical roster.`);
       }
       resetTeamForm();
     } catch (err) {
       console.error("Team member save failed:", err);
+      const detail = err instanceof Error ? err.message : "";
       setMemberError(
-        "Could not save. Please check your connection and try again."
+        detail && detail !== "Server responded 500"
+          ? `Could not save: ${detail}`
+          : "Could not save the doctor. Please try again — if it keeps failing, refresh the page and retry."
       );
     } finally {
       setSavingMember(false);
@@ -2106,7 +2128,7 @@ export default function AdminDashboardPage() {
                     </div>
                   </div>
                   <div className="mt-2 grid grid-cols-5 gap-1.5">
-                    {CLINIC_GALLERY_IMAGES.slice(0, 10).map((img) => (
+                    {PROFILE_GALLERY_IMAGES.map((img) => (
                       <button
                         key={img.value}
                         type="button"
@@ -2129,6 +2151,11 @@ export default function AdminDashboardPage() {
                       </button>
                     ))}
                   </div>
+                  <p className="mt-2 text-[10px] leading-snug text-slate-400">
+                    Photos come from{" "}
+                    <code className="font-mono">/images/profiles/</code> — add
+                    new doctor photos to that folder only.
+                  </p>
                 </div>
               </div>
 
@@ -2591,36 +2618,76 @@ export default function AdminDashboardPage() {
               </div>
               <pre className="overflow-x-auto rounded-2xl bg-slate-950 p-4 text-xs text-lime-300">
 {`rules_version = '2';
+// Runlife Physio — Firestore Security Rules
+// Paste into: Firebase Console -> Firestore Database -> Rules -> Publish
+// 100% compatible with the Firebase Spark (Free) Plan.
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Helper: authorized admin (add more emails inside the list)
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.email in [
+               "runlifephysio@gmail.com"
+             ];
+    }
+
+    // 1. Website settings — public read, admin write
     match /site_settings/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
+    // 2. Patient testimonials — public read, admin write
     match /testimonials/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
+    // 3. Specialist team profiles — public read, admin write
     match /team_members/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
+
+    // 4. Blog posts / clinical guides — public read, admin write
     match /blog_posts/{docId} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
-    match /appointments/{docId} {
-      allow create: if request.resource.data.patientName is string
-                    && request.resource.data.phone is string;
-      allow read, update, delete: if request.auth != null;
+
+    // 5. CMS bookkeeping (remembers deleted default doctors)
+    //    Public read so the roster merge works, admin-only write.
+    match /cms_meta/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
-    match /inquiries/{docId} {
-      allow create: if request.resource.data.name is string
-                    && request.resource.data.phone is string;
-      allow read, update, delete: if request.auth != null;
+
+    // 6. Appointment bookings — public create, admin managed
+    match /appointments/{appointmentId} {
+      allow create: if request.resource.data.keys().hasAll(
+                         ['patientName', 'phone', 'careMode', 'specialty', 'status', 'createdAt'])
+                    && request.resource.data.patientName is string
+                    && request.resource.data.patientName.size() >= 2
+                    && request.resource.data.patientName.size() <= 120
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 7
+                    && request.resource.data.phone.size() <= 30;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 7. Contact & MPT network inquiries — public create, admin managed
+    match /inquiries/{inquiryId} {
+      allow create: if request.resource.data.keys().hasAll(
+                         ['name', 'phone', 'type', 'createdAt'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() >= 2
+                    && request.resource.data.name.size() <= 120;
+      allow read, update, delete: if isAdmin();
     }
   }
-}`}
+}
+`}
               </pre>
             </div>
           </div>
