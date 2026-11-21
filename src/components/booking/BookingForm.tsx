@@ -28,7 +28,7 @@ import type { BookingPrefill } from "@/context/BookingModalContext";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 
 const CARE_MODE_CARDS = [
-  { id: "Home Visit (Bangalore & Salem)", short: "Home Visit", icon: Home },
+  { id: "Home Visit", short: "Home Visit", icon: Home },
   { id: "Online Consultation", short: "Online Consult", icon: MonitorSmartphone },
   { id: "Virtual Tele-Rehab", short: "Tele-Rehab", icon: Video },
   { id: "By-Appointment Visit", short: "Clinic Visit", icon: CalendarClock },
@@ -42,26 +42,6 @@ const TIME_SLOTS = [
   "Evening (6:00 PM – 9:00 PM)",
 ];
 
-const CITY_AREA_SUGGESTIONS: Record<"Bangalore" | "Salem", string[]> = {
-  Bangalore: [
-    "Indiranagar",
-    "HSR Layout",
-    "Koramangala",
-    "Whitefield",
-    "JP Nagar / Jayanagar",
-    "Electronic City",
-    "Hebbal / Yelahanka",
-  ],
-  Salem: [
-    "Fairlands",
-    "Alagapuram",
-    "Hasthampatti",
-    "Suramangalam",
-    "Five Roads",
-    "Seelanaickenpatti",
-    "Ammapet / Gugai",
-  ],
-};
 
 export function BookingForm({
   prefill,
@@ -76,11 +56,22 @@ export function BookingForm({
   const [countryCode, setCountryCode] = useState("+91");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [careMode, setCareMode] = useState(
-    prefill?.careMode || "Home Visit (Bangalore & Salem)"
-  );
-  const [selectedCity, setSelectedCity] = useState<"Bangalore" | "Salem">(
-    prefill?.locality?.toLowerCase().includes("salem") ? "Salem" : "Bangalore"
+  const [careMode, setCareMode] = useState(prefill?.careMode || "Home Visit");
+  const [selectedCity, setSelectedCity] = useState<string>("");
+
+  // Service cities are managed in /admin → Website Customizer
+  const activeCities = (settings.serviceCities || []).filter((c) => c.active);
+  const currentCity =
+    activeCities.find((c) => c.name === selectedCity) || activeCities[0];
+  const cityAreas = currentCity?.areas || [];
+
+  // "Home Visit" label follows the cities enabled in /admin
+  const homeVisitLabel =
+    activeCities.length > 0
+      ? `Home Visit (${activeCities.map((c) => c.name).join(" & ")})`
+      : "Home Visit";
+  const careModeCards = CARE_MODE_CARDS.map((c) =>
+    c.id === "Home Visit" ? { ...c, id: homeVisitLabel } : c
   );
   const [specialty, setSpecialty] = useState(
     prefill?.specialty || SPECIALTIES[0].title
@@ -100,9 +91,16 @@ export function BookingForm({
     useState<AppointmentRecord | null>(null);
 
   useEffect(() => {
+    setCareMode((prev) =>
+      prev.startsWith("Home Visit") ? homeVisitLabel : prev
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [homeVisitLabel]);
+
+  useEffect(() => {
     if (prefill?.careMode) {
       const normalized = prefill.careMode.includes("Home")
-        ? "Home Visit (Bangalore & Salem)"
+        ? homeVisitLabel
         : prefill.careMode;
       setCareMode(normalized);
     }
@@ -110,11 +108,11 @@ export function BookingForm({
     if (prefill?.conditionOrPain) setConditionOrPain(prefill.conditionOrPain);
     if (prefill?.locality) {
       setLocality(prefill.locality);
-      if (prefill.locality.toLowerCase().includes("salem")) {
-        setSelectedCity("Salem");
-      } else if (prefill.locality.toLowerCase().includes("bangalore")) {
-        setSelectedCity("Bangalore");
-      }
+      const lower = prefill.locality.toLowerCase();
+      const match = activeCities.find((c) =>
+        lower.includes(c.name.toLowerCase())
+      );
+      if (match) setSelectedCity(match.name);
     }
   }, [prefill]);
 
@@ -141,12 +139,16 @@ export function BookingForm({
         ? cleanPhone
         : `${countryCode} ${cleanPhone}`;
 
+      const cityLabel = currentCity?.name || selectedCity || "";
       const formattedLocality = needsCityArea
         ? locality.trim()
-          ? locality.toLowerCase().includes(selectedCity.toLowerCase())
+          ? cityLabel &&
+            locality.toLowerCase().includes(cityLabel.toLowerCase())
             ? locality.trim()
-            : `${locality.trim()}, ${selectedCity}`
-          : selectedCity
+            : cityLabel
+              ? `${locality.trim()}, ${cityLabel}`
+              : locality.trim()
+          : cityLabel
         : locality.trim() || "Online Consultation";
 
       const { record } = await createAppointmentClient({
@@ -265,7 +267,7 @@ export function BookingForm({
           Choose Consultation Type
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {CARE_MODE_CARDS.map((card) => {
+          {careModeCards.map((card) => {
             const Icon = card.icon;
             const active = careMode === card.id;
             return (
@@ -345,27 +347,27 @@ export function BookingForm({
       {/* 3. City Selector (Bangalore / Salem) + Area Input */}
       {needsCityArea && (
         <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 space-y-2.5">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <label className="inline-flex items-center gap-1 text-xs font-bold text-slate-700">
               <MapPin className="h-3.5 w-3.5 text-[#136EA8]" />
               Select City &amp; Area
             </label>
-            <div className="inline-flex rounded-lg border border-slate-200 bg-white p-0.5">
-              {(["Bangalore", "Salem"] as const).map((city) => (
+            <div className="flex flex-wrap gap-1 rounded-lg border border-slate-200 bg-white p-0.5">
+              {activeCities.map((city) => (
                 <button
-                  key={city}
+                  key={city.id}
                   type="button"
                   onClick={() => {
-                    setSelectedCity(city);
+                    setSelectedCity(city.name);
                     setLocality("");
                   }}
                   className={`rounded-md px-3 py-1 text-xs font-bold transition cursor-pointer ${
-                    selectedCity === city
+                    (currentCity?.name || "") === city.name
                       ? "bg-[#0F1D35] text-white"
                       : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
-                  {city}
+                  {city.name}
                 </button>
               ))}
             </div>
@@ -376,19 +378,25 @@ export function BookingForm({
             value={locality}
             onChange={(e) => setLocality(e.target.value)}
             placeholder={
-              selectedCity === "Salem"
-                ? "Enter Salem area (e.g., Fairlands, Alagapuram, Hasthampatti...)"
-                : "Enter Bangalore area (e.g., Indiranagar, HSR Layout, Whitefield...)"
+              currentCity
+                ? `Enter ${currentCity.name} area${
+                    cityAreas.length
+                      ? ` (e.g., ${cityAreas.slice(0, 3).join(", ")}...)`
+                      : ""
+                  }`
+                : "Enter your area or locality"
             }
             className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[44px] text-base sm:text-sm text-slate-900 placeholder:text-slate-400 focus:border-[#136EA8] focus:outline-none"
           />
 
           <div className="flex flex-wrap gap-1.5">
-            {CITY_AREA_SUGGESTIONS[selectedCity].map((area) => (
+            {cityAreas.map((area) => (
               <button
                 key={area}
                 type="button"
-                onClick={() => setLocality(`${area}, ${selectedCity}`)}
+                onClick={() =>
+                  setLocality(`${area}, ${currentCity?.name || ""}`)
+                }
                 className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-600 hover:border-[#136EA8] hover:text-[#136EA8] cursor-pointer"
               >
                 {area}

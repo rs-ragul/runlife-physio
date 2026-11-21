@@ -761,9 +761,9 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* Admin Header */}
-      <div className="bg-[#0F1D35] text-white py-6 sm:py-8 border-b border-slate-800">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Admin Header — sticky so the Save bar below it always has context */}
+      <div className="sticky top-0 z-40 bg-[#0F1D35] text-white py-2.5 sm:py-3.5 border-b border-slate-800 shadow-lg">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-[#9AD634]">
               <Database className="h-3.5 w-3.5" />
@@ -1282,7 +1282,7 @@ export default function AdminDashboardPage() {
         {/* ==================== TAB 3: COMPLETE WEBSITE CUSTOMIZER ==================== */}
         {tab === "settings" && (
           <form onSubmit={handleSaveSiteSettings} className="space-y-6">
-            <div className="sticky top-[74px] z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-200 bg-white/95 backdrop-blur-md p-4 shadow-md">
+            <div className="sticky top-[160px] sm:top-[92px] z-30 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sky-200 bg-white/95 backdrop-blur-md p-3.5 shadow-lg">
               <div>
                 <div className="text-sm font-extrabold text-[#0F1D35] flex items-center gap-1.5">
                   <Sparkles className="h-4 w-4 text-[#85B925]" />
@@ -1624,10 +1624,154 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
+            {/* Service Cities — drives the booking city dropdown */}
+            <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 space-y-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="font-display text-lg font-extrabold text-[#0F1D35]">
+                    4. Service Cities &amp; Areas
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    Active cities appear in the booking form city selector.
+                    Turn one off to hide it without deleting its areas.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setSettingsDraft((p) => ({
+                      ...p,
+                      serviceCities: [
+                        ...(p.serviceCities || []),
+                        {
+                          id: `city-${Date.now()}`,
+                          name: "",
+                          areas: [],
+                          active: true,
+                        },
+                      ],
+                    }))
+                  }
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[#0F1D35] px-4 min-h-[42px] text-xs font-extrabold text-white hover:bg-[#136EA8] cursor-pointer"
+                >
+                  <Plus className="h-4 w-4 text-[#9AD634]" />
+                  Add City
+                </button>
+              </div>
+
+              {(settingsDraft.serviceCities || []).length === 0 && (
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-xs text-slate-500">
+                  No cities yet. Add your first service city above.
+                </div>
+              )}
+
+              <div className="space-y-3">
+                {(settingsDraft.serviceCities || []).map((city, idx) => (
+                  <div
+                    key={city.id}
+                    className={`rounded-2xl border p-4 space-y-3 ${
+                      city.active
+                        ? "border-slate-200 bg-slate-50/60"
+                        : "border-dashed border-slate-300 bg-slate-50 opacity-70"
+                    }`}
+                  >
+                    <div className="flex flex-wrap items-end gap-3">
+                      <div className="flex-1 min-w-[180px]">
+                        <label className="block text-xs font-bold text-slate-700 mb-1">
+                          City Name
+                        </label>
+                        <input
+                          type="text"
+                          value={city.name}
+                          onChange={(e) =>
+                            setSettingsDraft((p) => {
+                              const next = [...(p.serviceCities || [])];
+                              next[idx] = { ...next[idx], name: e.target.value };
+                              return { ...p, serviceCities: next };
+                            })
+                          }
+                          placeholder="e.g. Chennai"
+                          className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[42px] text-base sm:text-sm"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSettingsDraft((p) => {
+                            const next = [...(p.serviceCities || [])];
+                            next[idx] = {
+                              ...next[idx],
+                              active: !next[idx].active,
+                            };
+                            return { ...p, serviceCities: next };
+                          })
+                        }
+                        className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 min-h-[42px] text-xs font-extrabold cursor-pointer ${
+                          city.active
+                            ? "bg-lime-100 text-lime-900"
+                            : "bg-slate-200 text-slate-600"
+                        }`}
+                      >
+                        {city.active ? "Active" : "Hidden"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSettingsDraft((p) => ({
+                            ...p,
+                            serviceCities: (p.serviceCities || []).filter(
+                              (c) => c.id !== city.id
+                            ),
+                          }))
+                        }
+                        className="inline-flex items-center justify-center rounded-xl border border-red-200 px-3 min-h-[42px] text-red-500 hover:bg-red-50 cursor-pointer"
+                        aria-label={`Remove ${city.name || "city"}`}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                        Areas / Neighbourhoods{" "}
+                        <span className="font-normal text-slate-400">
+                          (comma separated — shown as quick-pick chips)
+                        </span>
+                      </label>
+                      <input
+                        type="text"
+                        value={city.areas.join(", ")}
+                        onChange={(e) =>
+                          setSettingsDraft((p) => {
+                            const next = [...(p.serviceCities || [])];
+                            next[idx] = {
+                              ...next[idx],
+                              areas: e.target.value
+                                .split(",")
+                                .map((a) => a.trim())
+                                .filter(Boolean),
+                            };
+                            return { ...p, serviceCities: next };
+                          })
+                        }
+                        placeholder="e.g. Anna Nagar, Adyar, Velachery, T. Nagar"
+                        className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[42px] text-base sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-[11px] leading-relaxed text-slate-400">
+                Remember to press <strong>Save All Changes</strong> below to
+                publish city updates.
+              </p>
+            </div>
+
             {/* Founder Profile, Clinic Address & Social Links */}
             <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 space-y-4">
               <h2 className="font-display text-lg font-extrabold text-[#0F1D35]">
-                4. Founder Profile, Physical Clinic Address &amp; Social Links
+                5. Founder Profile, Physical Clinic Address &amp; Social Links
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>

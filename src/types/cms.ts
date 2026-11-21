@@ -3,6 +3,16 @@ export interface HeroStatItem {
   label: string;
 }
 
+/** A service city the clinic operates in (managed in /admin). */
+export interface ServiceCityItem {
+  id: string;
+  name: string;
+  /** Typical neighbourhoods / areas shown as quick-pick chips. */
+  areas: string[];
+  /** Active cities appear in the booking dropdown & city selectors. */
+  active: boolean;
+}
+
 export interface DynamicSiteSettings {
   // Brand & Top Banner
   clinicName: string;
@@ -34,6 +44,7 @@ export interface DynamicSiteSettings {
   founderRole: string;
   founderBio: string;
   primaryCity: string;
+  serviceCities: ServiceCityItem[];
   physicalClinicAddress: string;
   googleMapsUrl: string;
   serviceAreasSummary: string;
