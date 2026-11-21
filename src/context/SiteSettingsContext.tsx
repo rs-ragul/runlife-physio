@@ -7,10 +7,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import {
-  DEFAULT_SITE_SETTINGS,
-  DEFAULT_TEAM_MEMBERS,
-} from "@/lib/cmsDefaults";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 import { fetchFullCmsClient } from "@/lib/cmsStore";
 import type {
   DynamicSiteSettings,
@@ -31,7 +28,7 @@ interface SiteCmsContextValue {
 const SiteCmsContext = createContext<SiteCmsContextValue>({
   settings: DEFAULT_SITE_SETTINGS,
   testimonials: [],
-  teamMembers: DEFAULT_TEAM_MEMBERS,
+  teamMembers: [],
   customBlogs: [],
   hydrated: false,
   refreshCms: async () => {},
@@ -43,7 +40,7 @@ export function SiteCmsProvider({ children }: { children: React.ReactNode }) {
   );
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
   const [teamMembers, setTeamMembers] =
-    useState<TeamMemberItem[]>(DEFAULT_TEAM_MEMBERS);
+    useState<TeamMemberItem[]>([]);
   const [customBlogs, setCustomBlogs] = useState<CustomBlogItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
 

@@ -9,13 +9,9 @@ import {
   deleteDoc,
   query,
   orderBy,
-  arrayUnion,
 } from "firebase/firestore";
 import { getFirebaseClient, isFirebaseConfigured } from "@/lib/firebase";
-import {
-  DEFAULT_SITE_SETTINGS,
-  DEFAULT_TEAM_MEMBERS,
-} from "@/lib/cmsDefaults";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 import type {
   DynamicSiteSettings,
   TestimonialItem,
@@ -72,7 +68,7 @@ export async function fetchFullCmsClient(): Promise<FullCmsPayload> {
 
   if (isFirebaseConfigured && db) {
     try {
-      const [settingsSnap, revSnap, teamSnap, blogSnap, metaSnap] =
+      const [settingsSnap, revSnap, teamSnap, blogSnap] =
         await Promise.all([
           getDoc(doc(db, "site_settings", "main")),
           getDocs(
@@ -84,7 +80,6 @@ export async function fetchFullCmsClient(): Promise<FullCmsPayload> {
           getDocs(
             query(collection(db, "blog_posts"), orderBy("publishedAt", "desc"))
           ),
-          getDoc(doc(db, "cms_meta", "state")),
         ]);
 
       const siteSettings: DynamicSiteSettings = settingsSnap.exists()
@@ -99,32 +94,12 @@ export async function fetchFullCmsClient(): Promise<FullCmsPayload> {
         id: d.id,
       }));
 
-      const storedTeam: TeamMemberItem[] = teamSnap.docs.map((d) => ({
-        ...(d.data() as Partial<TeamMemberItem>),
-        id: d.id,
-      })) as TeamMemberItem[];
-
-      // Merge: stored docs win, but defaults that were never persisted
-      // (e.g. the founder) are re-added so they can never silently vanish.
-      const deletedIds = new Set<string>(
-        (metaSnap.exists() &&
-          (metaSnap.data().deletedTeamIds as string[] | undefined)) ||
-          []
-      );
-      const storedIds = new Set(storedTeam.map((m) => m.id));
-      const storedNames = new Set(
-        storedTeam.map((m) => m.name.trim().toLowerCase())
-      );
-      const missingDefaults = DEFAULT_TEAM_MEMBERS.filter(
-        (d) =>
-          !deletedIds.has(d.id) &&
-          !storedIds.has(d.id) &&
-          !storedNames.has(d.name.trim().toLowerCase())
-      );
-      const teamMembers: TeamMemberItem[] = [
-        ...missingDefaults,
-        ...storedTeam,
-      ].sort((a, b) => (a.createdAt || "").localeCompare(b.createdAt || ""));
+      // Database is the single source of truth — no hardcoded roster.
+      const teamMembers: TeamMemberItem[] = teamSnap.docs
+        .map((d) => ({
+          ...(d.data() as Partial<TeamMemberItem>),
+          id: d.id,
+        })) as TeamMemberItem[];
 
       const customBlogs: CustomBlogItem[] = blogSnap.docs.map((d) => ({
         ...(d.data() as CustomBlogItem),
@@ -142,7 +117,7 @@ export async function fetchFullCmsClient(): Promise<FullCmsPayload> {
   return {
     siteSettings: { ...DEFAULT_SITE_SETTINGS, ...(data.siteSettings || {}) },
     testimonials: data.testimonials || [],
-    teamMembers: data.teamMembers || DEFAULT_TEAM_MEMBERS,
+    teamMembers: data.teamMembers || [],
     customBlogs: data.customBlogs || [],
   };
 }
@@ -279,19 +254,6 @@ export async function deleteTeamMemberClient(id: string): Promise<void> {
   const { db } = getFirebaseClient();
   if (isFirebaseConfigured && db) {
     await deleteDoc(doc(db, "team_members", id));
-    // If this was one of the seeded default doctors, record the removal
-    // so the merge logic never resurrects it.
-    if (DEFAULT_TEAM_MEMBERS.some((d) => d.id === id)) {
-      try {
-        await setDoc(
-          doc(db, "cms_meta", "state"),
-          { deletedTeamIds: arrayUnion(id) },
-          { merge: true }
-        );
-      } catch (err) {
-        console.warn("Could not record team deletion:", err);
-      }
-    }
     return;
   }
   await cmsFetch(

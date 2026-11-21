@@ -206,10 +206,10 @@ export default function AdminDashboardPage() {
 
   // New / Edit Team Member Form
   const [docName, setDocName] = useState("");
-  const [docCred, setDocCred] = useState("MPT (Musculoskeletal)");
-  const [docRole, setDocRole] = useState("Senior Consultant Physiotherapist");
-  const [docDept, setDocDept] = useState("Musculoskeletal & Orthopedic Rehab");
-  const [docExp, setDocExp] = useState("Bangalore & Salem");
+  const [docCred, setDocCred] = useState("");
+  const [docRole, setDocRole] = useState("");
+  const [docDept, setDocDept] = useState("");
+  const [docExp, setDocExp] = useState("");
   const [docBio, setDocBio] = useState("");
   const [docReg, setDocReg] = useState("");
   const [docImage, setDocImage] = useState("");
@@ -221,7 +221,7 @@ export default function AdminDashboardPage() {
   // New Custom Blog Form
   const [blogTitle, setBlogTitle] = useState("");
   const [blogTag, setBlogTag] = useState("MPT Orthopedics");
-  const [blogReadTime, setBlogReadTime] = useState("4 min read");
+  const [blogReadTime, setBlogReadTime] = useState("");
   const [blogImage, setBlogImage] = useState(CLINIC_GALLERY_IMAGES[0].value);
   const [blogExcerpt, setBlogExcerpt] = useState("");
   const [blogBody, setBlogBody] = useState("");
@@ -428,10 +428,10 @@ export default function AdminDashboardPage() {
   function resetTeamForm() {
     setEditingMemberId(null);
     setDocName("");
-    setDocCred("MPT (Musculoskeletal)");
-    setDocRole("Senior Consultant Physiotherapist");
-    setDocDept("Musculoskeletal & Orthopedic Rehab");
-    setDocExp("Bangalore & Salem");
+    setDocCred("");
+    setDocRole("");
+    setDocDept("");
+    setDocExp("");
     setDocBio("");
     setDocReg("");
     setDocImage("");
@@ -538,6 +538,7 @@ export default function AdminDashboardPage() {
     setBlogExcerpt("");
     setBlogBody("");
     setBlogTakeaway("");
+    setBlogReadTime("");
     await refreshCms();
     showToast("New recovery guide published to Blog & Homepage!");
   }
@@ -2004,7 +2005,7 @@ export default function AdminDashboardPage() {
                   required
                   value={docName}
                   onChange={(e) => setDocName(e.target.value)}
-                  placeholder="e.g. Dr. Gokul M B (PT)"
+                  placeholder="e.g. Dr. Vishal S, PT"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
@@ -2018,7 +2019,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={docCred}
                     onChange={(e) => setDocCred(e.target.value)}
-                    placeholder="MPT (Musculoskeletal)"
+                    placeholder="e.g. MPT (Orthopedics)"
                     className="w-full rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
                   />
                 </div>
@@ -2030,7 +2031,7 @@ export default function AdminDashboardPage() {
                     type="text"
                     value={docReg}
                     onChange={(e) => setDocReg(e.target.value)}
-                    placeholder="MIAP Reg. No. 67647"
+                    placeholder="e.g. MIAP Reg. No. 12345"
                     className="w-full rounded-xl border border-slate-300 px-3 min-h-[44px] text-base sm:text-sm"
                   />
                 </div>
@@ -2044,7 +2045,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={docRole}
                   onChange={(e) => setDocRole(e.target.value)}
-                  placeholder="Senior Consultant Physiotherapist"
+                  placeholder="e.g. Senior Physiotherapist"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
@@ -2057,7 +2058,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={docDept}
                   onChange={(e) => setDocDept(e.target.value)}
-                  placeholder="Musculoskeletal & Orthopedic Rehab"
+                  placeholder="e.g. Orthopedic & Spine Rehabilitation"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
@@ -2070,7 +2071,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={docExp}
                   onChange={(e) => setDocExp(e.target.value)}
-                  placeholder="Bangalore & Salem / Chennai"
+                  placeholder="e.g. Bangalore & Salem"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
@@ -2083,7 +2084,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={docExtraCerts}
                   onChange={(e) => setDocExtraCerts(e.target.value)}
-                  placeholder="CMP, CIASTMT, CDNT, CMET, CAfRT..."
+                  placeholder="e.g. CDNT, CIASTM, CCT"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>
@@ -2216,9 +2217,19 @@ export default function AdminDashboardPage() {
 
             <div className="lg:col-span-7 space-y-3">
               {teamMembers.length === 0 && (
-                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
-                  No specialists on the roster yet. Add your first doctor using
-                  the form.
+                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                    <Stethoscope className="h-6 w-6" />
+                  </div>
+                  <p className="mt-3 text-sm font-bold text-[#0F1D35]">
+                    Your roster is empty
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-500">
+                    Doctors are read live from the database — nothing is
+                    hardcoded. Add your first specialist using the form, or add
+                    records to the <code className="font-mono">team_members</code>{" "}
+                    collection in Firestore.
+                  </p>
                 </div>
               )}
               {teamMembers.map((m) => (
@@ -2382,7 +2393,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={blogReadTime}
                   onChange={(e) => setBlogReadTime(e.target.value)}
-                  placeholder="Read Time"
+                  placeholder="e.g. 4 min read"
                   className="rounded-xl border border-slate-300 px-2.5 min-h-[44px] text-base sm:text-xs"
                 />
                 <select

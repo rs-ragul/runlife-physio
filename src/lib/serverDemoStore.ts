@@ -7,10 +7,7 @@ import type {
   TeamMemberItem,
   CustomBlogItem,
 } from "@/types/cms";
-import {
-  DEFAULT_SITE_SETTINGS,
-  DEFAULT_TEAM_MEMBERS,
-} from "@/lib/cmsDefaults";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 
 const DB_FILE = path.join("/tmp", "runlife-physio-clean-store-v4.json");
 
@@ -29,31 +26,10 @@ const CLEAN_INITIAL_STORE: ServerStoreShape = {
   inquiries: [],
   siteSettings: DEFAULT_SITE_SETTINGS,
   testimonials: [],
-  teamMembers: DEFAULT_TEAM_MEMBERS,
+  teamMembers: [],
   customBlogs: [],
 };
 
-
-/**
- * Keeps the seeded default doctors (founder + core team) present even if the
- * saved store predates them, without ever duplicating or resurrecting a
- * doctor that was deliberately deleted.
- */
-function mergeTeamMembers(
-  stored: TeamMemberItem[] | undefined
-): TeamMemberItem[] {
-  if (!stored || stored.length === 0) return DEFAULT_TEAM_MEMBERS;
-  const storedIds = new Set(stored.map((m) => m.id));
-  const storedNames = new Set(
-    stored.map((m) => m.name.trim().toLowerCase())
-  );
-  const missing = DEFAULT_TEAM_MEMBERS.filter(
-    (d) => !storedIds.has(d.id) && !storedNames.has(d.name.trim().toLowerCase())
-  );
-  return [...missing, ...stored].sort((a, b) =>
-    (a.createdAt || "").localeCompare(b.createdAt || "")
-  );
-}
 
 export function readDemoStore(): ServerStoreShape {
   try {
@@ -75,7 +51,7 @@ export function readDemoStore(): ServerStoreShape {
         ...(parsed.siteSettings || {}),
       },
       testimonials: parsed.testimonials || [],
-      teamMembers: mergeTeamMembers(parsed.teamMembers),
+      teamMembers: parsed.teamMembers || [],
       customBlogs: parsed.customBlogs || [],
     };
   } catch {
