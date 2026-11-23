@@ -101,47 +101,6 @@ export function navCitiesLabel(
  * swaps it for the live list, so old copy self-corrects without anyone having
  * to retype it in the admin panel.
  */
-// There is deliberately NO hardcoded list of city names in this file. The
-// vocabulary for cleanup comes from the CMS city list on every call, so adding
-// a city in /admin automatically makes old copy recognise it.
-
-/**
- * Repairs legacy saved copy that still names cities by hand, e.g. an
- * announcement saved as "Serving Bangalore & Salem" before cities were dynamic.
- *
- * The city vocabulary comes from the CMS, so this keeps working when new cities
- * are added. It only rewrites a *group* of two or more cities, so single-city
- * phrases like "Physiotherapy in Bangalore" are left alone.
- */
-export function normalizeCityCopy(
-  text: string | undefined,
-  cities: ServiceCityItem[] | undefined
-): string {
-  if (!text) return "";
-
-  const names = Array.from(
-    new Set(
-      getActiveCities(cities)
-        .map((c) => c.name.trim())
-        .filter(Boolean)
-    )
-  );
-  const label = joinCitiesNatural(cities);
-  if (names.length === 0 || !label) return text;
-
-  // Longest first so "Tiruchirappalli" wins over a shorter prefix match.
-  const escaped = names
-    .sort((a, b) => b.length - a.length)
-    .map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-
-  const group = new RegExp(
-    `\b(?:${escaped.join("|")})(?:\s*(?:,|&|and|\+)\s*(?:${escaped.join("|")}))+`,
-    "g"
-  );
-
-  return text.replace(group, label);
-}
-
 /**
  * One call for every CMS text field: resolves the {cities} token first, then
  * repairs any hardcoded city list left over from older saved copy.
@@ -150,9 +109,5 @@ export function resolveCityText(
   text: string | undefined,
   cities: ServiceCityItem[] | undefined
 ): string {
-  if (!text) return "";
-  // The {cities} token is always correct — leave it alone.
-  if (text.includes("{cities}")) return withCities(text, cities);
-  // Otherwise only legacy hand-written city lists get repaired.
-  return normalizeCityCopy(text, cities);
+  return withCities(text, cities);
 }
