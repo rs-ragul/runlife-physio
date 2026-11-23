@@ -1,6 +1,6 @@
 "use client";
 
-import { withCities } from "@/lib/cities";
+import { resolveCityText } from "@/lib/cities";
 import React from "react";
 import { usePathname } from "next/navigation";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
@@ -27,7 +27,7 @@ export function TopUtilityBar() {
         <div className="flex items-center gap-2 min-w-0">
           <span className="inline-flex items-center gap-1.5 font-medium text-slate-200 truncate">
             <MapPin className="h-3.5 w-3.5 text-[#9AD634] shrink-0" />
-            <span className="truncate">{withCities(settings.announcementText, settings.serviceCities)}</span>
+            <span className="truncate">{resolveCityText(settings.announcementText, settings.serviceCities)}</span>
           </span>
         </div>
 

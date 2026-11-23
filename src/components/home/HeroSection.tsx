@@ -17,7 +17,7 @@ import {
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
-import { joinCitiesNatural, withCities } from "@/lib/cities";
+import { joinCitiesNatural, resolveCityText } from "@/lib/cities";
 
 export function HeroSection() {
   const { settings } = useSiteCms();
@@ -49,7 +49,7 @@ export function HeroSection() {
                 {settings.tagline}
               </span>
               <span className="text-[11px] sm:text-xs font-semibold text-slate-700">
-                {withCities(settings.heroBadgeText, settings.serviceCities)}
+                {resolveCityText(settings.heroBadgeText, settings.serviceCities)}
               </span>
             </div>
 
@@ -61,7 +61,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-sm sm:text-lg leading-relaxed text-slate-600 max-w-2xl">
-              {withCities(settings.heroSubtitle, settings.serviceCities)}
+              {resolveCityText(settings.heroSubtitle, settings.serviceCities)}
             </p>
 
             {/* Care Mode Quick Badges */}

@@ -22,6 +22,7 @@ import {
   Sparkles,
   Mail,
   Flame,
+  Video,
 } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
 import { THERAPIES } from "@/data/therapies";
@@ -38,9 +39,14 @@ export function Navbar() {
   const [mobileTherapiesOpen, setMobileTherapiesOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [therapiesOpen, setTherapiesOpen] = useState(false);
+  const [citiesOpen, setCitiesOpen] = useState(false);
+  const activeCitiesForNav = getActiveCities(settings.serviceCities);
 
   useEffect(() => {
     setMobileOpen(false);
+    setCitiesOpen(false);
+    setServicesOpen(false);
+    setTherapiesOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -102,7 +108,7 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/95 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-3.5 sm:px-6 lg:px-8 h-17 sm:h-20">
+        <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-3 px-3.5 sm:px-6 lg:px-8 h-17 sm:h-20">
           {/* Brand Logo Lockup */}
           <Link
             href="/"
@@ -125,14 +131,14 @@ export function Navbar() {
                 <span className="text-[#6EA319]">LIFE</span>{" "}
                 <span className="text-[#0F1D35]">PHYSIO</span>
               </div>
-              <div className="mt-0.5 sm:mt-1 text-[9px] sm:text-[10px] font-bold tracking-[0.16em] text-slate-500 uppercase">
+              <div className="mt-0.5 sm:mt-1 hidden 2xl:block text-[10px] font-bold tracking-[0.16em] text-slate-500 uppercase">
                 {settings.tagline}
               </div>
             </div>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+          <nav className="hidden xl:flex items-center gap-0 xl:gap-0.5 min-w-0 whitespace-nowrap">
             {/* Specialties Dropdown */}
             <div
               className="relative"
@@ -141,7 +147,7 @@ export function Navbar() {
             >
               <Link
                 href="/services"
-                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+                className="inline-flex items-center gap-1 rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
                 Specialties
                 <ChevronDown className="h-4 w-4 opacity-70" />
@@ -196,9 +202,9 @@ export function Navbar() {
             >
               <Link
                 href="/therapies"
-                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+                className="inline-flex items-center gap-1 rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
               >
-                Therapies &amp; HYROX
+                Therapies
                 <ChevronDown className="h-4 w-4 opacity-70" />
               </Link>
 
@@ -240,27 +246,93 @@ export function Navbar() {
 
             <Link
               href="/conditions"
-              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               Conditions
             </Link>
             <Link
               href="/care-modes"
-              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
-              <span className="whitespace-nowrap">Home &amp; Online</span>
+              <span className="whitespace-nowrap">Care Modes</span>
             </Link>
-            <Link
-              href="/bangalore"
-              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+            {/* Cities Dropdown — one row per active city, so the header never
+                grows no matter how many cities get added */}
+            <div
+              className="relative"
+              onMouseEnter={() => setCitiesOpen(true)}
+              onMouseLeave={() => setCitiesOpen(false)}
             >
-              <span className="whitespace-nowrap">
-                {navCitiesLabel(settings.serviceCities)} Locations
-              </span>
-            </Link>
+              <Link
+                href="/bangalore"
+                className="inline-flex items-center gap-1 rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              >
+                <MapPin className="h-3.5 w-3.5 text-[#85B925]" />
+                Cities
+                <ChevronDown className="h-3.5 w-3.5 opacity-70" />
+              </Link>
+
+              {citiesOpen && (
+                <div className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-[300px]">
+                  <div className="rounded-2xl border border-slate-200 bg-white p-2.5 shadow-xl">
+                    <div className="mb-2 flex items-center justify-between border-b border-slate-100 px-1 pb-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+                        Home Visits In
+                      </span>
+                      <span className="rounded-full bg-lime-100 px-2 py-0.5 text-[10px] font-extrabold text-lime-800">
+                        {activeCitiesForNav.length} {activeCitiesForNav.length === 1 ? "City" : "Cities"}
+                      </span>
+                    </div>
+
+                    <div className="space-y-0.5 max-h-[60vh] overflow-y-auto">
+                      {activeCitiesForNav.map((city) => (
+                        <Link
+                          key={city.id}
+                          href="/bangalore"
+                          onClick={() => setCitiesOpen(false)}
+                          className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-sky-50/70 transition group"
+                        >
+                          <MapPin className="h-3.5 w-3.5 text-[#136EA8] shrink-0" />
+                          <span className="text-sm font-bold text-slate-900 group-hover:text-[#136EA8]">
+                            {city.name}
+                          </span>
+                          <span className="ml-auto text-[11px] text-slate-400 shrink-0">
+                            {city.areas.length} areas
+                          </span>
+                        </Link>
+                      ))}
+
+                      <Link
+                        href="/bangalore"
+                        onClick={() => setCitiesOpen(false)}
+                        className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-sky-50/70 transition group"
+                      >
+                        <Video className="h-3.5 w-3.5 text-[#136EA8] shrink-0" />
+                        <span className="text-sm font-bold text-slate-900 group-hover:text-[#136EA8]">
+                          Online
+                        </span>
+                        <span className="ml-auto text-[11px] text-slate-400 shrink-0">
+                          Anywhere in India
+                        </span>
+                      </Link>
+                    </div>
+
+                    <div className="mt-2 border-t border-slate-100 pt-2">
+                      <Link
+                        href="/bangalore"
+                        onClick={() => setCitiesOpen(false)}
+                        className="flex items-center justify-center gap-1 rounded-xl bg-slate-50 px-2.5 py-2 text-xs font-extrabold text-[#136EA8] hover:bg-sky-50 transition"
+                      >
+                        View all service areas <ChevronRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             <Link
               href="/about"
-              className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
+              className="rounded-lg px-2 xl:px-2.5 py-2 text-[13px] 2xl:text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
               About
             </Link>
@@ -281,20 +353,22 @@ export function Navbar() {
           </nav>
 
           {/* Desktop CTAs (Call + Email + Book for Consultation) */}
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden xl:flex items-center gap-1.5 2xl:gap-2 shrink-0">
             <a
               href={`tel:${settings.phoneE164}`}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
+              aria-label="Call Runlife Physio"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 xl:px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
             >
               <PhoneCall className="h-3.5 w-3.5 text-[#136EA8]" />
-              Call
+              <span className="hidden xl:inline">Call</span>
             </a>
             <a
               href={`mailto:${settings.email}`}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
+              aria-label="Email Runlife Physio"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 xl:px-3 py-2.5 text-xs font-bold text-slate-800 hover:border-[#136EA8] hover:text-[#136EA8] transition"
             >
               <Mail className="h-3.5 w-3.5 text-[#136EA8]" />
-              Email
+              <span className="hidden xl:inline">Email</span>
             </a>
             <button
               type="button"
@@ -302,12 +376,15 @@ export function Navbar() {
               className="inline-flex items-center gap-2 rounded-xl bg-[#0F1D35] px-4 py-2.5 text-xs xl:text-sm font-bold text-white shadow-md hover:bg-[#136EA8] transition cursor-pointer"
             >
               <CalendarCheck className="h-4 w-4 text-[#9AD634]" />
-              {settings.primaryCtaText}
+              <span className="hidden 2xl:inline whitespace-nowrap">
+                {settings.primaryCtaText}
+              </span>
+              <span className="2xl:hidden whitespace-nowrap">Book Now</span>
             </button>
           </div>
 
           {/* Mobile Actions */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <button
               type="button"
               onClick={() => openBookingModal({ source: "Mobile Header CTA" })}
@@ -393,10 +470,9 @@ export function Navbar() {
               >
                 <div>
                   <span className="inline-block rounded-full bg-[#85B925] px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
-                    {getActiveCities(settings.serviceCities)
-                      .map((c) => c.name)
-                      .concat("Online")
-                      .join(" • ")}
+                    {activeCitiesForNav.length > 0
+                      ? `${activeCitiesForNav.length} Cities + Online`
+                      : "Online"}
                   </span>
                   <div className="mt-1 font-display text-sm font-extrabold">
                     {settings.primaryCtaText}

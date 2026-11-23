@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { citiesShortLabel, withCities } from "@/lib/cities";
+import { citiesShortLabel, resolveCityText } from "@/lib/cities";
 import {
   Phone,
   Mail,
@@ -164,7 +164,7 @@ export function Footer() {
               ) : (
                 <div className="flex items-start gap-2.5 text-slate-400 text-xs leading-relaxed">
                   <MapPin className="h-4 w-4 text-sky-400 shrink-0 mt-0.5" />
-                  <span>{withCities(settings.serviceAreasSummary, settings.serviceCities)}</span>
+                  <span>{resolveCityText(settings.serviceAreasSummary, settings.serviceCities)}</span>
                 </div>
               )}
             </div>
