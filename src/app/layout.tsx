@@ -14,6 +14,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMedicalOrganizationSchema } from "@/lib/schema";
 import { getServerCities, getServerCitiesLabel } from "@/lib/serverCities";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -133,6 +134,7 @@ export default async function RootLayout({
         {/* Vercel Speed Insights — real-user Core Web Vitals.
             Free on the Hobby plan, no config needed once deployed. */}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
