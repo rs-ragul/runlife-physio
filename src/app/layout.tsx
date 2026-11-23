@@ -12,6 +12,8 @@ import { TouchAndNetworkFeedback } from "@/components/layout/TouchAndNetworkFeed
 import { BookingDrawerModal } from "@/components/booking/BookingDrawerModal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildMedicalOrganizationSchema } from "@/lib/schema";
+import { getServerCities, getServerCitiesLabel } from "@/lib/serverCities";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -25,33 +27,41 @@ const outfit = Outfit({
   display: "swap",
 });
 
+// City changes made in /admin must reach page metadata (titles, descriptions,
+// schema, sitemap wording) without a redeploy. Every page revalidates in the
+// background at most once every 5 minutes — cheap on Vercel's free Hobby tier.
+export const revalidate = 300;
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: "#0F1D35",
 };
 
-export const metadata: Metadata = {
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = (await getServerCitiesLabel()) || DEFAULT_SITE_SETTINGS.primaryCity;
+  const cityKeywords = (await getServerCities()).filter(
+    (c) => c.active && c.name.trim()
+  );
+  return {
   metadataBase: new URL(SITE_CONFIG.url),
   title: {
-    default:
-      "Runlife Physio Bangalore | Specialized MPT Physiotherapy — Home Care, Tele-Rehab & Sports",
-    template: "%s | Runlife Physio Bangalore",
+    default: `Runlife Physio ${cities} | Specialized MPT Physiotherapy — Home Care, Tele-Rehab & Sports`,
+    template: `%s | Runlife Physio ${cities}`,
   },
   description:
-      "Runlife Physio (REHAB · RECOVER · RUN) is Bangalore & Salem's specialized MPT Physiotherapy Network led by Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915. Dedicated Ortho, Neuro, Sports & Running, Pediatric, and Women's Health MPT Specialists—at Home, Virtual Tele-Rehab, or By Appointment.",
+      `Runlife Physio (REHAB · RECOVER · RUN) is ${cities}'s specialized MPT Physiotherapy Network led by Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915. Dedicated Ortho, Neuro, Sports & Running, Pediatric, and Women's Health MPT Specialists—at Home, Virtual Tele-Rehab, or By Appointment.`,
   keywords: [
     "Runlife Physio",
-    "Physiotherapy in Bangalore",
-    "Home Physiotherapy Bangalore",
-    "Sports Physiotherapy Bangalore",
-    "ACL Rehab Bangalore",
-    "Running Injury Physiotherapist Bangalore",
-    "Stroke Neuro Rehabilitation at Home Bangalore",
-    "Pediatric Physiotherapy Bangalore",
-    "Pelvic Floor Postnatal Physiotherapy Bangalore",
+    ...cityKeywords.flatMap((c) => [
+      `Physiotherapy in ${c.name}`,
+      `Home Physiotherapy ${c.name}`,
+      `Sports Physiotherapy ${c.name}`,
+      `Neuro Rehabilitation at Home ${c.name}`,
+      `Pediatric Physiotherapy ${c.name}`,
+    ]),
     "Tele Rehabilitation India",
-    "Dr Vishal Physiotherapist Bangalore",
+    "Dr Vishal Physiotherapist",
   ],
   alternates: {
     canonical: "/",
@@ -61,16 +71,14 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: SITE_CONFIG.url,
     siteName: SITE_CONFIG.name,
-    title:
-      "Runlife Physio | Specialized MPT Physiotherapy Network — Bangalore & Online",
-    description:
-      "REHAB · RECOVER · RUN — Dedicated MPT Specialists in Orthopedics, Neurology, Sports, Pediatrics & Women's Health. Home Visits across Bangalore & Live Tele-Rehab.",
+    title: `Runlife Physio | Specialized MPT Physiotherapy Network — ${cities} & Online`,
+    description: `REHAB · RECOVER · RUN — Dedicated MPT Specialists in Orthopedics, Neurology, Sports, Pediatrics & Women's Health. Home Visits across ${cities} & Live Tele-Rehab.`,
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Runlife Physio — Specialized MPT Physiotherapy Network in Bangalore",
+        alt: `Runlife Physio — Specialized MPT Physiotherapy Network in ${cities}`,
       },
     ],
   },
@@ -78,7 +86,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Runlife Physio | Specialized MPT Physiotherapy Network",
     description:
-      "Ortho • Neuro • Sports • Pediatric • Women's Health MPT Specialists in Bangalore & Online.",
+      `Ortho • Neuro • Sports • Pediatric • Women's Health MPT Specialists in ${cities} & Online.`,
     images: ["/images/og-image.png"],
   },
   robots: {
@@ -96,17 +104,19 @@ export const metadata: Metadata = {
         google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
       }
     : undefined,
-};
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const schemaCities = await getServerCities();
   return (
     <html lang="en-IN" className={`${jakarta.variable} ${outfit.variable}`}>
       <body className="min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased overflow-x-hidden">
-        <JsonLd data={buildMedicalOrganizationSchema()} />
+        <JsonLd data={buildMedicalOrganizationSchema(schemaCities)} />
         <SiteCmsProvider>
           <BookingModalProvider>
             <TouchAndNetworkFeedback />

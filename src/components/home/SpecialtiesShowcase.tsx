@@ -6,8 +6,11 @@ import Link from "next/link";
 import { Award, Check, ArrowRight, CalendarPlus } from "lucide-react";
 import { SPECIALTIES } from "@/data/specialties";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { useSiteCms } from "@/context/SiteSettingsContext";
+import { citiesShortLabel } from "@/lib/cities";
 
 export function SpecialtiesShowcase() {
+  const { settings } = useSiteCms();
   const { openBookingModal } = useBookingModal();
 
   return (
@@ -127,7 +130,7 @@ export function SpecialtiesShowcase() {
 
             <div className="mt-6 space-y-3">
               <div className="rounded-2xl bg-white/10 p-3.5 text-xs text-slate-200">
-                ✓ Home Visits in Bangalore &amp; Salem
+                ✓ Home Visits in {citiesShortLabel(settings.serviceCities)}
                 <br />✓ Online Video Consultations &amp; Tele-Rehab
                 <br />✓ Scheduled 1-on-1 Appointments
               </div>

@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { citiesShortLabel, withCities } from "@/lib/cities";
 import {
   Phone,
   Mail,
@@ -163,7 +164,7 @@ export function Footer() {
               ) : (
                 <div className="flex items-start gap-2.5 text-slate-400 text-xs leading-relaxed">
                   <MapPin className="h-4 w-4 text-sky-400 shrink-0 mt-0.5" />
-                  <span>{settings.serviceAreasSummary}</span>
+                  <span>{withCities(settings.serviceAreasSummary, settings.serviceCities)}</span>
                 </div>
               )}
             </div>
@@ -264,7 +265,7 @@ export function Footer() {
                   href="/bangalore"
                   className="text-slate-400 hover:text-white"
                 >
-                  Bangalore &amp; Salem
+                  {citiesShortLabel(settings.serviceCities) || "Service Locations"}
                 </Link>
               </li>
               {settings.showBlogSection && (

@@ -14,6 +14,8 @@ import { BookingForm } from "@/components/booking/BookingForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildFaqSchema } from "@/lib/schema";
 import { SITE_CONFIG } from "@/config/site";
+import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
+import { joinCitiesNatural } from "@/lib/cities";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 import { Phone, Mail, MessageCircle, CheckCircle2 } from "lucide-react";
 
@@ -51,8 +53,10 @@ export default function HomePage() {
                   {SITE_CONFIG.founder.name}&apos;s
                 </strong>{" "}
                 care desk will call you shortly to arrange a Home Visit in{" "}
-                <strong>Bangalore or Salem</strong>, an Online Video
-                Consultation, or a Scheduled Appointment.
+                <strong>
+                  {joinCitiesNatural(DEFAULT_SITE_SETTINGS.serviceCities)}
+                </strong>
+                , an Online Video Consultation, or a Scheduled Appointment.
               </p>
 
               <div className="space-y-3 pt-2">

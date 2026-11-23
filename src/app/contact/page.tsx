@@ -4,15 +4,19 @@ import { ContactForm } from "./ContactForm";
 import { ContactDynamicCards } from "./ContactDynamicCards";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title: "Contact & Book Appointment | Bangalore & Online",
-  description:
-    "Book an MPT Specialist Physiotherapy appointment with Dr. Vishal's Runlife Physio team in Bangalore. Call or WhatsApp +91 91876 79723 or email runlifephysio@gmail.com.",
-  alternates: { canonical: "/contact" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: `Contact & Book Appointment | ${cities} & Online`,
+    description: `Book an MPT Specialist Physiotherapy appointment with Dr. Vishal's Runlife Physio team in ${cities}. Call or WhatsApp +91 91876 79723 or email runlifephysio@gmail.com.`,
+    alternates: { canonical: "/contact" },
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const cities = await getServerCitiesLabel();
   return (
     <div className="bg-slate-50 pb-20">
       <JsonLd
@@ -31,8 +35,8 @@ export default function ContactPage() {
             Book for Consultation or Speak With Us
           </h1>
           <p className="mt-3 text-sm sm:text-lg text-slate-300 max-w-2xl">
-            Whether you need a Home Visit in Bangalore or Salem, a Pediatric or
-            Neuro physiotherapist, or an online video consultation—our care desk
+            Whether you need a Home Visit in {cities}, a Pediatric or Neuro
+            physiotherapist, or an online video consultation—our care desk
             responds promptly.
           </p>
         </div>
@@ -49,8 +53,8 @@ export default function ContactPage() {
               Book for Consultation
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 mb-5">
-              Home Visits in Bangalore &amp; Salem, Online Consultations &amp;
-              Scheduled Visits.
+              Home Visits in {cities}, Online Consultations &amp; Scheduled
+              Visits.
             </p>
             <BookingForm prefill={{ source: "Contact Page Booking Form" }} />
           </div>

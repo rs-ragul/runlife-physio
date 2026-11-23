@@ -65,6 +65,7 @@ import {
   deleteCustomBlogClient,
 } from "@/lib/cmsStore";
 import { buildDoctorToPatientWhatsAppUrl } from "@/lib/whatsapp";
+import { homeVisitLabel } from "@/lib/cities";
 import { DEFAULT_SITE_SETTINGS } from "@/lib/cmsDefaults";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { SPECIALTIES } from "@/data/specialties";
@@ -186,9 +187,7 @@ export default function AdminDashboardPage() {
   const [newApptSpecialty, setNewApptSpecialty] = useState(
     SPECIALTIES[0].title
   );
-  const [newApptMode, setNewApptMode] = useState(
-    "Home Visit (Bangalore & Salem)"
-  );
+  const [newApptMode, setNewApptMode] = useState("Home Visit");
   const [newApptArea, setNewApptArea] = useState("");
   const [newApptCondition, setNewApptCondition] = useState("");
 
@@ -472,7 +471,7 @@ export default function AdminDashboardPage() {
         credential: docCred.trim() || "MPT Specialist",
         role: docRole.trim() || "Consultant Physiotherapist",
         department: docDept.trim() || "Multi-Specialty Rehab",
-        experience: docExp.trim() || "Bangalore & Salem",
+        experience: docExp.trim() || "",
         bio: docBio.trim(),
       };
       if (docReg.trim()) payload.registration = docReg.trim();
@@ -1005,7 +1004,8 @@ export default function AdminDashboardPage() {
                     onChange={(e) => setNewApptMode(e.target.value)}
                     className="rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                   >
-                    <option>Home Visit (Bangalore &amp; Salem)</option>
+                    <option>{homeVisitLabel(settingsDraft.serviceCities)}</option>
+                    <option>Home Visit</option>
                     <option>Online Consultation</option>
                     <option>Virtual Tele-Rehab</option>
                     <option>By-Appointment Visit</option>
@@ -1632,8 +1632,17 @@ export default function AdminDashboardPage() {
                     4. Service Cities &amp; Areas
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Active cities appear in the booking form city selector.
+                    Active cities appear in the booking form city selector, the
+                    navbar, the footer, the homepage and every page description.
                     Turn one off to hide it without deleting its areas.
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">
+                    Tip: type{" "}
+                    <code className="rounded bg-slate-100 px-1 py-0.5 font-bold text-[#136EA8]">
+                      {"{cities}"}
+                    </code>{" "}
+                    anywhere in your website text and it becomes your live city
+                    list automatically.
                   </p>
                 </div>
                 <button
@@ -1690,7 +1699,7 @@ export default function AdminDashboardPage() {
                               return { ...p, serviceCities: next };
                             })
                           }
-                          placeholder="e.g. Chennai"
+                          placeholder="e.g. City Name"
                           className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[42px] text-base sm:text-sm"
                         />
                       </div>
@@ -1856,7 +1865,7 @@ export default function AdminDashboardPage() {
                         physicalClinicAddress: e.target.value,
                       }))
                     }
-                    placeholder="e.g., #42, 100 Feet Road, Indiranagar, Bangalore 560038"
+                    placeholder="e.g., #42, 100 Feet Road, Indiranagar, 560038"
                     className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                   />
                 </div>
@@ -2215,7 +2224,7 @@ export default function AdminDashboardPage() {
                   type="text"
                   value={docExp}
                   onChange={(e) => setDocExp(e.target.value)}
-                  placeholder="e.g. Bangalore & Salem"
+                  placeholder="e.g. City or service area"
                   className="w-full rounded-xl border border-slate-300 px-3.5 min-h-[44px] text-base sm:text-sm"
                 />
               </div>

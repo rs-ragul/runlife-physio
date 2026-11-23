@@ -7,16 +7,19 @@ import { THERAPIES } from "@/data/therapies";
 import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title:
-    "Physiotherapy Specialties, Hands-On Therapies & HYROX Training | Bangalore & Salem",
-  description:
-    "Explore Runlife Physio's clinical departments (Ortho, Neuro, Sports, Pediatric & Women's Health) plus Dry Needling, Chiropractic Care, Cupping, Kinesiology Taping, Sports Massage & HYROX Training in Bangalore & Salem.",
-  alternates: { canonical: "/services" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: `Physiotherapy Specialties, Hands-On Therapies & HYROX Training | ${cities}`,
+    description: `Explore Runlife Physio's clinical departments (Ortho, Neuro, Sports, Pediatric & Women's Health) plus Dry Needling, Chiropractic Care, Cupping, Kinesiology Taping, Sports Massage & HYROX Training in ${cities}.`,
+    alternates: { canonical: "/services" },
+  };
+}
 
-export default function ServicesHubPage() {
+export default async function ServicesHubPage() {
+  const cities = await getServerCitiesLabel();
   return (
     <div className="bg-slate-50 pb-20">
       <JsonLd
@@ -30,7 +33,7 @@ export default function ServicesHubPage() {
       <section className="bg-[#0F1D35] bg-navy-grid text-white py-14 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
-            Bangalore &amp; Salem • Complete Physiotherapy &amp; Recovery Care
+            {cities} • Complete Physiotherapy &amp; Recovery Care
           </span>
           <h1 className="mt-3 font-display text-3xl sm:text-5xl font-extrabold max-w-4xl">
             Our Physiotherapy Specialties &amp; Hands-On Therapies

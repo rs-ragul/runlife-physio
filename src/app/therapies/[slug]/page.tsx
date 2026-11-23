@@ -8,6 +8,7 @@ import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema, buildFaqSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
 export function generateStaticParams() {
   return THERAPIES.map((t) => ({ slug: t.slug }));
@@ -20,10 +21,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const item = THERAPIES.find((t) => t.slug === slug);
+  const cities = await getServerCitiesLabel();
   if (!item) return {};
   return {
-    title: `${item.title} in Bangalore & Salem`,
-    description: `${item.shortSummary} Book ${item.shortTitle} with Runlife Physio in Bangalore & Salem.`,
+    title: `${item.title} in ${cities}`,
+    description: `${item.shortSummary} Book ${item.shortTitle} with Runlife Physio in ${cities}.`,
     alternates: { canonical: `/therapies/${item.slug}` },
   };
 }
@@ -36,6 +38,7 @@ export default async function TherapyDetailPage({
   const { slug } = await params;
   const item = THERAPIES.find((t) => t.slug === slug);
   if (!item) notFound();
+  const cities = await getServerCitiesLabel();
 
   return (
     <div className="bg-slate-50 pb-20">
@@ -68,7 +71,7 @@ export default async function TherapyDetailPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-4">
               <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-[#9AD634]">
-                {item.categoryBadge} • Bangalore &amp; Salem
+                {item.categoryBadge} • {cities}
               </span>
               <h1 className="font-display text-3xl sm:text-5xl font-extrabold leading-tight">
                 {item.title}
@@ -182,7 +185,7 @@ export default async function TherapyDetailPage({
               Book for Consultation — {item.shortTitle}
             </h2>
             <p className="mt-1 text-xs text-slate-500 mb-4">
-              Available in Bangalore &amp; Salem
+              Available in {cities}
             </p>
             <BookingForm
               compact

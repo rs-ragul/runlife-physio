@@ -23,6 +23,7 @@ import {
   createAppointmentClient,
   type AppointmentRecord,
 } from "@/lib/appointmentsStore";
+import { homeVisitLabel as homeVisitLabelFromCms } from "@/lib/cities";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 import type { BookingPrefill } from "@/context/BookingModalContext";
 import { useSiteCms } from "@/context/SiteSettingsContext";
@@ -66,10 +67,7 @@ export function BookingForm({
   const cityAreas = currentCity?.areas || [];
 
   // "Home Visit" label follows the cities enabled in /admin
-  const homeVisitLabel =
-    activeCities.length > 0
-      ? `Home Visit (${activeCities.map((c) => c.name).join(" & ")})`
-      : "Home Visit";
+  const homeVisitLabel = homeVisitLabelFromCms(settings.serviceCities);
   const careModeCards = CARE_MODE_CARDS.map((c) =>
     c.id === "Home Visit" ? { ...c, id: homeVisitLabel } : c
   );
@@ -344,7 +342,7 @@ export function BookingForm({
         </div>
       </div>
 
-      {/* 3. City Selector (Bangalore / Salem) + Area Input */}
+      {/* 3. City Selector (from CMS) + Area Input */}
       {needsCityArea && (
         <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5 space-y-2.5">
           <div className="flex flex-wrap items-center justify-between gap-2">

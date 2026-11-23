@@ -1,5 +1,6 @@
 "use client";
 
+import { citiesShortLabel, getActiveCities, navCitiesLabel } from "@/lib/cities";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -77,7 +78,7 @@ export function Navbar() {
       icon: Sparkles,
     },
     {
-      label: "Bangalore & Salem Locations",
+      label: `${navCitiesLabel(settings.serviceCities)}`,
       href: "/bangalore",
       icon: MapPin,
     },
@@ -247,13 +248,15 @@ export function Navbar() {
               href="/care-modes"
               className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
-              Home &amp; Online
+              <span className="whitespace-nowrap">Home &amp; Online</span>
             </Link>
             <Link
               href="/bangalore"
               className="rounded-lg px-2.5 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 hover:text-[#136EA8] transition"
             >
-              Bangalore &amp; Salem
+              <span className="whitespace-nowrap">
+                {navCitiesLabel(settings.serviceCities)} Locations
+              </span>
             </Link>
             <Link
               href="/about"
@@ -362,7 +365,7 @@ export function Navbar() {
                     RUN<span className="text-[#9AD634]">LIFE</span> PHYSIO
                   </div>
                   <div className="text-[10px] font-semibold text-sky-200">
-                    Bangalore &amp; Salem • Home &amp; Online
+                    {citiesShortLabel(settings.serviceCities)} • Home &amp; Online
                   </div>
                 </div>
               </Link>
@@ -390,7 +393,10 @@ export function Navbar() {
               >
                 <div>
                   <span className="inline-block rounded-full bg-[#85B925] px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-950">
-                    Bangalore • Salem • Online
+                    {getActiveCities(settings.serviceCities)
+                      .map((c) => c.name)
+                      .concat("Online")
+                      .join(" • ")}
                   </span>
                   <div className="mt-1 font-display text-sm font-extrabold">
                     {settings.primaryCtaText}

@@ -34,7 +34,7 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Why 'Wait 3 Months and Jog' Fails So Many Athletes",
         paragraphs: [
-          "Every week in Bangalore, we meet recreational footballers, badminton players, and marathoners who started jogging at week 12 after ACL surgery purely because the calendar turned—only to develop stubborn anterior knee pain or persistent swelling.",
+          "Every week, we meet recreational footballers, badminton players, and marathoners who started jogging at week 12 after ACL surgery purely because the calendar turned—only to develop stubborn anterior knee pain or persistent swelling.",
           "Modern sports physiotherapy replaces arbitrary calendar dates with objective functional gates. Your reconstructed ligament is still undergoing biological ligamentization while your quadriceps muscle recovers from arthrogenic muscle inhibition (AMI)—a protective neural shutdown triggered by joint swelling.",
         ],
       },
@@ -83,7 +83,7 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
       },
       {
-        heading: "Why Practicing Inside Your Bangalore Home Works Faster",
+        heading: "Why Practicing Inside Your Own Home Works Faster",
         paragraphs: [
           "For stroke survivors, spending 90 minutes in city traffic drains precious neurological energy before the session even starts. Home-based MPT Neuro therapy invests 100% of your energy into recovery:",
         ],
@@ -203,7 +203,7 @@ export const BLOG_POSTS: BlogPost[] = [
   },
   {
     slug: "home-physiotherapy-vs-tele-rehab-vs-clinic-bangalore",
-    title: "Home Physiotherapy vs. Tele-Rehab vs. Clinic Visits in Bangalore: How to Choose",
+    title: "Home Physiotherapy vs. Tele-Rehab vs. Clinic Visits: How to Choose",
     excerpt:
       "Not every recovery stage needs a commute across Silk Board or ORR! Compare when hands-on Home Care beats travel—and when live Virtual Tele-Rehab delivers identical clinical results.",
     category: "Patient Guide",
@@ -217,10 +217,10 @@ export const BLOG_POSTS: BlogPost[] = [
       {
         heading: "Matching the Care Format to Your Biological Stage",
         paragraphs: [
-          "At Runlife Physio, many of our fastest-recovering patients in Bangalore actually blend two care modes across their REHAB → RECOVER → RUN journey! For example, starting with 2–3 weeks of Home Care right after knee surgery or acute back spasm, then transitioning seamlessly to Virtual Tele-Rehab or periodic Return-to-Sport sessions.",
+          "At Runlife Physio, many of our fastest-recovering patients actually blend two care modes across their REHAB → RECOVER → RUN journey! For example, starting with 2–3 weeks of Home Care right after knee surgery or acute back spasm, then transitioning seamlessly to Virtual Tele-Rehab or periodic Return-to-Sport sessions.",
         ],
         bullets: [
-          "Choose Home Care (Bangalore) for post-op TKR/THR/ACL, Stroke, Parkinson's, Pediatric play therapy, Postpartum care, or severe acute pain.",
+          "Choose Doorstep Home Care for post-op TKR/THR/ACL, Stroke, Parkinson's, Pediatric play therapy, Postpartum care, or severe acute pain.",
           "Choose Virtual Tele-Rehab & Online Consultation for MRI/X-ray reviews, ergonomic spine/shoulder rehab, progressive running S&C, and outstation/NRI care.",
           "Choose By-Appointment Sessions for hands-on sports manual therapy, agility ladder drills, and Return-to-Sport clearance batteries.",
         ],

@@ -67,7 +67,7 @@ export const BODY_REGIONS: BodyRegionItem[] = [
       { name: "Pregnancy / Postnatal Back Pain", slug: "antenatal-postnatal-pregnancy-rehab" },
     ],
     watchSigns: ["Shooting leg pain on sitting/coughing", "Stiffness standing up after desk work", "Recurring back spasms"],
-    recommendedMode: "Home Care (Bangalore) / Tele-Rehab",
+    recommendedMode: "Doorstep Home Care / Tele-Rehab",
     hotspot: { cx: 140, cy: 175 },
   },
   {
@@ -133,7 +133,7 @@ export const BODY_REGIONS: BodyRegionItem[] = [
     specialtySlug: "neurological-rehabilitation",
     headline: "Stroke, Parkinson's, SCI, GBS, MS & Neuropathy",
     description:
-      "Dedicated neurological motor relearning at home in Bangalore to restore walking, hand function, balance confidence, and nerve comfort.",
+      "Dedicated neurological motor relearning at home to restore walking, hand function, balance confidence, and nerve comfort.",
     commonConditions: [
       { name: "Stroke (CVA) Home Rehabilitation", slug: "stroke-cva-rehabilitation" },
       { name: "Parkinson's Gait & Balance Rehab", slug: "parkinsons-disease-rehab" },
@@ -141,7 +141,7 @@ export const BODY_REGIONS: BodyRegionItem[] = [
       { name: "Spinal Cord Injury & MS / Neuropathy", slug: "spinal-cord-injury-rehab" },
     ],
     watchSigns: ["One-sided weakness or foot drop", "Freezing steps or balance falls", "Persistent limb numbness/tingling"],
-    recommendedMode: "Home Care (Bangalore) — Specialist Neuro Visit",
+    recommendedMode: "Doorstep Home Care — Specialist Neuro Visit",
   },
   {
     id: "pediatric-care",
@@ -158,6 +158,6 @@ export const BODY_REGIONS: BodyRegionItem[] = [
       { name: "Spina Bifida, Hydrocephalus & MD", slug: "spina-bifida-hydrocephalus-muscular-dystrophy" },
     ],
     watchSigns: ["Delayed sitting, crawling or walking", "Persistent toe-walking or low muscle tone", "Balance & playground clumsiness"],
-    recommendedMode: "Home Care (Bangalore) — Child Comfort Visit",
+    recommendedMode: "Doorstep Home Care — Child Comfort Visit",
   },
 ];

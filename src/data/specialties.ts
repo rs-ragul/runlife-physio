@@ -89,7 +89,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
       recover: "Rebuild symmetrical muscle strength, joint proprioception, stair-climbing mechanics, and load tolerance for daily life.",
       run: "Lock in high-capacity joint resilience, ergonomic mastery, and return to pain-free recreation, travel, or athletics.",
     },
-    idealModes: ["Home Care (Bangalore)", "By-Appointment Clinic", "Virtual Tele-Rehab"],
+    idealModes: ["Doorstep Home Care", "By-Appointment Clinic", "Virtual Tele-Rehab"],
     faqs: [
       {
         question: "How soon after TKR, THR, or ACL surgery should home physiotherapy start?",
@@ -118,7 +118,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
     shortDescription:
       "Task-specific neuroplastic retraining for Stroke (CVA), Spinal Cord Injury, Guillain-Barré Syndrome (GBS), Parkinson's, Multiple Sclerosis (MS), and neuropathic pain.",
     clinicalOverview:
-      "After a neurological event or diagnosis, the nervous system retains a remarkable ability to rewire pathways—known clinically as activity-dependent neuroplasticity. Our MPT (Neurology) specialists design high-repetition, task-oriented motor retraining programs delivered right in your Bangalore home environment—where real-world transfers, doorway navigation, balance confidence, and family caregiver training matter most.",
+      "After a neurological event or diagnosis, the nervous system retains a remarkable ability to rewire pathways—known clinically as activity-dependent neuroplasticity. Our MPT (Neurology) specialists design high-repetition, task-oriented motor retraining programs delivered right in your own home environment—where real-world transfers, doorway navigation, balance confidence, and family caregiver training matter most.",
     whySpecialistMatters:
       "Neurological rehab is fundamentally different from general exercise. Managing spasticity vs. flaccidity after Stroke, pacing fatigue in Multiple Sclerosis and Guillain-Barré Syndrome (GBS), or using external cueing for Parkinsonian freezing of gait requires specialized MPT Neuro clinical training.",
     pdfConditionsHighlighted: [
@@ -159,10 +159,10 @@ export const SPECIALTIES: SpecialtyItem[] = [
       recover: "Build standing endurance, assisted-to-independent gait symmetry, upper-limb functional reach, and dynamic balance.",
       run: "Maximize community ambulation, stair navigation, fall resilience, and long-term self-efficacy for patient and family.",
     },
-    idealModes: ["Home Care (Bangalore)", "Online Caregiver & Specialist Consultation", "Virtual Tele-Rehab"],
+    idealModes: ["Doorstep Home Care", "Online Caregiver & Specialist Consultation", "Virtual Tele-Rehab"],
     faqs: [
       {
-        question: "Why is home-based neuro physiotherapy in Bangalore often better for Stroke & Parkinson's patients?",
+        question: "Why is home-based neuro physiotherapy often better for Stroke & Parkinson's patients?",
         answer:
           "Eliminating stressful city traffic preserves the patient's energy for actual therapy—and practicing bed transfers, bathroom safety, and walking inside the exact home layout produces faster real-life carryover.",
       },
@@ -207,7 +207,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
     modalities: [
       {
         name: "Running Gait & Lower-Limb Biomechanical Analysis",
-        detail: "Evaluating stride over-striding, pelvic drop, foot strike, cadence, and calf-soleus load capacity for Bangalore runners.",
+        detail: "Evaluating stride over-striding, pelvic drop, foot strike, cadence, and calf-soleus load capacity for distance runners.",
       },
       {
         name: "Criteria-Based Return-to-Sport (RTS) Battery",
@@ -227,7 +227,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
       recover: "Build heavy eccentric strength, single-leg stability, and progressive plyometric shock absorption.",
       run: "Execute walk-run intervals, agility ladder & sport-specific drills, pass RTS benchmarks, and hit new personal bests.",
     },
-    idealModes: ["By-Appointment Session", "Virtual Tele-Rehab & S&C Coaching", "Home Care (Bangalore)"],
+    idealModes: ["By-Appointment Session", "Virtual Tele-Rehab & S&C Coaching", "Doorstep Home Care"],
     faqs: [
       {
         question: "Do I have to stop running completely when I have runner's knee or shin pain?",
@@ -295,7 +295,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
       recover: "Unlock sequential motor milestones—sitting, transitions, standing balance, and coordinated bilateral play.",
       run: "Build school-readiness mobility, playground confidence, peer participation, and lifelong functional independence.",
     },
-    idealModes: ["Home Care (Bangalore — Child's Comfort Zone)", "Online Parent Coaching", "By-Appointment Session"],
+    idealModes: ["Doorstep Home Care — Child's Comfort Zone", "Online Parent Coaching", "By-Appointment Session"],
     faqs: [
       {
         question: "Why do children respond so well to home-based pediatric physiotherapy?",
@@ -324,7 +324,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
     shortDescription:
       "Confidential, specialist female-led physiotherapy for Antenatal (Prenatal) comfort & birth prep, Postnatal (Postpartum) C-section/vaginal recovery, Diastasis Recti, and Pelvic Floor rehabilitation.",
     clinicalOverview:
-      "Pregnancy, childbirth, and hormonal transitions place extraordinary biomechanical demands on a woman's spine, ribcage, abdominal wall, and pelvic floor. Yet too many mothers are told back pain, C-section scar tightness, diastasis recti, or leakage when sneezing/running is 'just normal after delivery.' Our MPT (Women's Health / OBG) specialists provide empathetic, private 1-on-1 care—at home in Bangalore or via confidential online video sessions—to restore core integrity and pelvic confidence.",
+      "Pregnancy, childbirth, and hormonal transitions place extraordinary biomechanical demands on a woman's spine, ribcage, abdominal wall, and pelvic floor. Yet too many mothers are told back pain, C-section scar tightness, diastasis recti, or leakage when sneezing/running is 'just normal after delivery.' Our MPT (Women's Health / OBG) specialists provide empathetic, private 1-on-1 care—at home or via confidential online video sessions—to restore core integrity and pelvic confidence.",
     whySpecialistMatters:
       "Generic 'Kegels' or crunches can actually worsen an overactive (hypertonic) pelvic floor or widen diastasis recti! An MPT Women's Health Specialist evaluates breathing-diaphragm-pelvic-floor synergy so your core heals safely from the inside out.",
     pdfConditionsHighlighted: [
@@ -360,7 +360,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
       recover: "Close functional abdominal gap (diastasis), rebuild glute & postural endurance for pain-free baby care and daily life.",
       run: "Achieve leak-free, confident high-impact strength, fitness, and lifelong pelvic health.",
     },
-    idealModes: ["Private Home Care (Bangalore)", "Confidential Online Video Session", "Virtual Tele-Rehab"],
+    idealModes: ["Private Doorstep Home Care", "Confidential Online Video Session", "Virtual Tele-Rehab"],
     faqs: [
       {
         question: "When can I start postnatal physiotherapy after a normal delivery or C-section?",
@@ -370,7 +370,7 @@ export const SPECIALTIES: SpecialtyItem[] = [
       {
         question: "Can pelvic floor physiotherapy be done comfortably at home or online?",
         answer:
-          "Absolutely. New mothers love avoiding Bangalore traffic with a newborn—our female MPT Women's Health specialist visits privately at home or guides external posture, breath, and pelvic synergy clearly via confidential video consultation.",
+          "Absolutely. New mothers love avoiding travel with a newborn—our female MPT Women's Health specialist visits privately at home or guides external posture, breath, and pelvic synergy clearly via confidential video consultation.",
       },
     ],
   },

@@ -41,7 +41,7 @@ export const CONDITIONS: ConditionItem[] = [
     ],
     whenToSeeSpecialist: [
       "Immediately after MRI diagnosis (2–4 weeks of 'Pre-Hab' dramatically improves post-op outcomes)",
-      "Within 48–72 hours after ACL/PCL reconstruction for phase-1 home physiotherapy in Bangalore",
+      "Within 48–72 hours after ACL/PCL reconstruction for phase-1 home physiotherapy",
       "At months 3–9 post-op to transition safely into running, agility, and Return-to-Sport testing",
     ],
     rehabRoadmap: {
@@ -125,14 +125,14 @@ export const CONDITIONS: ConditionItem[] = [
     summary:
       "Surgeon-coordinated doorstep & clinical rehabilitation after ligament repairs, spine surgery, arthroscopy, tendon repairs, and trauma fixation.",
     clinicalExplanation:
-      "A successful surgery is only 50% of your outcome—the other 50% is structured, milestone-guided post-operative physiotherapy. Our MPT Orthopedic team reviews your discharge summary and surgical notes to protect healing sutures/hardware while preventing scar adhesions, DVT stiffness, and muscle atrophy right in your Bangalore home.",
+      "A successful surgery is only 50% of your outcome—the other 50% is structured, milestone-guided post-operative physiotherapy. Our MPT Orthopedic team reviews your discharge summary and surgical notes to protect healing sutures/hardware while preventing scar adhesions, DVT stiffness, and muscle atrophy right in your own home.",
     commonSymptoms: [
       "Post-surgical joint stiffness, protective muscle guarding, and incision tightness",
       "Fear of moving the operated limb or uncertainty about weight-bearing rules",
       "Swelling, gait limping, and difficulty with stairs or bathroom transfers",
     ],
     whenToSeeSpecialist: [
-      "Before hospital discharge so Day-1 home physiotherapy in Bangalore is seamlessly scheduled",
+      "Before hospital discharge so Day-1 home physiotherapy is seamlessly scheduled",
       "After cast or brace removal when a joint feels 'stuck' or weak",
     ],
     rehabRoadmap: {
@@ -152,7 +152,7 @@ export const CONDITIONS: ConditionItem[] = [
     bodyArea: "Knee, Hip & Bone",
     heroImage: "/images/ortho-manual-knee-therapy.jpg",
     summary:
-      "Specialized Bangalore home-visit rehabilitation for Total Knee Replacement (TKR), Total Hip Replacement (THR), and post-fracture ORIF/cast recovery.",
+      "Specialized doorstep home-visit rehabilitation for Total Knee Replacement (TKR), Total Hip Replacement (THR), and post-fracture ORIF/cast recovery.",
     clinicalExplanation:
       "The first 6 weeks after TKR or THR define your long-term bend, extension, and walking stride. Traveling in traffic right after joint replacement or lower-limb fracture fixation is painful and risky—which is why Runlife's MPT Ortho specialists come directly to your home to achieve 0°–120°+ knee flexion, hip precaution safety, and confident walker-to-unaided walking.",
     commonSymptoms: [
@@ -183,7 +183,7 @@ export const CONDITIONS: ConditionItem[] = [
     summary:
       "Root-cause mechanical diagnosis, directional preference therapy, and ergonomic spinal stabilization for disc bulges, sciatica, tech-neck, and multi-joint pain.",
     clinicalExplanation:
-      "Long hours coding or commuting in Bangalore make lumbar disc irritation, sciatica, and cervical radiculopathy epidemic. Passive heat packs or painkillers only mask symptoms temporarily. Our MPT Orthopedic specialists combine McKenzie directional assessment, neural mobilization, and deep spinal motor control to resolve mechanical compression sustainably.",
+      "Long desk hours and daily commuting make lumbar disc irritation, sciatica, and cervical radiculopathy epidemic. Passive heat packs or painkillers only mask symptoms temporarily. Our MPT Orthopedic specialists combine McKenzie directional assessment, neural mobilization, and deep spinal motor control to resolve mechanical compression sustainably.",
     commonSymptoms: [
       "Lower back ache or sharp radiating leg pain (sciatica) aggravated by sitting or bending",
       "Neck stiffness with radiating pain or tingling into the shoulder blade, arm, or fingers",
@@ -210,7 +210,7 @@ export const CONDITIONS: ConditionItem[] = [
     bodyArea: "Neurological / Full Body",
     heroImage: "/images/neuro-gait-balance-rehab.jpg",
     summary:
-      "Intensive neuroplastic motor relearning at home in Bangalore—retraining hemiplegic arm function, trunk balance, spasticity control, and independent walking after Stroke.",
+      "Intensive neuroplastic motor relearning at home—retraining hemiplegic arm function, trunk balance, spasticity control, and independent walking after Stroke.",
     clinicalExplanation:
       "Following an ischemic or hemorrhagic Stroke (CVA), the brain enters a heightened window of neuroplasticity—especially in the first 3 to 6 months, though meaningful gains continue for years with task-specific repetition. Our MPT (Neurology) specialists guide structured weight-shifting, gait symmetry, and upper-limb functional recovery right in your home.",
     commonSymptoms: [
@@ -355,7 +355,7 @@ export const CONDITIONS: ConditionItem[] = [
     bodyArea: "Lower Limb & Full Kinetic Chain",
     heroImage: "/images/sports-agility-return-to-run.jpg",
     summary:
-      "Specialized rehab for Bangalore marathoners, runners & competitive athletes—solving Runner's Knee, ITB, Shin Splints, Plantar Fasciitis, Achilles pain & RTS clearance.",
+      "Specialized rehab for marathoners, runners & competitive athletes—solving Runner's Knee, ITB, Shin Splints, Plantar Fasciitis, Achilles pain & RTS clearance.",
     clinicalExplanation:
       "Every running stride sends 2.5x to 3x bodyweight through your soleus, Achilles, shin, and knee—nearly 1,500 times per kilometer! Most running injuries stem from a 'training load > tissue capacity' mismatch combined with subtle cadence or hip-control deficits. Our MPT Sports specialists fix both your tissue capacity AND your running mechanics so you return to Cubbon Park, Lalbagh, or race day stronger than ever.",
     commonSymptoms: [
@@ -482,7 +482,7 @@ export const CONDITIONS: ConditionItem[] = [
     ],
     whenToSeeSpecialist: [
       "Early multidisciplinary coordination alongside your child's pediatric neurologist/neurosurgeon",
-      "For safe, infection-free home care in Bangalore tailored to your child's exact energy levels",
+      "For safe, infection-free home care tailored to your child's exact energy levels",
     ],
     rehabRoadmap: {
       phase1: "Gentle joint symmetry, respiratory play, head/trunk balance, and family handling guidance.",

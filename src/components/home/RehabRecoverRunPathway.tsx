@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { ShieldAlert, TrendingUp, Zap, CheckCircle2, ArrowRight } from "lucide-react";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { useSiteCms } from "@/context/SiteSettingsContext";
+import { citiesShortLabel } from "@/lib/cities";
 
 const PHASES = [
   {
@@ -34,7 +36,7 @@ const PHASES = [
     deliverables: [
       "Week-by-week graded resistance, eccentric tendon & balance programming",
       "Gait, stair-climbing, posture & functional movement retraining",
-      "Flexible care: combine Home Visits (Bangalore & Salem) with Online Tele-Rehab",
+      "Flexible care: combine Home Visits ({{CITIES}}) with Online Tele-Rehab",
       "Bi-weekly objective range-of-motion and strength progress tracking",
     ],
     benchmark: "Exit Gate: >85–90% bilateral strength symmetry, zero compensatory limping & full work/home stamina.",
@@ -47,7 +49,7 @@ const PHASES = [
     color: "text-amber-300",
     pillBg: "bg-amber-400/20 text-amber-200 border-amber-300/30",
     summary:
-      "Whether 'RUN' means lacing up for a Bangalore 10K marathon, returning to football/badminton, walking independently after a stroke, or chasing your toddler pain-free—Phase 03 makes you stronger than before injury.",
+      "Whether 'RUN' means lacing up for a 10K marathon, returning to football/badminton, walking independently after a stroke, or chasing your toddler pain-free—Phase 03 makes you stronger than before injury.",
     deliverables: [
       "Criteria-based Return-to-Sport (RTS) & running gait cadence optimization",
       "Plyometric shock absorption, agility ladder & Strength & Conditioning (S&C)",
@@ -59,9 +61,17 @@ const PHASES = [
 ];
 
 export function RehabRecoverRunPathway() {
+  const { settings } = useSiteCms();
+  const citiesLabel = citiesShortLabel(settings.serviceCities);
+  const phases = PHASES.map((phase) => ({
+    ...phase,
+    deliverables: phase.deliverables.map((d) =>
+      d.replace("{{CITIES}}", citiesLabel)
+    ),
+  }));
   const [activeIdx, setActiveIdx] = useState(0);
   const { openBookingModal } = useBookingModal();
-  const active = PHASES[activeIdx];
+  const active = phases[activeIdx];
 
   return (
     <section className="py-16 lg:py-24 bg-[#0B1629] bg-navy-grid text-white">
@@ -84,7 +94,7 @@ export function RehabRecoverRunPathway() {
 
         {/* Phase Tabs */}
         <div className="mt-10 grid grid-cols-3 gap-3 max-w-3xl mx-auto">
-          {PHASES.map((phase, idx) => {
+          {phases.map((phase, idx) => {
             const Icon = phase.icon;
             const isSelected = idx === activeIdx;
             return (

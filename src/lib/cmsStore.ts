@@ -138,6 +138,23 @@ export async function saveSiteSettingsClient(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ siteSettings: updated }),
   });
+
+  // Instantly refresh page metadata / schema so a new or hidden city appears
+  // in titles, descriptions and sitemap wording right away.
+  try {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(process.env.NEXT_PUBLIC_REVALIDATE_SECRET
+          ? { "x-revalidate-secret": process.env.NEXT_PUBLIC_REVALIDATE_SECRET }
+          : {}),
+      },
+    });
+  } catch {
+    /* non-fatal: the 5-minute ISR window still catches it */
+  }
+
   return updated;
 }
 

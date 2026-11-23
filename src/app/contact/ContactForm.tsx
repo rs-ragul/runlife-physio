@@ -8,7 +8,7 @@ export function ContactForm() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("Bangalore");
+  const [city, setCity] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -79,7 +79,7 @@ export function ContactForm() {
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="City & Area (Bangalore / Salem)"
+          placeholder="City & Area"
           className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>

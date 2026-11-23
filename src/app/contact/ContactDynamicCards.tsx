@@ -1,5 +1,6 @@
 "use client";
 
+import { withCities } from "@/lib/cities";
 import React from "react";
 import {
   Phone,
@@ -88,7 +89,7 @@ export function ContactDynamicCards() {
               </p>
             ) : (
               <p className="mt-1 text-xs text-slate-600">
-                {settings.serviceAreasSummary}
+                {withCities(settings.serviceAreasSummary, settings.serviceCities)}
               </p>
             )}
             {settings.googleMapsUrl && (

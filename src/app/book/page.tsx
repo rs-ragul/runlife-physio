@@ -5,15 +5,19 @@ import { SITE_CONFIG } from "@/config/site";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title: "Book for Consultation — Bangalore, Salem & Online",
-  description:
-    "Book a physiotherapy consultation with Runlife Physio in Bangalore, Salem, or Online. Home visits, video consultations, and scheduled care led by Dr. Vishal S, PT.",
-  alternates: { canonical: "/book" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: `Book for Consultation — ${cities} & Online`,
+    description: `Book a physiotherapy consultation with Runlife Physio in ${cities}, or Online. Home visits, video consultations, and scheduled care led by Dr. Vishal S, PT.`,
+    alternates: { canonical: "/book" },
+  };
+}
 
-export default function BookAppointmentPage() {
+export default async function BookAppointmentPage() {
+  const cities = await getServerCitiesLabel();
   const waHref = buildPatientToClinicWhatsAppUrl();
 
   return (
@@ -34,8 +38,8 @@ export default function BookAppointmentPage() {
             Book for Consultation
           </h1>
           <p className="mt-3 text-sm sm:text-lg text-slate-300 max-w-2xl">
-            Home Visits in Bangalore &amp; Salem • Online Video Consultations •
-            Live Tele-Rehab • Scheduled Appointments
+            Home Visits in {cities} • Online Video Consultations • Live
+            Tele-Rehab • Scheduled Appointments
           </p>
         </div>
       </section>
@@ -53,7 +57,7 @@ export default function BookAppointmentPage() {
             {[
               {
                 step: "1. Share Your Details",
-                desc: "Choose Home Visit (Bangalore or Salem), Online Consultation, Tele-Rehab, or By-Appointment Visit.",
+                desc: `Choose Home Visit (${cities}), Online Consultation, Tele-Rehab, or By-Appointment Visit.`,
               },
               {
                 step: "2. Quick Confirmation Call",
@@ -84,7 +88,7 @@ export default function BookAppointmentPage() {
               Prefer to Reach Out Directly?
             </div>
             <p className="text-xs sm:text-sm text-slate-300">
-              Call, WhatsApp, or Email our desk for slots in Bangalore, Salem,
+              Call, WhatsApp, or Email our desk for slots in {cities},
               or Online:
             </p>
             <div className="flex flex-wrap gap-2">

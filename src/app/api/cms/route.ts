@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
       const newReview: TestimonialItem = {
         id: item.id || `rev-${Date.now()}`,
         patientName: String(item.patientName || "Verified Patient").trim(),
-        context: String(item.context || "Bangalore").trim(),
+        context: String(item.context || "").trim(),
         specialty: String(item.specialty || "MPT Physiotherapy").trim(),
         rating: Math.min(5, Math.max(1, Number(item.rating) || 5)),
         quote: String(item.quote || "").trim(),
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
         credential: String(item.credential || "MPT Specialist").trim(),
         role: String(item.role || "Specialist Physiotherapist").trim(),
         department: String(item.department || "Orthopedic & MSK Rehab").trim(),
-        experience: String(item.experience || "Bangalore").trim(),
+        experience: String(item.experience || "").trim(),
         bio: String(item.bio || "").trim(),
         image: item.image ? String(item.image).trim() : undefined,
         registration: item.registration

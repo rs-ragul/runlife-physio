@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
     qualification: "MPT — Neurology & Neurosurgery",
     registration: "MIAP Reg. No. L-60915",
     photo: "/images/profiles/dr-vishal.jpg",
-    bio: "Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915 — founded Runlife Physio (REHAB · RECOVER · RUN) to bring dedicated specialist physiotherapists across Orthopedics, Neurology, Sports & Running Rehab, Pediatrics, and Women's Health together under one platform. Serving patients across Bangalore and Salem through home visits, scheduled consultations, and online tele-rehabilitation.",
+    bio: "Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915 — founded Runlife Physio (REHAB · RECOVER · RUN) to bring dedicated specialist physiotherapists across Orthopedics, Neurology, Sports & Running Rehab, Pediatrics, and Women's Health together under one platform. Serving patients across Bangalore, Salem and Chennai through home visits, scheduled consultations, and online tele-rehabilitation.",
   },
   contact: {
     phoneRaw: "9187679723",
@@ -23,13 +23,13 @@ export const SITE_CONFIG = {
     responsePromise: "Our care coordinator will call you back shortly to confirm your slot",
   },
   location: {
-    primaryCity: "Bangalore & Salem",
-    cities: ["Bangalore", "Salem"],
+    primaryCity: "Bangalore, Salem & Chennai",
+    cities: ["Bangalore", "Salem", "Chennai"],
     state: "Karnataka & Tamil Nadu",
     country: "India",
     countryCode: "IN",
     serviceModelLabel:
-      "Home Visits in Bangalore & Salem + Online Video Consultations & Tele-Rehab",
+      "Home Visits in Bangalore, Salem & Chennai + Online Video Consultations & Tele-Rehab",
     coordinates: {
       latitude: 12.9716,
       longitude: 77.5946,
@@ -45,10 +45,10 @@ export const SITE_CONFIG = {
     {
       id: "home-care",
       title: "Home Visit Physiotherapy",
-      shortTitle: "Home Visit (Bangalore & Salem)",
-      badge: "Bangalore & Salem",
+      shortTitle: "Home Visit",
+      badge: "Bangalore, Salem & Chennai",
       summary:
-        "Our physiotherapist visits your home in Bangalore or Salem for 1-on-1 hands-on treatment, post-surgery rehab, and guided recovery exercises.",
+        "Our physiotherapist visits your home for 1-on-1 hands-on treatment, post-surgery rehab, and guided recovery exercises.",
       bestFor: "Post-op knee/hip/ACL rehab, Stroke & Neuro care, Seniors, Back pain, Postnatal & Pediatric care",
       duration: "45 – 60 mins 1-on-1",
     },

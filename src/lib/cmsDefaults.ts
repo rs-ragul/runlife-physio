@@ -6,13 +6,13 @@ export const DEFAULT_SITE_SETTINGS: DynamicSiteSettings = {
   tagline: SITE_CONFIG.tagline,
   announcementEnabled: true,
   announcementText:
-    "Serving Bangalore & Salem • Home Physiotherapy Visits & Online Consultations",
+    "Serving {cities} • Home Physiotherapy Visits & Online Consultations",
 
-  heroBadgeText: "Bangalore & Salem's Multi-Specialty Physiotherapy Platform",
+  heroBadgeText: "{cities}'s Multi-Specialty Physiotherapy Platform",
   heroTitlePrimary: "Specialized Physiotherapy Team —",
   heroTitleHighlight: "Under One Platform.",
   heroSubtitle:
-    "Orthopedic, Neurological, Sports, Pediatric, and Women's Health physiotherapy led by dedicated specialists — available through Home Visits in Bangalore & Salem, Online Consultations, or By Appointment.",
+    "Orthopedic, Neurological, Sports, Pediatric, and Women's Health physiotherapy led by dedicated specialists — available through Home Visits in {cities}, Online Consultations, or By Appointment.",
   primaryCtaText: "Book for Consultation",
   heroStats: [],
 
@@ -30,7 +30,7 @@ export const DEFAULT_SITE_SETTINGS: DynamicSiteSettings = {
   founderCredentials: "MPT (Neurology & Neurosurgery) • MIAP Reg. No. L-60915",
   founderRole: "Founder & Clinical Lead — Runlife Physio",
   founderBio: SITE_CONFIG.founder.bio,
-  primaryCity: "Bangalore & Salem",
+  primaryCity: "Bangalore, Salem & Chennai",
   serviceCities: [
     {
       id: "bangalore",
@@ -72,7 +72,7 @@ export const DEFAULT_SITE_SETTINGS: DynamicSiteSettings = {
   physicalClinicAddress: "",
   googleMapsUrl: "",
   serviceAreasSummary:
-    "Home Visits & Consultations across Bangalore (HSR Layout, Indiranagar, Koramangala, Whitefield, JP Nagar, Jayanagar, Hebbal, Electronic City) and Salem (Fairlands, Alagapuram, Hasthampatti, Suramangalam, Five Roads, Seelanaickenpatti) + Online Consultations across India.",
+    "Home Visits & Consultations across {cities} + Online Consultations across India.",
 
   instagramUrl: "",
   youtubeUrl: "",

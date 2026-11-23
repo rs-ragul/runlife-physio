@@ -6,16 +6,19 @@ import { THERAPIES } from "@/data/therapies";
 import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title:
-    "Dry Needling, Chiropractic, Cupping, Taping, Sports Massage & HYROX Training | Bangalore & Salem",
-  description:
-    "Book specialized hands-on therapies and athletic performance training at Runlife Physio in Bangalore & Salem: Dry Needling, Chiropractic Care, Kinesiology Taping, Cupping Therapy, Sports Massage & HYROX Training.",
-  alternates: { canonical: "/therapies" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: `Dry Needling, Chiropractic, Cupping, Taping, Sports Massage & HYROX Training | ${cities}`,
+    description: `Book specialized hands-on therapies and athletic performance training at Runlife Physio in ${cities}: Dry Needling, Chiropractic Care, Kinesiology Taping, Cupping Therapy, Sports Massage & HYROX Training.`,
+    alternates: { canonical: "/therapies" },
+  };
+}
 
-export default function TherapiesHubPage() {
+export default async function TherapiesHubPage() {
+  const cities = await getServerCitiesLabel();
   return (
     <div className="bg-slate-50 pb-20">
       <JsonLd
@@ -28,7 +31,7 @@ export default function TherapiesHubPage() {
       <section className="bg-[#0F1D35] bg-navy-grid text-white py-14 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
-            Bangalore &amp; Salem • Hands-On Recovery &amp; Performance
+            {cities} • Hands-On Recovery &amp; Performance
           </span>
           <h1 className="mt-3 font-display text-3xl sm:text-5xl font-extrabold max-w-4xl">
             Specialized Manual Therapies &amp; HYROX Athletic Conditioning

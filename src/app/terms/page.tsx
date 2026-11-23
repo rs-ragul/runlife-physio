@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_CONFIG } from "@/config/site";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
 export const metadata: Metadata = {
   title: "Terms of Care & Clinical Disclaimer",
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
 };
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const cities = await getServerCitiesLabel();
+
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-14 space-y-6">
       <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-[#0F1D35]">
@@ -41,7 +44,7 @@ export default function TermsPage() {
           3. Home Visits &amp; Tele-Rehabilitation Scheduling
         </h2>
         <p>
-          Home Care across Bangalore and Virtual Tele-Rehabilitation sessions
+          Home Care across {cities} and Virtual Tele-Rehabilitation sessions
           are scheduled by mutual confirmation. Rescheduling requests made at
           least 4 hours prior to the slot help our MPT Specialists serve acute
           post-operative patients promptly.

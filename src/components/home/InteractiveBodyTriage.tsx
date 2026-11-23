@@ -15,8 +15,11 @@ import {
 import { BODY_REGIONS } from "@/data/bodyMap";
 import { SPECIALTIES } from "@/data/specialties";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { useSiteCms } from "@/context/SiteSettingsContext";
+import { homeVisitLabel } from "@/lib/cities";
 
 export function InteractiveBodyTriage() {
+  const { settings } = useSiteCms();
   const [selectedId, setSelectedId] = useState<string>("knee-acl");
   const resultCardRef = useRef<HTMLDivElement | null>(null);
   const { openBookingModal } = useBookingModal();
@@ -121,7 +124,7 @@ export function InteractiveBodyTriage() {
                   {current.specialistBadge}
                 </span>
                 <span className="text-xs font-semibold text-slate-500">
-                  Available: Home Visit (Bangalore &amp; Salem) • Online
+                  Available: {homeVisitLabel(settings.serviceCities)} • Online
                 </span>
               </div>
 

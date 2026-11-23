@@ -32,10 +32,10 @@ export async function POST(req: NextRequest) {
       patientName,
       phone,
       email: String(body.email || "").trim(),
-      careMode: String(body.careMode || "Home Visit (Bangalore & Salem)"),
+      careMode: String(body.careMode || "Home Visit"),
       specialty: String(body.specialty || "Orthopedic & MSK Rehabilitation"),
       conditionOrPain: String(body.conditionOrPain || "Consultation Request"),
-      locality: String(body.locality || "Bangalore"),
+      locality: String(body.locality || ""),
       preferredDate: String(body.preferredDate || ""),
       preferredSlot: String(body.preferredSlot || "Flexible"),
       notes: String(body.notes || "").trim(),
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
           <p>Thank you for booking a consultation with <strong>Runlife Physio</strong> (Reference ID: <strong>${record.referenceId}</strong>).</p>
           <p>Our care team has received your details for <strong>${record.specialty}</strong> (${record.careMode} — ${record.locality}) and will call you shortly on <strong>${record.phone}</strong> to confirm your appointment time.</p>
           <p>For urgent assistance, you can reach us directly at <strong>${SITE_CONFIG.contact.phoneDisplay}</strong> or reply to this email.</p>
-          <p style="margin-bottom:0;">Warm regards,<br/><strong>Dr. Vishal &amp; Runlife Physio Team</strong><br/>Bangalore &amp; Salem</p>
+          <p style="margin-bottom:0;">Warm regards,<br/><strong>Dr. Vishal &amp; Runlife Physio Team</strong><br/>${SITE_CONFIG.location.primaryCity}</p>
         </div>
       </div>
     `;

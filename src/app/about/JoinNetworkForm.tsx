@@ -12,7 +12,7 @@ export function JoinNetworkForm() {
   const [email, setEmail] = useState("");
   const [qualification, setQualification] = useState("MPT (Orthopedics)");
   const [experienceYears, setExperienceYears] = useState("");
-  const [city, setCity] = useState("Bangalore");
+  const [city, setCity] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -114,7 +114,7 @@ export function JoinNetworkForm() {
           type="text"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder="City / Area (Bangalore or Salem)"
+          placeholder="Your City / Area"
           className="w-full rounded-xl border border-slate-300 bg-white px-3.5 min-h-[46px] text-base sm:text-sm"
         />
       </div>
@@ -129,7 +129,7 @@ export function JoinNetworkForm() {
         rows={3}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Briefly mention hospital/clinic background, certifications, and preferred Bangalore zones..."
+        placeholder="Briefly mention hospital/clinic background, certifications, and preferred service zones..."
         className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-base sm:text-sm"
       />
       <button

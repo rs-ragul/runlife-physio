@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
         </h2>
         <p>
           Patient name, contact phone/WhatsApp number, optional email address,
-          preferred Bangalore locality or city, preferred care mode, and voluntary
+          preferred locality or city, preferred care mode, and voluntary
           clinical symptom descriptions shared on our booking forms.
         </p>
         <h2 className="text-lg font-extrabold text-[#0F1D35]">

@@ -15,6 +15,7 @@ import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema, buildFaqSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
 export async function generateStaticParams() {
   return SPECIALTIES.map((s) => ({ slug: s.slug }));
@@ -27,11 +28,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const spec = getSpecialtyBySlug(slug);
+  const cities = await getServerCitiesLabel();
   if (!spec) return {};
 
   return {
-    title: `${spec.title} in Bangalore — ${spec.specialistCredential}`,
-    description: `${spec.shortDescription} ${spec.specialistGuarantee} Home Care across Bangalore & Virtual Tele-Rehabilitation.`,
+    title: `${spec.title} in ${cities} — ${spec.specialistCredential}`,
+    description: `${spec.shortDescription} ${spec.specialistGuarantee} Home Care across ${cities} & Virtual Tele-Rehabilitation.`,
     alternates: { canonical: `/services/${spec.slug}` },
   };
 }

@@ -1,14 +1,17 @@
+import { getServerCitiesLabel } from "@/lib/serverCities";
 import type { Metadata } from "next";
 import { ConditionsExplorer } from "./ConditionsExplorer";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 
-export const metadata: Metadata = {
-  title: "Conditions Treated — ACL, Spine, Stroke, Sports, Pediatric & Pelvic Rehab",
-  description:
-    "Browse 18+ physiotherapy conditions treated by Runlife Physio's dedicated MPT Specialists in Bangalore: ACL/PCL, TKR/THR, Sciatica, Stroke, GBS, Parkinson's, Running Injuries, CP, Autism & Pelvic Floor.",
-  alternates: { canonical: "/conditions" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: "Conditions Treated — ACL, Spine, Stroke, Sports, Pediatric & Pelvic Rehab",
+    description: `Browse 18+ physiotherapy conditions treated by Runlife Physio's dedicated MPT Specialists in ${cities}: ACL/PCL, TKR/THR, Sciatica, Stroke, GBS, Parkinson's, Running Injuries, CP, Autism & Pelvic Floor.`,
+    alternates: { canonical: "/conditions" },
+  };
+}
 
 export default function ConditionsPage() {
   return (

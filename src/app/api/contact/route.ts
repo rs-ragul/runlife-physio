@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       specialtyOrQualification: String(
         body.specialtyOrQualification || ""
       ).trim(),
-      city: String(body.city || "Bangalore").trim(),
+      city: String(body.city || "").trim(),
       experienceYears: String(body.experienceYears || "").trim(),
       message: String(body.message || "").trim(),
       createdAt: body.createdAt || new Date().toISOString(),
@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
                 <p>Dear <strong>${record.name}</strong>,</p>
                 <p>Thank you for contacting <strong>Runlife Physio</strong>. We have received your enquiry and will respond shortly on <strong>${record.phone}</strong>.</p>
                 <p>For immediate help, call or WhatsApp us at <strong>${SITE_CONFIG.contact.phoneDisplay}</strong>.</p>
-                <p style="margin-bottom:0;">Warm regards,<br/><strong>Dr. Vishal &amp; Runlife Physio Team</strong><br/>Bangalore &amp; Salem</p>
+                <p style="margin-bottom:0;">Warm regards,<br/><strong>Dr. Vishal &amp; Runlife Physio Team</strong><br/>${SITE_CONFIG.location.primaryCity}</p>
               </div>
             `,
           }

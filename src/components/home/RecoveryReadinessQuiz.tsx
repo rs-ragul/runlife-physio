@@ -38,7 +38,7 @@ const STEP_2_OPTIONS = [
   {
     id: "immobile",
     label: "Difficult to travel / Post-op / Senior / Child comfort needed",
-    recommendedMode: "Home Visit (Bangalore & Salem)",
+    recommendedMode: "Home Visit",
   },
   {
     id: "busy-remote",

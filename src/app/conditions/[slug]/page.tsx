@@ -15,6 +15,7 @@ import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { BookingForm } from "@/components/booking/BookingForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 import { SITE_CONFIG } from "@/config/site";
 
 export async function generateStaticParams() {
@@ -28,11 +29,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const cond = getConditionBySlug(slug);
+  const cities = await getServerCitiesLabel();
   if (!cond) return {};
 
   return {
-    title: `${cond.title} in Bangalore — ${cond.specialistBadge}`,
-    description: `${cond.summary} Treated by ${cond.specialistBadge} via Home Care in Bangalore, Virtual Tele-Rehab & Clinic Appointments.`,
+    title: `${cond.title} in ${cities} — ${cond.specialistBadge}`,
+    description: `${cond.summary} Treated by ${cond.specialistBadge} via Home Care in ${cities}, Virtual Tele-Rehab & Clinic Appointments.`,
     alternates: { canonical: `/conditions/${cond.slug}` },
   };
 }
@@ -42,6 +44,7 @@ export default async function ConditionDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
+  const cities = await getServerCitiesLabel();
   const { slug } = await params;
   const cond = getConditionBySlug(slug);
   if (!cond) notFound();
@@ -237,7 +240,7 @@ export default async function ConditionDetailPage({
                 Book for Consultation
               </h2>
               <p className="mt-1 text-xs text-slate-500 mb-4">
-                Home Visits in Bangalore &amp; Salem • Online Consultations
+                Home Visits in {cities} • Online Consultations
               </p>
               <BookingForm
                 compact

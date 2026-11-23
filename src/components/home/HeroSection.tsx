@@ -17,6 +17,7 @@ import {
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
+import { joinCitiesNatural, withCities } from "@/lib/cities";
 
 export function HeroSection() {
   const { settings } = useSiteCms();
@@ -48,7 +49,7 @@ export function HeroSection() {
                 {settings.tagline}
               </span>
               <span className="text-[11px] sm:text-xs font-semibold text-slate-700">
-                {settings.heroBadgeText}
+                {withCities(settings.heroBadgeText, settings.serviceCities)}
               </span>
             </div>
 
@@ -60,14 +61,14 @@ export function HeroSection() {
             </h1>
 
             <p className="text-sm sm:text-lg leading-relaxed text-slate-600 max-w-2xl">
-              {settings.heroSubtitle}
+              {withCities(settings.heroSubtitle, settings.serviceCities)}
             </p>
 
             {/* Care Mode Quick Badges */}
             <div className="flex flex-wrap gap-2 text-xs font-semibold text-slate-700">
               <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
                 <Home className="h-3.5 w-3.5 text-[#85B925]" />
-                Home Visits (Bangalore &amp; Salem)
+                Home Visits ({joinCitiesNatural(settings.serviceCities)})
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-2xs">
                 <Video className="h-3.5 w-3.5 text-[#136EA8]" />

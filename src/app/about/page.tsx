@@ -22,16 +22,20 @@ import { JoinNetworkForm } from "./JoinNetworkForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
 import { buildPatientToClinicWhatsAppUrl } from "@/lib/whatsapp";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title: "About Dr. Vishal S, PT — MPT (Neurology & Neurosurgery) | Runlife Physio",
-  description:
-    "Meet Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915, Founder of Runlife Physio (REHAB · RECOVER · RUN). Specialist physiotherapy in Bangalore & Salem — Home Visits, Tele-Rehab & Online Consultations.",
-  alternates: { canonical: "/about" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: "About Dr. Vishal S, PT — MPT (Neurology & Neurosurgery) | Runlife Physio",
+    description: `Meet Dr. Vishal S, PT — MPT (Neurology & Neurosurgery), MIAP Reg. No. L-60915, Founder of Runlife Physio (REHAB · RECOVER · RUN). Specialist physiotherapy in ${cities} — Home Visits, Tele-Rehab & Online Consultations.`,
+    alternates: { canonical: "/about" },
+  };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
   const waHref = buildPatientToClinicWhatsAppUrl();
+  const cities = await getServerCitiesLabel();
 
   return (
     <div className="bg-slate-50 pb-20">
@@ -47,7 +51,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-7 space-y-4">
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#9AD634]">
-              About Runlife Physio • Bangalore &amp; Salem
+              About Runlife Physio • {cities}
             </span>
             <h1 className="font-display text-3xl sm:text-5xl font-extrabold leading-tight">
               One Unified Platform. Five Master-Level Physiotherapy Specialties.
@@ -66,7 +70,7 @@ export default function AboutPage() {
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 border border-white/20 px-3 py-1.5 text-xs font-bold">
                 <MapPin className="h-4 w-4 text-[#9AD634]" />
-                Bangalore &amp; Salem • Home &amp; Online
+                {cities} • Home &amp; Online
               </span>
             </div>
           </div>
@@ -155,7 +159,7 @@ export default function AboutPage() {
                   leads a network of post-graduate MPT specialists across
                   Orthopedics, Neurology, Sports &amp; Running Rehab,
                   Pediatrics, and Women&apos;s Health — serving patients at home
-                  and online across Bangalore &amp; Salem.
+                  and online across {cities}.
                 </p>
               </div>
 
@@ -217,7 +221,7 @@ export default function AboutPage() {
                       Serving
                     </div>
                     <div className="text-sm font-extrabold text-[#0F1D35]">
-                      Bangalore &amp; Salem
+                      {cities}
                     </div>
                     <div className="text-xs text-slate-600">
                       Home Visits + Online Tele-Rehab
@@ -291,7 +295,7 @@ export default function AboutPage() {
             {
               icon: HeartHandshake,
               title: "Patient-First Hybrid Accessibility",
-              desc: "Seamless continuity between Bangalore & Salem Home Care, Virtual Tele-Rehabilitation, Online Consults, and Scheduled Visits.",
+              desc: `Seamless continuity between ${cities} Home Care, Virtual Tele-Rehabilitation, Online Consults, and Scheduled Visits.`,
             },
           ].map((v) => {
             const Icon = v.icon;
@@ -345,7 +349,7 @@ export default function AboutPage() {
                 Careers &amp; Clinical Empanelment
               </span>
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-[#0F1D35]">
-                Are You an MPT Specialist in Bangalore? Join the Runlife Network
+                Are You an MPT Specialist in {cities.split(",")[0]}? Join the Runlife Network
               </h2>
               <p className="text-xs sm:text-sm leading-relaxed text-slate-600">
                 We partner with passionate, post-graduate MPT Physiotherapists

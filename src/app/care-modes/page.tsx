@@ -5,22 +5,26 @@ import { SITE_CONFIG } from "@/config/site";
 import { OpenModalButton } from "@/components/booking/OpenModalButton";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildBreadcrumbSchema } from "@/lib/schema";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 
-export const metadata: Metadata = {
-  title: "Home Care Physiotherapy, Virtual Tele-Rehab & Online Consultation",
-  description:
-    "Compare Runlife Physio's 4 care modes: Doorstep Home Physiotherapy across Bangalore, Live Virtual Tele-Rehabilitation, Online Video Consultation, and Appointment-Based Visits.",
-  alternates: { canonical: "/care-modes" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const cities = await getServerCitiesLabel();
+  return {
+    title: `Home Care Physiotherapy, Virtual Tele-Rehab & Online Consultation | ${cities}`,
+    description: `Compare Runlife Physio's 4 care modes: Doorstep Home Physiotherapy across ${cities}, Live Virtual Tele-Rehabilitation, Online Video Consultation, and Appointment-Based Visits.`,
+    alternates: { canonical: "/care-modes" },
+  };
+}
 
-export default function CareModesPage() {
+export default async function CareModesPage() {
+  const cities = await getServerCitiesLabel();
   const detailedModes = [
     {
       ...SITE_CONFIG.careModes[0],
       icon: Home,
       image: "/images/neuro-gait-balance-rehab.jpg",
       steps: [
-        "MPT Specialist arrives at your Bangalore home with sterile portable assessment & rehab gear.",
+        "MPT Specialist arrives at your home in " + cities + " with sterile portable assessment & rehab gear.",
         "45–60 minute 1-on-1 manual therapy, mobilization, gait/transfer training & ergonomic audit of your bed/chair/workstation.",
         "Digital exercise sheet & caregiver guidance shared after session.",
       ],
@@ -30,7 +34,7 @@ export default function CareModesPage() {
       icon: Video,
       image: "/images/tele-rehab-online-consultation.jpg",
       steps: [
-        "Join a private HD video link from your laptop or phone—anywhere in Bangalore, India, or abroad.",
+        "Join a private HD video link from your laptop or phone—anywhere in " + cities + ", India, or abroad.",
         "Live camera-guided posture, range-of-motion & functional movement assessment.",
         "Supervised real-time exercise sets with form correction and weekly load progression.",
       ],

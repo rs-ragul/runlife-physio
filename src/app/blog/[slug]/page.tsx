@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getServerCitiesLabel } from "@/lib/serverCities";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,6 +38,7 @@ export default async function BlogPostPage({
 }) {
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
+  const cities = await getServerCitiesLabel();
   if (!post) notFound();
 
   const relatedSpec = getSpecialtyBySlug(post.relatedSpecialtySlug);
@@ -159,7 +161,7 @@ export default async function BlogPostPage({
                 Need Personalized Guidance From Our {post.specialistTag} Team?
               </h3>
               <p className="mt-1 text-xs sm:text-sm text-slate-300">
-                Available at home across Bangalore or live via Virtual
+                Available at home across {cities} or live via Virtual
                 Tele-Rehab.
               </p>
             </div>

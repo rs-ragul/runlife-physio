@@ -6,8 +6,11 @@ import Link from "next/link";
 import { ArrowRight, CalendarCheck, Sparkles, Check } from "lucide-react";
 import { THERAPIES } from "@/data/therapies";
 import { useBookingModal } from "@/context/BookingModalContext";
+import { useSiteCms } from "@/context/SiteSettingsContext";
+import { citiesShortLabel } from "@/lib/cities";
 
 export function HandsOnTherapiesSection() {
+  const { settings } = useSiteCms();
   const { openBookingModal } = useBookingModal();
 
   return (
@@ -25,7 +28,7 @@ export function HandsOnTherapiesSection() {
             <p className="mt-2 text-sm sm:text-base text-slate-600">
               Targeted manual therapies for faster pain relief and recovery,
               paired with physiotherapist-led athletic and HYROX conditioning in{" "}
-              <strong>Bangalore &amp; Salem</strong>.
+              <strong>{citiesShortLabel(settings.serviceCities)}</strong>.
             </p>
           </div>
           <Link

@@ -5,6 +5,7 @@ import { X, ShieldCheck, Phone, Mail } from "lucide-react";
 import { useBookingModal } from "@/context/BookingModalContext";
 import { useSiteCms } from "@/context/SiteSettingsContext";
 import { BookingForm } from "@/components/booking/BookingForm";
+import { citiesShortLabel } from "@/lib/cities";
 
 export function BookingDrawerModal() {
   const { isOpen, prefill, closeBookingModal } = useBookingModal();
@@ -50,7 +51,7 @@ export function BookingDrawerModal() {
             <div className="flex items-center gap-2">
               <span className="inline-block h-2 w-2 rounded-full bg-[#85B925]" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-lime-300">
-                {settings.clinicName} • Bangalore, Salem &amp; Online
+                {settings.clinicName} • {citiesShortLabel(settings.serviceCities)} &amp; Online
               </span>
             </div>
             <h2 className="mt-0.5 text-base sm:text-lg font-bold">
